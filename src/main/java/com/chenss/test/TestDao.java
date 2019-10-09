@@ -18,6 +18,7 @@ public class TestDao {
 
         OperaEnvDAO dao = session.getMapper(OperaEnvDAO.class);
         System.out.println(dao.selectByPrimaryKey(1));
+        System.out.println(dao.listAll());
         session.close();
     }
 }
