@@ -17,6 +17,26 @@
     from opera_env
     where ID = #{id,jdbcType=INTEGER}
   </select>
+  <select id="query" parameterType="com.chenss.operateApi.model.OperaEnv" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from opera_env
+    <trim prefix="WHERE" prefixOverrides="AND |OR ">
+      <if test="id != null">
+        ID = #{id,jdbcType=INTEGER}
+      </if>
+      <if test="envType != null">
+        AND env_type = #{envType,jdbcType=VARCHAR}
+      </if>
+      <if test="envName != null">
+        AND env_name like #{envName,jdbcType=VARCHAR}
+      </if>
+      <if test="apolloEnv != null">
+        AND apollo_env = #{apolloEnv,jdbcType=VARCHAR}
+      </if>
+    </trim>
+    order by id
+  </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from opera_env
     where ID = #{id,jdbcType=INTEGER}

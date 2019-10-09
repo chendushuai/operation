@@ -5,6 +5,8 @@ import com.chenss.operateApi.model.OperaEnv;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 /**
  * @author chenss002
  */
@@ -13,7 +15,7 @@ public class OperaEnvService {
     @Autowired
     private OperaEnvMapper operaEnvMapper;
 
-    public OperaEnv getEnv() {
-        return operaEnvMapper.selectByPrimaryKey(1);
+    public List<OperaEnv> getEnv(OperaEnv operaEnv) {
+        return operaEnvMapper.query(operaEnv);
     }
 }
