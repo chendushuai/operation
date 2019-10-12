@@ -1,4 +1,4 @@
-package com.chenss.operateApi;
+package com.chenss.operateapi;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;

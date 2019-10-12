@@ -1,4 +1,4 @@
-package com.chenss.operateApi.common;
+package com.chenss.operateapi.common;
 
 public class SeviceResultDTO<T> {
     private boolean success = false;

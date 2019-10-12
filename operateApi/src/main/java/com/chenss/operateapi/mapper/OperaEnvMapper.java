@@ -1,6 +1,6 @@
-package com.chenss.operateApi.mapper;
+package com.chenss.operateapi.mapper;
 
-import com.chenss.operateApi.model.OperaEnv;
+import com.chenss.operateapi.model.OperaEnv;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;

@@ -1,4 +1,4 @@
-package com.chenss.operateApi.model;
+package com.chenss.operateapi.model;
 
 import java.io.Serializable;
 
