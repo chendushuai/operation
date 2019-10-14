@@ -49,7 +49,6 @@ function createNav() {
             beforeChild += "  <a href=\"" + $(element)[0].url + "\" class=\"dropdown-toggle\" data-toggle=\"dropdown\" role=\"button\" aria-haspopup=\"true\" aria-expanded=\"false\">" + $(element)[0].name + "<span class=\"caret\"></span></a>";
             beforeChild += "  <ul class=\"dropdown-menu\">";
             child = beforeChild + child;
-            child += "    <li><a href=\"#\">Action</a></li>";
             child += "  </ul>";
             child += "</li>";
             navList += child;

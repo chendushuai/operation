@@ -23,25 +23,25 @@
     from opera_affiliation
     <trim prefix="WHERE" prefixOverrides="AND |OR ">
       <if test="id != null">
-        id = #{id,jdbcType=INTEGER},
+        id = #{id,jdbcType=INTEGER}
       </if>
       <if test="name != null">
-        `name` = #{name,jdbcType=VARCHAR},
+        AND `name` = #{name,jdbcType=VARCHAR}
       </if>
       <if test="desc != null">
-        `desc` = #{desc,jdbcType=VARCHAR},
+        AND `desc` = #{desc,jdbcType=VARCHAR}
       </if>
       <if test="createTimeBegin != null">
-        create_time >= #{createTimeBegin,jdbcType=TIMESTAMP},
+        AND create_time >= #{createTimeBegin,jdbcType=TIMESTAMP}
       </if>
       <if test="createTimeEnd != null">
-        <![CDATA[ create_time < #{createTimeEnd,jdbcType=TIMESTAMP} ]]>,
+        AND <![CDATA[ create_time < #{createTimeEnd,jdbcType=TIMESTAMP} ]]>
       </if>
       <if test="modifyTimeBegin != null">
-        modify_time >= #{modifyTimeBegin,jdbcType=TIMESTAMP},
+        AND modify_time >= #{modifyTimeBegin,jdbcType=TIMESTAMP}
       </if>
       <if test="modifyTimeEnd != null">
-        <![CDATA[ modify_time < #{modifyTimeEnd,jdbcType=TIMESTAMP} ]]>,
+        AND <![CDATA[ modify_time < #{modifyTimeEnd,jdbcType=TIMESTAMP} ]]>
       </if>
     </trim>
     order by name

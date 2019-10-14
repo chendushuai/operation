@@ -8,6 +8,7 @@ import com.chenss.operateapi.model.OperaAffiliation;
 import com.chenss.operateapi.model.OperaEnv;
 import com.chenss.operateapi.request.OperaAffiliationDO;
 import com.chenss.operateapi.request.OperaEnvDO;
+import com.chenss.operateapi.response.OperaAffiliationResponse;
 import com.chenss.operateapi.service.OperaAffiliationService;
 import com.chenss.operateapi.service.OperaEnvService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -27,17 +29,17 @@ public class OperaAffiliationController extends BaseController {
     @Autowired
     private OperaAffiliationService operaAffiliationService;
     @RequestMapping("")
-    public ResponseDTO<List<OperaAffiliation>> findEnv(@RequestBody OperaAffiliationDO params) {
-        SeviceResultDTO<List<OperaAffiliation>> operaAff= operaAffiliationService.getEnv(params);
-        return new ResponseDTO(operaAff.getObject());
+    public ResponseDTO<List<OperaAffiliationResponse>> findEnv(@RequestBody OperaAffiliationDO params) {
+        SeviceResultDTO<List<OperaAffiliation>> operaAff= operaAffiliationService.listAll(params);
+        return new ResponseDTO(convertList(operaAff.getObject()));
     }
     @RequestMapping("/view")
-    public ResponseDTO<OperaAffiliation> viewObject(int id) {
+    public ResponseDTO<OperaAffiliationResponse> viewObject(int id) {
         SeviceResultDTO<OperaAffiliation> operaAff= operaAffiliationService.selectByPrimaryKey(id);
-        return new ResponseDTO(operaAff.getObject());
+        return new ResponseDTO(new OperaAffiliationResponse(operaAff.getObject()));
     }
     @RequestMapping("/edit")
-    public ResponseDTO<List<OperaAffiliation>> edit(@RequestBody OperaAffiliationDO params) {
+    public ResponseDTO<Integer> edit(@RequestBody OperaAffiliationDO params) {
         if (!params.validate()) {
             return new ResponseDTO(ErrorEnum.PARAM,"参数不完整");
         }
@@ -49,12 +51,20 @@ public class OperaAffiliationController extends BaseController {
         }
     }
     @RequestMapping("/delete")
-    public ResponseDTO<List<OperaEnv>> delete(int id) {
+    public ResponseDTO<Integer> delete(int id) {
         SeviceResultDTO<Integer> deleteResult= operaAffiliationService.delete(id);
         if (deleteResult.isSuccess()) {
             return new ResponseDTO(deleteResult.getObject());
         } else {
             return new ResponseDTO(ErrorEnum.ERROR,deleteResult.getMsg());
         }
+    }
+    private List<OperaAffiliationResponse> convertList(List<OperaAffiliation> operaAffiliationList) {
+        List<OperaAffiliationResponse> operaAffiliationResponses =new ArrayList<>();
+        for (OperaAffiliation item:
+                operaAffiliationList) {
+            operaAffiliationResponses.add(new OperaAffiliationResponse(item));
+        }
+        return operaAffiliationResponses;
     }
 }

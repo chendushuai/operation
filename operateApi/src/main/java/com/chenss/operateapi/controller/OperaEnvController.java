@@ -35,7 +35,7 @@ public class OperaEnvController extends BaseController {
         return new ResponseDTO(operaEnv.getObject());
     }
     @RequestMapping("/edit")
-    public ResponseDTO<List<OperaEnv>> edit(@RequestBody OperaEnvDO params) {
+    public ResponseDTO<Integer> edit(@RequestBody OperaEnvDO params) {
         if (!params.validate()) {
             return new ResponseDTO(ErrorEnum.PARAM,"参数不完整");
         }
@@ -47,7 +47,7 @@ public class OperaEnvController extends BaseController {
         }
     }
     @RequestMapping("/delete")
-    public ResponseDTO<List<OperaEnv>> delete(int id) {
+    public ResponseDTO<Integer> delete(int id) {
         SeviceResultDTO<Integer> deleteResult= operaEnvService.delete(id);
         if (deleteResult.isSuccess()) {
             return new ResponseDTO(deleteResult.getObject());

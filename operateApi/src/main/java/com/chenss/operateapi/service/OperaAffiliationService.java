@@ -18,7 +18,7 @@ public class OperaAffiliationService {
     @Autowired
     private OperaAffiliationMapper operaAffiliationMapper;
 
-    public SeviceResultDTO<List<OperaAffiliation>> getEnv(OperaAffiliation operaAffiliation) {
+    public SeviceResultDTO<List<OperaAffiliation>> listAll(OperaAffiliation operaAffiliation) {
         OperaAffiliation param = new OperaAffiliation();
         if (operaAffiliation.getId()!=null) {
             param.setId(operaAffiliation.getId());
@@ -53,6 +53,7 @@ public class OperaAffiliationService {
             if (null != operaAffiliations && operaAffiliations.size() > 0) {
                 return new SeviceResultDTO<Integer>().fail("归属类型已经存在，无法插入");
             }
+            param.setDesc(obj.getDesc());
             param.setCreateTime(new Date());
             param.setModifyTime(new Date());
 
@@ -70,6 +71,8 @@ public class OperaAffiliationService {
                 return new SeviceResultDTO<Integer>().fail("归属类型已经存在，无法修改");
             }
         }
+        param.setDesc(obj.getDesc());
+        param.setModifyTime(new Date());
         int updateResult = operaAffiliationMapper.updateByPrimaryKeySelective(obj);
         return new SeviceResultDTO<Integer>().ok(updateResult);
     }
