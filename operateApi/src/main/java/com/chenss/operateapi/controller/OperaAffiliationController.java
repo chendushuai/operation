@@ -4,8 +4,11 @@ import com.chenss.operateapi.BaseController;
 import com.chenss.operateapi.common.ErrorEnum;
 import com.chenss.operateapi.common.ResponseDTO;
 import com.chenss.operateapi.common.SeviceResultDTO;
+import com.chenss.operateapi.model.OperaAffiliation;
 import com.chenss.operateapi.model.OperaEnv;
+import com.chenss.operateapi.request.OperaAffiliationDO;
 import com.chenss.operateapi.request.OperaEnvDO;
+import com.chenss.operateapi.service.OperaAffiliationService;
 import com.chenss.operateapi.service.OperaEnvService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -15,30 +18,30 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 /**
+ * 归属管理控制器
  * @author chenss002
  */
 @RestController
 @RequestMapping("/api/affiliation")
 public class OperaAffiliationController extends BaseController {
     @Autowired
-    private OperaEnvService operaEnvService;
+    private OperaAffiliationService operaAffiliationService;
     @RequestMapping("")
-    public ResponseDTO<List<OperaEnv>> findEnv(@RequestBody OperaEnvDO params) {
-        SeviceResultDTO<List<OperaEnv>> operaEnv= operaEnvService.getEnv(params);
-        return new ResponseDTO(operaEnv.getObject());
-        //return "[OperaEnv [Hash = -1782734848, id=1, envType=DEV, envName=开发环境, apolloEnv=DEV, envDesc=开发环境, serialVersionUID=1], OperaEnv [Hash = 1949561467, id=2, envType=TEST, envName=测试环境, apolloEnv=QA, envDesc=测试环境, serialVersionUID=1], OperaEnv [Hash = -323490972, id=3, envType=UAT, envName=UAT预发环境, apolloEnv=UAT, envDesc=UAT预发环境, serialVersionUID=1], OperaEnv [Hash = 1255912080, id=4, envType=HZ, envName=富阳环境, apolloEnv=ONLINE_FY, envDesc=富阳生产环境, serialVersionUID=1], OperaEnv [Hash = 327114008, id=5, envType=SZ, envName=苏州环境, apolloEnv=ONLINE, envDesc=苏州生产环境, serialVersionUID=1]]";
+    public ResponseDTO<List<OperaAffiliation>> findEnv(@RequestBody OperaAffiliationDO params) {
+        SeviceResultDTO<List<OperaAffiliation>> operaAff= operaAffiliationService.getEnv(params);
+        return new ResponseDTO(operaAff.getObject());
     }
     @RequestMapping("/view")
-    public ResponseDTO<OperaEnv> viewObject(int id) {
-        SeviceResultDTO<OperaEnv> operaEnv= operaEnvService.selectByPrimaryKey(id);
-        return new ResponseDTO(operaEnv.getObject());
+    public ResponseDTO<OperaAffiliation> viewObject(int id) {
+        SeviceResultDTO<OperaAffiliation> operaAff= operaAffiliationService.selectByPrimaryKey(id);
+        return new ResponseDTO(operaAff.getObject());
     }
     @RequestMapping("/edit")
-    public ResponseDTO<List<OperaEnv>> edit(@RequestBody OperaEnvDO params) {
+    public ResponseDTO<List<OperaAffiliation>> edit(@RequestBody OperaAffiliationDO params) {
         if (!params.validate()) {
             return new ResponseDTO(ErrorEnum.PARAM,"参数不完整");
         }
-        SeviceResultDTO<Integer> resultService= operaEnvService.insertOrUpdate(params);
+        SeviceResultDTO<Integer> resultService= operaAffiliationService.insertOrUpdate(params);
         if (resultService.isSuccess()) {
             return new ResponseDTO(resultService.getObject());
         } else {
@@ -47,7 +50,7 @@ public class OperaAffiliationController extends BaseController {
     }
     @RequestMapping("/delete")
     public ResponseDTO<List<OperaEnv>> delete(int id) {
-        SeviceResultDTO<Integer> deleteResult= operaEnvService.delete(id);
+        SeviceResultDTO<Integer> deleteResult= operaAffiliationService.delete(id);
         if (deleteResult.isSuccess()) {
             return new ResponseDTO(deleteResult.getObject());
         } else {

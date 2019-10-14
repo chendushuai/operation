@@ -35,13 +35,13 @@
         create_time >= #{createTimeBegin,jdbcType=TIMESTAMP},
       </if>
       <if test="createTimeEnd != null">
-        create_time < #{createTimeEnd,jdbcType=TIMESTAMP},
+        <![CDATA[ create_time < #{createTimeEnd,jdbcType=TIMESTAMP} ]]>,
       </if>
       <if test="modifyTimeBegin != null">
         modify_time >= #{modifyTimeBegin,jdbcType=TIMESTAMP},
       </if>
       <if test="modifyTimeEnd != null">
-        modify_time < #{modifyTimeEnd,jdbcType=TIMESTAMP},
+        <![CDATA[ modify_time < #{modifyTimeEnd,jdbcType=TIMESTAMP} ]]>,
       </if>
     </trim>
     order by name

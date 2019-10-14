@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 /**
+ * 环境配置控制器
  * @author chenss002
  */
 @RestController
