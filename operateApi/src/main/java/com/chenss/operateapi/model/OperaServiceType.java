@@ -1,12 +1,15 @@
 package com.chenss.operateapi.model;
 
+import com.chenss.operateapi.param.TimeCommonParam;
+
 import java.io.Serializable;
+import java.util.Date;
 
 /**
  * opera_service_type
  * @author 
  */
-public class OperaServiceType implements Serializable {
+public class OperaServiceType extends TimeCommonParam implements Serializable {
     /**
      * 主键
      */
@@ -26,6 +29,16 @@ public class OperaServiceType implements Serializable {
      * 服务描述
      */
     private String serviceDesc;
+
+    /**
+     * 创建时间
+     */
+    private Date createTime;
+
+    /**
+     * 修改时间
+     */
+    private Date modifyTime;
 
     private static final long serialVersionUID = 1L;
 
@@ -61,6 +74,22 @@ public class OperaServiceType implements Serializable {
         this.serviceDesc = serviceDesc;
     }
 
+    public Date getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(Date createTime) {
+        this.createTime = createTime;
+    }
+
+    public Date getModifytime() {
+        return modifyTime;
+    }
+
+    public void setModifytime(Date modifyTime) {
+        this.modifyTime = modifyTime;
+    }
+
     @Override
     public boolean equals(Object that) {
         if (this == that) {
@@ -76,7 +105,9 @@ public class OperaServiceType implements Serializable {
         return (this.getId() == null ? other.getId() == null : this.getId().equals(other.getId()))
             && (this.getServiceType() == null ? other.getServiceType() == null : this.getServiceType().equals(other.getServiceType()))
             && (this.getServiceName() == null ? other.getServiceName() == null : this.getServiceName().equals(other.getServiceName()))
-            && (this.getServiceDesc() == null ? other.getServiceDesc() == null : this.getServiceDesc().equals(other.getServiceDesc()));
+            && (this.getServiceDesc() == null ? other.getServiceDesc() == null : this.getServiceDesc().equals(other.getServiceDesc()))
+            && (this.getCreateTime() == null ? other.getCreateTime() == null : this.getCreateTime().equals(other.getCreateTime()))
+            && (this.getModifytime() == null ? other.getModifytime() == null : this.getModifytime().equals(other.getModifytime()));
     }
 
     @Override
@@ -87,6 +118,8 @@ public class OperaServiceType implements Serializable {
         result = prime * result + ((getServiceType() == null) ? 0 : getServiceType().hashCode());
         result = prime * result + ((getServiceName() == null) ? 0 : getServiceName().hashCode());
         result = prime * result + ((getServiceDesc() == null) ? 0 : getServiceDesc().hashCode());
+        result = prime * result + ((getCreateTime() == null) ? 0 : getCreateTime().hashCode());
+        result = prime * result + ((getModifytime() == null) ? 0 : getModifytime().hashCode());
         return result;
     }
 
@@ -100,6 +133,8 @@ public class OperaServiceType implements Serializable {
         sb.append(", serviceType=").append(serviceType);
         sb.append(", serviceName=").append(serviceName);
         sb.append(", serviceDesc=").append(serviceDesc);
+        sb.append(", createTime=").append(createTime);
+        sb.append(", modifyTime=").append(modifyTime);
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");
         return sb.toString();

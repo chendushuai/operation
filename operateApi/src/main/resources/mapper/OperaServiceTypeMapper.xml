@@ -6,15 +6,49 @@
     <result column="service_type" jdbcType="VARCHAR" property="serviceType" />
     <result column="service_name" jdbcType="VARCHAR" property="serviceName" />
     <result column="service_desc" jdbcType="VARCHAR" property="serviceDesc" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="modify_time" jdbcType="TIMESTAMP" property="modifyTime" />
   </resultMap>
   <sql id="Base_Column_List">
-    ID, service_type, service_name, service_desc
+    ID, service_type, service_name, service_desc, create_time, modify_time
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
-    select 
+    select
     <include refid="Base_Column_List" />
     from opera_service_type
     where ID = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="query" parameterType="com.chenss.operateapi.model.OperaServiceType" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from opera_service_type
+    <trim prefix="WHERE" prefixOverrides="AND |OR ">
+      <if test="id != null">
+        ID = #{id,jdbcType=INTEGER}
+      </if>
+      <if test="serviceType != null">
+        AND service_type = #{serviceType,jdbcType=VARCHAR}
+      </if>
+      <if test="serviceName != null">
+        AND service_name like concat(concat('%',#{serviceName,jdbcType=VARCHAR}),'%')
+      </if>
+      <if test="serviceDesc != null">
+        AND service_desc = #{serviceDesc,jdbcType=VARCHAR}
+      </if>
+      <if test="createTimeBegin != null">
+        AND create_time >= #{createTimeBegin,jdbcType=TIMESTAMP}
+      </if>
+      <if test="createTimeEnd != null">
+        AND <![CDATA[ create_time < #{createTimeEnd,jdbcType=TIMESTAMP} ]]>
+      </if>
+      <if test="modifyTimeBegin != null">
+        AND modify_time >= #{modifyTimeBegin,jdbcType=TIMESTAMP}
+      </if>
+      <if test="modifyTimeEnd != null">
+        AND <![CDATA[ modify_time < #{modifyTimeEnd,jdbcType=TIMESTAMP} ]]>
+      </if>
+    </trim>
+    order by id
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from opera_service_type
@@ -22,9 +56,11 @@
   </delete>
   <insert id="insert" parameterType="com.chenss.operateapi.model.OperaServiceType">
     insert into opera_service_type (ID, service_type, service_name, 
-      service_desc)
+      service_desc, create_time, modify_time
+      )
     values (#{id,jdbcType=INTEGER}, #{serviceType,jdbcType=VARCHAR}, #{serviceName,jdbcType=VARCHAR}, 
-      #{serviceDesc,jdbcType=VARCHAR})
+      #{serviceDesc,jdbcType=VARCHAR}, now(), now()
+      )
   </insert>
   <insert id="insertSelective" parameterType="com.chenss.operateapi.model.OperaServiceType">
     insert into opera_service_type
@@ -41,6 +77,8 @@
       <if test="serviceDesc != null">
         service_desc,
       </if>
+      create_time,
+      modify_time
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -55,6 +93,8 @@
       <if test="serviceDesc != null">
         #{serviceDesc,jdbcType=VARCHAR},
       </if>
+      now(),
+      now()
     </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="com.chenss.operateapi.model.OperaServiceType">
@@ -69,6 +109,7 @@
       <if test="serviceDesc != null">
         service_desc = #{serviceDesc,jdbcType=VARCHAR},
       </if>
+        modify_time = now()
     </set>
     where ID = #{id,jdbcType=INTEGER}
   </update>
@@ -76,7 +117,8 @@
     update opera_service_type
     set service_type = #{serviceType,jdbcType=VARCHAR},
       service_name = #{serviceName,jdbcType=VARCHAR},
-      service_desc = #{serviceDesc,jdbcType=VARCHAR}
+      service_desc = #{serviceDesc,jdbcType=VARCHAR},
+      modify_time = now()
     where ID = #{id,jdbcType=INTEGER}
   </update>
 </mapper>

@@ -24,14 +24,16 @@
 
         function query() {
             var modal = $('#query-form');
-            var affName = modal.find('#query-name').val();
+            var serviceType = modal.find('#query-servicetype').val();
+            var serviceName = modal.find('#query-servicename').val();
             $.ajax({
                 type: "POST",
-                url: '/api/affiliation',
+                url: '/api/servicetype',
                 contentType: "application/json",
                 dataType: "json",
                 data: JSON.stringify({
-                    name: affName
+                    serviceType: serviceType,
+                    serviceName: serviceName
                 }),
                 success: function (jsonResult) {
                     createTable(jsonResult);
@@ -55,12 +57,10 @@
                 var modal = $('#viewModal');
                 modal.find(".err-msg").hide();
                 if (viewtype == "add") {
-                    modal.find('.modal-body input').removeAttr("readonly");
-                    modal.find('.modal-body textarea').removeAttr("readonly");
+                    modal.find('.modal-body input').removeAttr("readonly").val("");
+                    modal.find('.modal-body textarea').removeAttr("readonly").val("");
                     modal.find('#edit-save').show();
-                    modal.find('.modal-title').html('新增归属配置');
-                    modal.find('.modal-body #element-name').val("");
-                    modal.find('.modal-body #element-desc').val("");
+                    modal.find('.modal-title').html('新增服务器归属区域');
                     modal.find('.modal-body #element-id').html("");
                     return;
                 }
@@ -68,7 +68,7 @@
                 // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
                 $.ajax({
                     type: "POST",
-                    url: '/api/affiliation/view?id=' + id,
+                    url: '/api/servicetype/view?id=' + id,
                     success: function (jsonResult) {
                         console.log(viewtype);
                         var titleName = "";
@@ -84,9 +84,10 @@
                             modal.find('#edit-save').show();
                         }
                         var jsonObject = $(jsonResult.object)[0];
-                        modal.find('.modal-title').html(titleName + ' [ ' + jsonObject.name + ' ] 归属配置');
-                        modal.find('.modal-body #element-name').val(jsonObject.name);
-                        modal.find('.modal-body #element-desc').val(jsonObject.desc);
+                        modal.find('.modal-title').html(titleName + ' [ ' + jsonObject.serviceType + ' - ' + jsonObject.serviceName + ' ] 服务器归属区域');
+                        modal.find('.modal-body #element-servicetype').val(jsonObject.serviceType);
+                        modal.find('.modal-body #element-servicename').val(jsonObject.serviceName);
+                        modal.find('.modal-body #element-servicedesc').val(jsonObject.serviceDesc);
                         modal.find('.modal-body #element-id').html(jsonObject.id);
                     },
                     error: function (xhr) {
@@ -101,13 +102,14 @@
             $('#deleteModal').on('show.bs.modal', function (event) {
                 var button = $(event.relatedTarget) // Button that triggered the modal
                 var name = button.data('name');
+                var type = button.data('type');
                 var id = button.data('id');
                 var modal = $('#deleteModal');
                 modal.find(".err-msg").hide();
                 // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
                 // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
                 modal.find('.modal-body #delete-id').html(id);
-                modal.find('#delete-body').html('<p>确认要彻底删除 <strong>'+name+'</strong> 吗？</p>');
+                modal.find('#delete-body').html('<p>确认要彻底删除 <strong>'+type+' - '+name+'</strong> 吗？</p>');
             })
         }
 
@@ -115,17 +117,19 @@
             $('#viewModal').find('#edit-save').on('click', function () {
                 var modal = $('#viewModal');
                 var id = modal.find('.modal-body #element-id').html();
-                var name = modal.find('.modal-body #element-name').val();
-                var desc = modal.find('.modal-body #element-desc').val();
+                var serviceType = modal.find('.modal-body #element-servicetype').val();
+                var serviceName = modal.find('.modal-body #element-servicename').val();
+                var serviceDesc = modal.find('.modal-body #element-servicedesc').val();
                 $.ajax({
                     type: "POST",
-                    url: '/api/affiliation/edit',
+                    url: '/api/servicetype/edit',
                     contentType: "application/json",
                     dataType: "json",
                     data: JSON.stringify({
                         id: id,
-                        name: name,
-                        desc: desc
+                        serviceType: serviceType,
+                        serviceName: serviceName,
+                        serviceDesc: serviceDesc
                     }),
                     success: function (jsonResult) {
                         console.log(jsonResult);
@@ -150,7 +154,7 @@
                 var id = modal.find('.modal-body #delete-id').html();
                 $.ajax({
                     type: "POST",
-                    url: '/api/affiliation/delete?id=' + id,
+                    url: '/api/servicetype/delete?id=' + id,
                     success: function (jsonResult) {
                         if (jsonResult.success) {
                             modal.modal('hide');
@@ -182,7 +186,11 @@
                 res = "<tr><td align=\"right\">";
                 res = res + $(element)[0].id;
                 res = res + "</td><td align=\"left\">";
-                res = res + $(element)[0].name;
+                res = res + $(element)[0].serviceType;
+                res = res + "</td><td align=\"left\">";
+                res = res + $(element)[0].serviceName;
+                res = res + "</td><td align=\"left\">";
+                res = res + $(element)[0].serviceDesc;
                 res = res + "</td><td align=\"left\">";
                 res = res + $(element)[0].createTimeStr;
                 res = res + "</td><td align=\"left\">";
@@ -191,7 +199,7 @@
                 res = res + "<div class=\"btn-group\" role=\"group\" aria-label=\"...\">";
                 res = res + "<button type=\"button\" class=\"btn btn-info\" data-toggle=\"modal\" data-target=\"#viewModal\" data-id=\"" + $(element)[0].id + "\" data-viewtype='view'>查看</button>";
                 res = res + "<button type=\"button\" class=\"btn btn-primary\" data-toggle=\"modal\" data-target=\"#viewModal\" data-id=\"" + $(element)[0].id + "\" data-viewtype='edit'>编辑</button>";
-                res = res + "<button type=\"button\" class=\"btn btn-danger\" data-toggle=\"modal\" data-target=\"#deleteModal\" data-id=\"" + $(element)[0].id + "\" data-name='" + $(element)[0].name + "'>删除</button>";
+                res = res + "<button type=\"button\" class=\"btn btn-danger\" data-toggle=\"modal\" data-target=\"#deleteModal\" data-id=\"" + $(element)[0].id + "\" data-type='" + $(element)[0].serviceType + "' data-name='" + $(element)[0].serviceName + "'>删除</button>";
                 res = res + "</div>";
                 res = res + "</td><td align=\"left\"></tr>";
                 $("#dataTable").html($("#dataTable").html() + res);
@@ -209,13 +217,19 @@
     <div class="row">
         <div class="col-md-3">
             <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#viewModal"
-                    data-viewtype='add'>新增归属类型
+                    data-viewtype='add'>新增服务器归属区域
             </button>
             <form class="form-horizontal" id="query-form">
                 <div class="form-group">
-                    <label for="query-name" class="col-sm-4 control-label">归属名称</label>
+                    <label for="query-servicetype" class="col-sm-4 control-label">归属区域类型</label>
                     <div class="col-sm-8">
-                        <input type="text" class="form-control" id="query-name" placeholder="归属名称">
+                        <input type="text" class="form-control" id="query-servicetype" placeholder="归属区域类型">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="query-servicename" class="col-sm-4 control-label">归属区域名称</label>
+                    <div class="col-sm-8">
+                        <input type="text" class="form-control" id="query-servicename" placeholder="归属区域名称">
                     </div>
                 </div>
                 <div class="form-group">
@@ -230,7 +244,9 @@
                 <thead>
                 <tr>
                     <td>编号</td>
-                    <td>归属名称</td>
+                    <td>归属区域类型</td>
+                    <td>归属区域名称</td>
+                    <td>归属区域说明</td>
                     <td>创建时间</td>
                     <td>修改时间</td>
                     <td>操作</td>
@@ -258,12 +274,16 @@
                         <label class="control-label">编码:</label><label class="control-label" id="element-id"></label>
                     </div>
                     <div class="form-group">
-                        <label for="element-name" class="control-label">归属名称:</label>
-                        <input type="text" class="form-control" id="element-name">
+                        <label for="element-servicetype" class="control-label">归属区域类型:</label>
+                        <input type="text" class="form-control" id="element-servicetype">
                     </div>
                     <div class="form-group">
-                        <label for="element-Desc" class="control-label">描述:</label>
-                        <textarea class="form-control" id="element-desc"></textarea>
+                        <label for="element-servicename" class="control-label">归属区域名称:</label>
+                        <input type="text" class="form-control" id="element-servicename">
+                    </div>
+                    <div class="form-group">
+                        <label for="element-servicedesc" class="control-label">归属区域说明:</label>
+                        <textarea class="form-control" id="element-servicedesc"></textarea>
                     </div>
                 </form>
             </div>
@@ -281,7 +301,7 @@
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span>
                 </button>
-                <h4 class="modal-title" id="deleteModalLabel">删除归属配置</h4>
+                <h4 class="modal-title" id="deleteModalLabel">删除服务器归属区域配置</h4>
             </div>
             <div class="modal-body">
                 <div class="alert alert-danger err-msg" role="alert"></div>

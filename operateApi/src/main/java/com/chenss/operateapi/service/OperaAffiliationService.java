@@ -7,7 +7,6 @@ import com.mysql.cj.util.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -62,7 +61,6 @@ public class OperaAffiliationService {
         if (null == opera) {
             return new SeviceResultDTO<Integer>().fail("对象不存在无法修改");
         }
-        param.setId(obj.getId());
         param.setName(obj.getName());
         List<OperaAffiliation> operaAffiliations = operaAffiliationMapper.query(param);
         if (null != operaAffiliations && operaAffiliations.size() > 0) {
@@ -70,6 +68,7 @@ public class OperaAffiliationService {
                 return new SeviceResultDTO<Integer>().fail("归属类型已经存在，无法修改");
             }
         }
+        param.setId(obj.getId());
         param.setDesc(obj.getDesc());
         int updateResult = operaAffiliationMapper.updateByPrimaryKeySelective(param);
         return new SeviceResultDTO<Integer>().ok(updateResult);
