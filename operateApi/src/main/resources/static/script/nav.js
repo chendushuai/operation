@@ -5,7 +5,8 @@ $(function () {
 var urlList = [{
     "url": "#", "name": "基础配置内容", "child": [
         {"url": "env.html", "name": "环境配置"},
-        {"url": "affiliation.html", "name": "归属配置"}]
+        {"url": "affiliation.html", "name": "归属配置"},
+        {"url": "domain.html", "name": "服务器归属区域"}]
 }];
 
 function createNav() {

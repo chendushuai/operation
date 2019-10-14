@@ -87,7 +87,7 @@ public class OperaAffiliationResponse {
 
     public String getCreateTimeStr() {
         if (null == this.createTime) {
-            return null;
+            return "";
         }
 
         return simpleDateFormat.format(this.createTime);
@@ -95,7 +95,7 @@ public class OperaAffiliationResponse {
 
     public String getModifyTimeStr() {
         if (null == this.modifyTime) {
-            return null;
+            return "";
         }
 
         return simpleDateFormat.format(this.modifyTime);

@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.chenss.operateapi.mapper.OperaServiceTypeMapper">
+  <resultMap id="BaseResultMap" type="com.chenss.operateapi.model.OperaServiceType">
+    <id column="ID" jdbcType="INTEGER" property="id" />
+    <result column="service_type" jdbcType="VARCHAR" property="serviceType" />
+    <result column="service_name" jdbcType="VARCHAR" property="serviceName" />
+    <result column="service_desc" jdbcType="VARCHAR" property="serviceDesc" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    ID, service_type, service_name, service_desc
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from opera_service_type
+    where ID = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from opera_service_type
+    where ID = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.chenss.operateapi.model.OperaServiceType">
+    insert into opera_service_type (ID, service_type, service_name, 
+      service_desc)
+    values (#{id,jdbcType=INTEGER}, #{serviceType,jdbcType=VARCHAR}, #{serviceName,jdbcType=VARCHAR}, 
+      #{serviceDesc,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.chenss.operateapi.model.OperaServiceType">
+    insert into opera_service_type
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        ID,
+      </if>
+      <if test="serviceType != null">
+        service_type,
+      </if>
+      <if test="serviceName != null">
+        service_name,
+      </if>
+      <if test="serviceDesc != null">
+        service_desc,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="serviceType != null">
+        #{serviceType,jdbcType=VARCHAR},
+      </if>
+      <if test="serviceName != null">
+        #{serviceName,jdbcType=VARCHAR},
+      </if>
+      <if test="serviceDesc != null">
+        #{serviceDesc,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.chenss.operateapi.model.OperaServiceType">
+    update opera_service_type
+    <set>
+      <if test="serviceType != null">
+        service_type = #{serviceType,jdbcType=VARCHAR},
+      </if>
+      <if test="serviceName != null">
+        service_name = #{serviceName,jdbcType=VARCHAR},
+      </if>
+      <if test="serviceDesc != null">
+        service_desc = #{serviceDesc,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.chenss.operateapi.model.OperaServiceType">
+    update opera_service_type
+    set service_type = #{serviceType,jdbcType=VARCHAR},
+      service_name = #{serviceName,jdbcType=VARCHAR},
+      service_desc = #{serviceDesc,jdbcType=VARCHAR}
+    where ID = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

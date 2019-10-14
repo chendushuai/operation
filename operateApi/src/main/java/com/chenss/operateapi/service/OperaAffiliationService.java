@@ -54,16 +54,15 @@ public class OperaAffiliationService {
                 return new SeviceResultDTO<Integer>().fail("归属类型已经存在，无法插入");
             }
             param.setDesc(obj.getDesc());
-            param.setCreateTime(new Date());
-            param.setModifyTime(new Date());
 
-            int insertResult = operaAffiliationMapper.insertSelective(obj);
+            int insertResult = operaAffiliationMapper.insertSelective(param);
             return new SeviceResultDTO<Integer>().ok(insertResult);
         }
         OperaAffiliation opera = operaAffiliationMapper.selectByPrimaryKey(obj.getId());
         if (null == opera) {
             return new SeviceResultDTO<Integer>().fail("对象不存在无法修改");
         }
+        param.setId(obj.getId());
         param.setName(obj.getName());
         List<OperaAffiliation> operaAffiliations = operaAffiliationMapper.query(param);
         if (null != operaAffiliations && operaAffiliations.size() > 0) {
@@ -72,8 +71,7 @@ public class OperaAffiliationService {
             }
         }
         param.setDesc(obj.getDesc());
-        param.setModifyTime(new Date());
-        int updateResult = operaAffiliationMapper.updateByPrimaryKeySelective(obj);
+        int updateResult = operaAffiliationMapper.updateByPrimaryKeySelective(param);
         return new SeviceResultDTO<Integer>().ok(updateResult);
     }
 
