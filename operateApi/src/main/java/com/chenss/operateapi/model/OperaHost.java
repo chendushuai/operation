@@ -1,12 +1,15 @@
 package com.chenss.operateapi.model;
 
+import com.chenss.operateapi.param.TimeCommonParam;
+
 import java.io.Serializable;
+import java.util.Date;
 
 /**
  * opera_host
  * @author 
  */
-public class OperaHost implements Serializable {
+public class OperaHost extends TimeCommonParam implements Serializable {
     /**
      * 主键
      */
@@ -66,6 +69,16 @@ public class OperaHost implements Serializable {
      * 主机归属
      */
     private Integer hostAffiliationId;
+
+    /**
+     * 创建时间
+     */
+    private Date createTime;
+
+    /**
+     * 修改时间
+     */
+    private Date modifyTime;
 
     private static final long serialVersionUID = 1L;
 
@@ -165,6 +178,22 @@ public class OperaHost implements Serializable {
         this.hostAffiliationId = hostAffiliationId;
     }
 
+    public Date getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(Date createTime) {
+        this.createTime = createTime;
+    }
+
+    public Date getModifyTime() {
+        return modifyTime;
+    }
+
+    public void setModifyTime(Date modifyTime) {
+        this.modifyTime = modifyTime;
+    }
+
     @Override
     public boolean equals(Object that) {
         if (this == that) {
@@ -188,7 +217,9 @@ public class OperaHost implements Serializable {
             && (this.getHostHarddisk() == null ? other.getHostHarddisk() == null : this.getHostHarddisk().equals(other.getHostHarddisk()))
             && (this.getHostOsId() == null ? other.getHostOsId() == null : this.getHostOsId().equals(other.getHostOsId()))
             && (this.getHostEnvId() == null ? other.getHostEnvId() == null : this.getHostEnvId().equals(other.getHostEnvId()))
-            && (this.getHostAffiliationId() == null ? other.getHostAffiliationId() == null : this.getHostAffiliationId().equals(other.getHostAffiliationId()));
+            && (this.getHostAffiliationId() == null ? other.getHostAffiliationId() == null : this.getHostAffiliationId().equals(other.getHostAffiliationId()))
+            && (this.getCreateTime() == null ? other.getCreateTime() == null : this.getCreateTime().equals(other.getCreateTime()))
+            && (this.getModifyTime() == null ? other.getModifyTime() == null : this.getModifyTime().equals(other.getModifyTime()));
     }
 
     @Override
@@ -207,6 +238,8 @@ public class OperaHost implements Serializable {
         result = prime * result + ((getHostOsId() == null) ? 0 : getHostOsId().hashCode());
         result = prime * result + ((getHostEnvId() == null) ? 0 : getHostEnvId().hashCode());
         result = prime * result + ((getHostAffiliationId() == null) ? 0 : getHostAffiliationId().hashCode());
+        result = prime * result + ((getCreateTime() == null) ? 0 : getCreateTime().hashCode());
+        result = prime * result + ((getModifyTime() == null) ? 0 : getModifyTime().hashCode());
         return result;
     }
 
@@ -228,6 +261,8 @@ public class OperaHost implements Serializable {
         sb.append(", hostOsId=").append(hostOsId);
         sb.append(", hostEnvId=").append(hostEnvId);
         sb.append(", hostAffiliationId=").append(hostAffiliationId);
+        sb.append(", createTime=").append(createTime);
+        sb.append(", modifyTime=").append(modifyTime);
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");
         return sb.toString();

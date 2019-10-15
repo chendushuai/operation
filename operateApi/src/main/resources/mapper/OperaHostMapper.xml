@@ -14,10 +14,12 @@
     <result column="host_os_id" jdbcType="INTEGER" property="hostOsId" />
     <result column="host_env_id" jdbcType="INTEGER" property="hostEnvId" />
     <result column="host_affiliation_id" jdbcType="INTEGER" property="hostAffiliationId" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="modify_time" jdbcType="TIMESTAMP" property="modifyTime" />
   </resultMap>
   <sql id="Base_Column_List">
     ID, host_name, host_ip, host_use, host_remark, `status`, host_cpu, host_memory, host_harddisk, 
-    host_os_id, host_env_id, host_affiliation_id
+    host_os_id, host_env_id, host_affiliation_id, create_time, modify_time
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
     select 
@@ -33,11 +35,13 @@
     insert into opera_host (host_name, host_ip, host_use, 
       host_remark, `status`, host_cpu, 
       host_memory, host_harddisk, host_os_id, 
-      host_env_id, host_affiliation_id)
+      host_env_id, host_affiliation_id, create_time, 
+      modify_time)
     values (#{hostName,jdbcType=VARCHAR}, #{hostIp,jdbcType=VARCHAR}, #{hostUse,jdbcType=VARCHAR}, 
       #{hostRemark,jdbcType=VARCHAR}, #{status,jdbcType=INTEGER}, #{hostCpu,jdbcType=VARCHAR}, 
       #{hostMemory,jdbcType=VARCHAR}, #{hostHarddisk,jdbcType=VARCHAR}, #{hostOsId,jdbcType=INTEGER}, 
-      #{hostEnvId,jdbcType=INTEGER}, #{hostAffiliationId,jdbcType=INTEGER})
+      #{hostEnvId,jdbcType=INTEGER}, #{hostAffiliationId,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{modifyTime,jdbcType=TIMESTAMP})
   </insert>
   <insert id="insertSelective" keyColumn="ID" keyProperty="id" parameterType="com.chenss.operateapi.model.OperaHost" useGeneratedKeys="true">
     insert into opera_host
@@ -75,6 +79,12 @@
       <if test="hostAffiliationId != null">
         host_affiliation_id,
       </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="modifyTime != null">
+        modify_time,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="hostName != null">
@@ -109,6 +119,12 @@
       </if>
       <if test="hostAffiliationId != null">
         #{hostAffiliationId,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifyTime != null">
+        #{modifyTime,jdbcType=TIMESTAMP},
       </if>
     </trim>
   </insert>
@@ -148,6 +164,12 @@
       <if test="hostAffiliationId != null">
         host_affiliation_id = #{hostAffiliationId,jdbcType=INTEGER},
       </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifyTime != null">
+        modify_time = #{modifyTime,jdbcType=TIMESTAMP},
+      </if>
     </set>
     where ID = #{id,jdbcType=VARCHAR}
   </update>
@@ -163,7 +185,9 @@
       host_harddisk = #{hostHarddisk,jdbcType=VARCHAR},
       host_os_id = #{hostOsId,jdbcType=INTEGER},
       host_env_id = #{hostEnvId,jdbcType=INTEGER},
-      host_affiliation_id = #{hostAffiliationId,jdbcType=INTEGER}
+      host_affiliation_id = #{hostAffiliationId,jdbcType=INTEGER},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      modify_time = #{modifyTime,jdbcType=TIMESTAMP}
     where ID = #{id,jdbcType=VARCHAR}
   </update>
 </mapper>
