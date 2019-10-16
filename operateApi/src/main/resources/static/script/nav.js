@@ -6,8 +6,9 @@ var urlList = [{
     "url": "#", "name": "基础配置内容", "child": [
         {"url": "env.html", "name": "环境配置"},
         {"url": "affiliation.html", "name": "归属配置"},
-        {"url": "domain.html", "name": "服务器归属区域"}]
-}];
+        {"url": "domain.html", "name": "服务器归属区域"},
+        {"url": "os.html", "name": "服务器操作系统管理"}]
+}, {"url": "host.html", "name": "服务器主机配置", "child": []}];
 
 function createNav() {
     var navList = "";

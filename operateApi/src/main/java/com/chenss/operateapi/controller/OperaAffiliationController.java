@@ -1,16 +1,13 @@
 package com.chenss.operateapi.controller;
 
 import com.chenss.operateapi.BaseController;
-import com.chenss.operateapi.common.ErrorEnum;
 import com.chenss.operateapi.common.ResponseDTO;
+import com.chenss.operateapi.common.ResultCode;
 import com.chenss.operateapi.common.SeviceResultDTO;
 import com.chenss.operateapi.model.OperaAffiliation;
-import com.chenss.operateapi.model.OperaEnv;
 import com.chenss.operateapi.request.OperaAffiliationDO;
-import com.chenss.operateapi.request.OperaEnvDO;
 import com.chenss.operateapi.response.OperaAffiliationResponse;
 import com.chenss.operateapi.service.OperaAffiliationService;
-import com.chenss.operateapi.service.OperaEnvService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -41,13 +38,13 @@ public class OperaAffiliationController extends BaseController {
     @RequestMapping("/edit")
     public ResponseDTO<Integer> edit(@RequestBody OperaAffiliationDO params) {
         if (!params.validate()) {
-            return new ResponseDTO(ErrorEnum.PARAM,"参数不完整");
+            return new ResponseDTO(ResultCode.PARAM_IS_BLANK,"参数不完整");
         }
         SeviceResultDTO<Integer> resultService= operaAffiliationService.insertOrUpdate(params);
         if (resultService.isSuccess()) {
             return new ResponseDTO(resultService.getObject());
         } else {
-            return new ResponseDTO(ErrorEnum.ERROR,resultService.getMsg());
+            return new ResponseDTO(ResultCode.SERVICE_ERROR,resultService.getMsg());
         }
     }
     @RequestMapping("/delete")
@@ -56,7 +53,7 @@ public class OperaAffiliationController extends BaseController {
         if (deleteResult.isSuccess()) {
             return new ResponseDTO(deleteResult.getObject());
         } else {
-            return new ResponseDTO(ErrorEnum.ERROR,deleteResult.getMsg());
+            return new ResponseDTO(ResultCode.SERVICE_ERROR,deleteResult.getMsg());
         }
     }
     private List<OperaAffiliationResponse> convertList(List<OperaAffiliation> operaAffiliationList) {

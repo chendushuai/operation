@@ -27,6 +27,59 @@
     from opera_host
     where ID = #{id,jdbcType=VARCHAR}
   </select>
+  <select id="query" parameterType="com.chenss.operateapi.model.OperaHost" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from opera_host
+    <trim prefix="WHERE" prefixOverrides="AND |OR ">
+      <if test="hostName != null">
+        host_name = #{hostName,jdbcType=VARCHAR}
+      </if>
+      <if test="hostIp != null">
+        AND host_ip = #{hostIp,jdbcType=VARCHAR}
+      </if>
+      <if test="hostUse != null">
+        AND host_use = #{hostUse,jdbcType=VARCHAR}
+      </if>
+      <if test="hostRemark != null">
+        AND host_remark = #{hostRemark,jdbcType=VARCHAR}
+      </if>
+      <if test="status != null">
+        AND `status` = #{status,jdbcType=INTEGER}
+      </if>
+      <if test="hostCpu != null">
+        AND host_cpu = #{hostCpu,jdbcType=VARCHAR}
+      </if>
+      <if test="hostMemory != null">
+        AND host_memory = #{hostMemory,jdbcType=VARCHAR}
+      </if>
+      <if test="hostHarddisk != null">
+        host_harddisk = #{hostHarddisk,jdbcType=VARCHAR}
+      </if>
+      <if test="hostOsId != null">
+        host_os_id = #{hostOsId,jdbcType=INTEGER}
+      </if>
+      <if test="hostEnvId != null">
+        AND host_env_id = #{hostEnvId,jdbcType=INTEGER}
+      </if>
+      <if test="hostAffiliationId != null">
+        AND host_affiliation_id = #{hostAffiliationId,jdbcType=INTEGER}
+      </if>
+      <if test="createTimeBegin != null">
+        AND create_time >= #{createTimeBegin,jdbcType=TIMESTAMP}
+      </if>
+      <if test="createTimeEnd != null">
+        AND <![CDATA[ create_time < #{createTimeEnd,jdbcType=TIMESTAMP} ]]>
+      </if>
+      <if test="modifyTimeBegin != null">
+        AND modify_time >= #{modifyTimeBegin,jdbcType=TIMESTAMP}
+      </if>
+      <if test="modifyTimeEnd != null">
+        AND <![CDATA[ modify_time < #{modifyTimeEnd,jdbcType=TIMESTAMP} ]]>
+      </if>
+    </trim>
+    order by host_ip
+  </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
     delete from opera_host
     where ID = #{id,jdbcType=VARCHAR}
@@ -40,8 +93,7 @@
     values (#{hostName,jdbcType=VARCHAR}, #{hostIp,jdbcType=VARCHAR}, #{hostUse,jdbcType=VARCHAR}, 
       #{hostRemark,jdbcType=VARCHAR}, #{status,jdbcType=INTEGER}, #{hostCpu,jdbcType=VARCHAR}, 
       #{hostMemory,jdbcType=VARCHAR}, #{hostHarddisk,jdbcType=VARCHAR}, #{hostOsId,jdbcType=INTEGER}, 
-      #{hostEnvId,jdbcType=INTEGER}, #{hostAffiliationId,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, 
-      #{modifyTime,jdbcType=TIMESTAMP})
+      #{hostEnvId,jdbcType=INTEGER}, #{hostAffiliationId,jdbcType=INTEGER}, now(), now())
   </insert>
   <insert id="insertSelective" keyColumn="ID" keyProperty="id" parameterType="com.chenss.operateapi.model.OperaHost" useGeneratedKeys="true">
     insert into opera_host
@@ -79,12 +131,8 @@
       <if test="hostAffiliationId != null">
         host_affiliation_id,
       </if>
-      <if test="createTime != null">
         create_time,
-      </if>
-      <if test="modifyTime != null">
-        modify_time,
-      </if>
+        modify_time
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="hostName != null">
@@ -120,12 +168,8 @@
       <if test="hostAffiliationId != null">
         #{hostAffiliationId,jdbcType=INTEGER},
       </if>
-      <if test="createTime != null">
-        #{createTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="modifyTime != null">
-        #{modifyTime,jdbcType=TIMESTAMP},
-      </if>
+      now(),
+      now()
     </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="com.chenss.operateapi.model.OperaHost">
@@ -164,12 +208,7 @@
       <if test="hostAffiliationId != null">
         host_affiliation_id = #{hostAffiliationId,jdbcType=INTEGER},
       </if>
-      <if test="createTime != null">
-        create_time = #{createTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="modifyTime != null">
-        modify_time = #{modifyTime,jdbcType=TIMESTAMP},
-      </if>
+        modify_time = now()
     </set>
     where ID = #{id,jdbcType=VARCHAR}
   </update>
@@ -186,8 +225,7 @@
       host_os_id = #{hostOsId,jdbcType=INTEGER},
       host_env_id = #{hostEnvId,jdbcType=INTEGER},
       host_affiliation_id = #{hostAffiliationId,jdbcType=INTEGER},
-      create_time = #{createTime,jdbcType=TIMESTAMP},
-      modify_time = #{modifyTime,jdbcType=TIMESTAMP}
+      modify_time = now()
     where ID = #{id,jdbcType=VARCHAR}
   </update>
 </mapper>

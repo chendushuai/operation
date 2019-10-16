@@ -5,7 +5,7 @@ import java.io.Serializable;
 public class ResponseDTO<T> implements Serializable {
     private boolean success = false;
     private T object;
-    private ErrorEnum error;
+    private ResultCode error;
     private String msg;
 
     public ResponseDTO(T object) {
@@ -13,7 +13,7 @@ public class ResponseDTO<T> implements Serializable {
         this.object = object;
     }
 
-    public ResponseDTO(ErrorEnum error, String msg) {
+    public ResponseDTO(ResultCode error, String msg) {
         this.error = error;
         this.msg = msg;
     }
@@ -34,11 +34,11 @@ public class ResponseDTO<T> implements Serializable {
         this.object = object;
     }
 
-    public ErrorEnum getError() {
+    public ResultCode getError() {
         return error;
     }
 
-    public void setError(ErrorEnum error) {
+    public void setError(ResultCode error) {
         this.error = error;
     }
 

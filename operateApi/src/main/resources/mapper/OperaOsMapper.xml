@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.chenss.operateapi.mapper.OperaOsMapper">
+  <resultMap id="BaseResultMap" type="com.chenss.operateapi.model.OperaOs">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="os_name" jdbcType="VARCHAR" property="osName" />
+    <result column="os_version" jdbcType="VARCHAR" property="osVersion" />
+    <result column="os_remark" jdbcType="VARCHAR" property="osRemark" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, os_name, os_version, os_remark
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from opera_os
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="query" parameterType="com.chenss.operateapi.model.OperaOs" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from opera_os
+    <trim prefix="WHERE" prefixOverrides="AND |OR ">
+      <if test="id != null">
+        ID = #{id,jdbcType=INTEGER}
+      </if>
+      <if test="osName != null">
+        AND os_name = #{osName,jdbcType=VARCHAR}
+      </if>
+      <if test="osVersion != null">
+        AND os_version = #{osVersion,jdbcType=VARCHAR}
+      </if>
+      <if test="osRemark != null">
+        AND os_remark = #{osRemark,jdbcType=VARCHAR}
+      </if>
+    </trim>
+    order by id
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from opera_os
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.chenss.operateapi.model.OperaOs" useGeneratedKeys="true">
+    insert into opera_os (os_name, os_version, os_remark
+      )
+    values (#{osName,jdbcType=VARCHAR}, #{osVersion,jdbcType=VARCHAR}, #{osRemark,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.chenss.operateapi.model.OperaOs" useGeneratedKeys="true">
+    insert into opera_os
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="osName != null">
+        os_name,
+      </if>
+      <if test="osVersion != null">
+        os_version,
+      </if>
+      <if test="osRemark != null">
+        os_remark,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="osName != null">
+        #{osName,jdbcType=VARCHAR},
+      </if>
+      <if test="osVersion != null">
+        #{osVersion,jdbcType=VARCHAR},
+      </if>
+      <if test="osRemark != null">
+        #{osRemark,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.chenss.operateapi.model.OperaOs">
+    update opera_os
+    <set>
+      <if test="osName != null">
+        os_name = #{osName,jdbcType=VARCHAR},
+      </if>
+      <if test="osVersion != null">
+        os_version = #{osVersion,jdbcType=VARCHAR},
+      </if>
+      <if test="osRemark != null">
+        os_remark = #{osRemark,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.chenss.operateapi.model.OperaOs">
+    update opera_os
+    set os_name = #{osName,jdbcType=VARCHAR},
+      os_version = #{osVersion,jdbcType=VARCHAR},
+      os_remark = #{osRemark,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

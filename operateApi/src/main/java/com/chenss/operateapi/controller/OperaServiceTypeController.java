@@ -1,8 +1,8 @@
 package com.chenss.operateapi.controller;
 
 import com.chenss.operateapi.BaseController;
-import com.chenss.operateapi.common.ErrorEnum;
 import com.chenss.operateapi.common.ResponseDTO;
+import com.chenss.operateapi.common.ResultCode;
 import com.chenss.operateapi.common.SeviceResultDTO;
 import com.chenss.operateapi.model.OperaServiceType;
 import com.chenss.operateapi.request.OperaServiceTypeDO;
@@ -17,7 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * 归属管理控制器
+ * 服务类型控制器
  * @author chenss002
  */
 @RestController
@@ -38,13 +38,13 @@ public class OperaServiceTypeController extends BaseController {
     @RequestMapping("/edit")
     public ResponseDTO<Integer> edit(@RequestBody OperaServiceTypeDO params) {
         if (!params.validate()) {
-            return new ResponseDTO(ErrorEnum.PARAM,"参数不完整");
+            return new ResponseDTO(ResultCode.SERVICE_ERROR,"参数不完整");
         }
         SeviceResultDTO<Integer> resultService= operaServiceTypeService.insertOrUpdate(params);
         if (resultService.isSuccess()) {
             return new ResponseDTO(resultService.getObject());
         } else {
-            return new ResponseDTO(ErrorEnum.ERROR,resultService.getMsg());
+            return new ResponseDTO(ResultCode.SERVICE_ERROR,resultService.getMsg());
         }
     }
     @RequestMapping("/delete")
@@ -53,7 +53,7 @@ public class OperaServiceTypeController extends BaseController {
         if (deleteResult.isSuccess()) {
             return new ResponseDTO(deleteResult.getObject());
         } else {
-            return new ResponseDTO(ErrorEnum.ERROR,deleteResult.getMsg());
+            return new ResponseDTO(ResultCode.SERVICE_ERROR,deleteResult.getMsg());
         }
     }
     private List<OperaServiceTypeResponse> convertList(List<OperaServiceType> operaServiceTypeList) {

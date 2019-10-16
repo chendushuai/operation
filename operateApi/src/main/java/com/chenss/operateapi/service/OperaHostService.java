@@ -1,6 +1,7 @@
 package com.chenss.operateapi.service;
 
 import com.chenss.operateapi.common.BaseUtils;
+import com.chenss.operateapi.common.GuidUtils;
 import com.chenss.operateapi.common.SeviceResultDTO;
 import com.chenss.operateapi.mapper.OperaHostMapper;
 import com.chenss.operateapi.model.OperaHost;
@@ -64,6 +65,7 @@ public class OperaHostService {
         param.setHostEnvId(obj.getHostEnvId());
         param.setHostAffiliationId(obj.getHostAffiliationId());
         if (obj.getId() == null) {
+            param.setId(GuidUtils.getUUID());
             int insertResult = operaHostMapper.insertSelective(param);
             return new SeviceResultDTO<Integer>().ok(insertResult);
         }
