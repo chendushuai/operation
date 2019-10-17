@@ -56,21 +56,6 @@ public class OperaHost extends TimeCommonParam implements Serializable {
     private String hostHarddisk;
 
     /**
-     * 主机系统类型
-     */
-    private Integer hostOsId;
-
-    /**
-     * 主机所属环境
-     */
-    private Integer hostEnvId;
-
-    /**
-     * 主机归属
-     */
-    private Integer hostAffiliationId;
-
-    /**
      * 创建时间
      */
     private Date createTime;
@@ -79,6 +64,31 @@ public class OperaHost extends TimeCommonParam implements Serializable {
      * 修改时间
      */
     private Date modifyTime;
+    /**
+     * 系统名称
+     */
+    private String osName;
+    /**
+     * 系统版本
+     */
+    private String osVersion;
+
+    /**
+     * 主机所属环境
+     */
+    private String envName;
+    /**
+     * 主机归属
+     */
+    private String affName;
+    /**
+     * 所属区域类型
+     */
+    private String serviceType;
+    /**
+     * 所属区域类型名称
+     */
+    private String serviceName;
 
     private static final long serialVersionUID = 1L;
 
@@ -154,30 +164,6 @@ public class OperaHost extends TimeCommonParam implements Serializable {
         this.hostHarddisk = hostHarddisk;
     }
 
-    public Integer getHostOsId() {
-        return hostOsId;
-    }
-
-    public void setHostOsId(Integer hostOsId) {
-        this.hostOsId = hostOsId;
-    }
-
-    public Integer getHostEnvId() {
-        return hostEnvId;
-    }
-
-    public void setHostEnvId(Integer hostEnvId) {
-        this.hostEnvId = hostEnvId;
-    }
-
-    public Integer getHostAffiliationId() {
-        return hostAffiliationId;
-    }
-
-    public void setHostAffiliationId(Integer hostAffiliationId) {
-        this.hostAffiliationId = hostAffiliationId;
-    }
-
     public Date getCreateTime() {
         return createTime;
     }
@@ -192,6 +178,58 @@ public class OperaHost extends TimeCommonParam implements Serializable {
 
     public void setModifyTime(Date modifyTime) {
         this.modifyTime = modifyTime;
+    }
+
+    public String getOsName() {
+        return osName;
+    }
+
+    public void setOsName(String osName) {
+        this.osName = osName;
+    }
+
+    public String getOsVersion() {
+        return osVersion;
+    }
+
+    public void setOsVersion(String osVersion) {
+        this.osVersion = osVersion;
+    }
+
+    public String getEnvName() {
+        return envName;
+    }
+
+    public void setEnvName(String envName) {
+        this.envName = envName;
+    }
+
+    public String getAffName() {
+        return affName;
+    }
+
+    public void setAffName(String affName) {
+        this.affName = affName;
+    }
+
+    public String getServiceType() {
+        return serviceType;
+    }
+
+    public void setServiceType(String serviceType) {
+        this.serviceType = serviceType;
+    }
+
+    public String getServiceName() {
+        return serviceName;
+    }
+
+    public void setServiceName(String serviceName) {
+        this.serviceName = serviceName;
+    }
+
+    public static long getSerialVersionUID() {
+        return serialVersionUID;
     }
 
     @Override
@@ -215,11 +253,14 @@ public class OperaHost extends TimeCommonParam implements Serializable {
             && (this.getHostCpu() == null ? other.getHostCpu() == null : this.getHostCpu().equals(other.getHostCpu()))
             && (this.getHostMemory() == null ? other.getHostMemory() == null : this.getHostMemory().equals(other.getHostMemory()))
             && (this.getHostHarddisk() == null ? other.getHostHarddisk() == null : this.getHostHarddisk().equals(other.getHostHarddisk()))
-            && (this.getHostOsId() == null ? other.getHostOsId() == null : this.getHostOsId().equals(other.getHostOsId()))
-            && (this.getHostEnvId() == null ? other.getHostEnvId() == null : this.getHostEnvId().equals(other.getHostEnvId()))
-            && (this.getHostAffiliationId() == null ? other.getHostAffiliationId() == null : this.getHostAffiliationId().equals(other.getHostAffiliationId()))
+            && (this.getOsName() == null ? other.getOsName() == null : this.getOsName().equals(other.getOsName()))
+            && (this.getOsVersion() == null ? other.getOsVersion() == null : this.getOsVersion().equals(other.getOsVersion()))
             && (this.getCreateTime() == null ? other.getCreateTime() == null : this.getCreateTime().equals(other.getCreateTime()))
-            && (this.getModifyTime() == null ? other.getModifyTime() == null : this.getModifyTime().equals(other.getModifyTime()));
+            && (this.getModifyTime() == null ? other.getModifyTime() == null : this.getModifyTime().equals(other.getModifyTime()))
+            && (this.getEnvName() == null ? other.getEnvName() == null : this.getEnvName().equals(other.getEnvName()))
+            && (this.getAffName() == null ? other.getAffName() == null : this.getAffName().equals(other.getAffName()))
+            && (this.getServiceType() == null ? other.getServiceType() == null : this.getServiceType().equals(other.getServiceType()))
+            && (this.getServiceName() == null ? other.getServiceName() == null : this.getServiceName().equals(other.getServiceName()));
     }
 
     @Override
@@ -235,11 +276,14 @@ public class OperaHost extends TimeCommonParam implements Serializable {
         result = prime * result + ((getHostCpu() == null) ? 0 : getHostCpu().hashCode());
         result = prime * result + ((getHostMemory() == null) ? 0 : getHostMemory().hashCode());
         result = prime * result + ((getHostHarddisk() == null) ? 0 : getHostHarddisk().hashCode());
-        result = prime * result + ((getHostOsId() == null) ? 0 : getHostOsId().hashCode());
-        result = prime * result + ((getHostEnvId() == null) ? 0 : getHostEnvId().hashCode());
-        result = prime * result + ((getHostAffiliationId() == null) ? 0 : getHostAffiliationId().hashCode());
+        result = prime * result + ((getOsName() == null) ? 0 : getOsName().hashCode());
+        result = prime * result + ((getOsVersion() == null) ? 0 : getOsVersion().hashCode());
         result = prime * result + ((getCreateTime() == null) ? 0 : getCreateTime().hashCode());
         result = prime * result + ((getModifyTime() == null) ? 0 : getModifyTime().hashCode());
+        result = prime * result + ((getEnvName() == null) ? 0 : getEnvName().hashCode());
+        result = prime * result + ((getAffName() == null) ? 0 : getAffName().hashCode());
+        result = prime * result + ((getServiceType() == null) ? 0 : getServiceType().hashCode());
+        result = prime * result + ((getServiceName() == null) ? 0 : getServiceName().hashCode());
         return result;
     }
 
@@ -258,11 +302,14 @@ public class OperaHost extends TimeCommonParam implements Serializable {
         sb.append(", hostCpu=").append(hostCpu);
         sb.append(", hostMemory=").append(hostMemory);
         sb.append(", hostHarddisk=").append(hostHarddisk);
-        sb.append(", hostOsId=").append(hostOsId);
-        sb.append(", hostEnvId=").append(hostEnvId);
-        sb.append(", hostAffiliationId=").append(hostAffiliationId);
+        sb.append(", osName=").append(osName);
+        sb.append(", osVersion=").append(osVersion);
         sb.append(", createTime=").append(createTime);
         sb.append(", modifyTime=").append(modifyTime);
+        sb.append(", envName=").append(envName);
+        sb.append(", affName=").append(affName);
+        sb.append(", serviceType=").append(serviceType);
+        sb.append(", serviceName=").append(serviceName);
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");
         return sb.toString();

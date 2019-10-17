@@ -54,21 +54,6 @@ public class OperaHostResponse {
     private String hostHarddisk;
 
     /**
-     * 主机系统类型
-     */
-    private Integer hostOsId;
-
-    /**
-     * 主机所属环境
-     */
-    private Integer hostEnvId;
-
-    /**
-     * 主机归属
-     */
-    private Integer hostAffiliationId;
-
-    /**
      * 创建时间
      */
     private Date createTime;
@@ -77,25 +62,37 @@ public class OperaHostResponse {
      * 修改时间
      */
     private Date modifyTime;
+    /**
+     * 系统名称
+     */
+    private String osName;
+    /**
+     * 系统版本
+     */
+    private String osVersion;
+
+    /**
+     * 主机所属环境
+     */
+    private String envName;
+    /**
+     * 主机归属
+     */
+    private String affName;
+    /**
+     * 所属区域类型
+     */
+    private String serviceType;
+    /**
+     * 所属区域类型名称
+     */
+    private String serviceName;
 
     private String createTimeStr;
     private String modifyTimeStr;
 
     public OperaHostResponse(OperaHost operaHost) {
-        this.id=operaHost.getId();
-        this.hostName=operaHost.getHostName();
-        this.hostIp=operaHost.getHostIp();
-        this.hostType=operaHost.getHostType();
-        this.hostRemark=operaHost.getHostRemark();
-        this.status=operaHost.getStatus();
-        this.hostCpu=operaHost.getHostCpu();
-        this.hostMemory=operaHost.getHostMemory();
-        this.hostHarddisk=operaHost.getHostHarddisk();
-        this.hostOsId=operaHost.getHostOsId();
-        this.hostEnvId=operaHost.getHostEnvId();
-        this.hostAffiliationId=operaHost.getHostAffiliationId();
-        this.createTime=operaHost.getCreateTime();
-        this.modifyTime=operaHost.getModifyTime();
+
     }
 
     public String getId() {
@@ -170,30 +167,6 @@ public class OperaHostResponse {
         this.hostHarddisk = hostHarddisk;
     }
 
-    public Integer getHostOsId() {
-        return hostOsId;
-    }
-
-    public void setHostOsId(Integer hostOsId) {
-        this.hostOsId = hostOsId;
-    }
-
-    public Integer getHostEnvId() {
-        return hostEnvId;
-    }
-
-    public void setHostEnvId(Integer hostEnvId) {
-        this.hostEnvId = hostEnvId;
-    }
-
-    public Integer getHostAffiliationId() {
-        return hostAffiliationId;
-    }
-
-    public void setHostAffiliationId(Integer hostAffiliationId) {
-        this.hostAffiliationId = hostAffiliationId;
-    }
-
     public Date getCreateTime() {
         return createTime;
     }
@@ -208,6 +181,54 @@ public class OperaHostResponse {
 
     public void setModifyTime(Date modifyTime) {
         this.modifyTime = modifyTime;
+    }
+
+    public String getOsName() {
+        return osName;
+    }
+
+    public void setOsName(String osName) {
+        this.osName = osName;
+    }
+
+    public String getOsVersion() {
+        return osVersion;
+    }
+
+    public void setOsVersion(String osVersion) {
+        this.osVersion = osVersion;
+    }
+
+    public String getEnvName() {
+        return envName;
+    }
+
+    public void setEnvName(String envName) {
+        this.envName = envName;
+    }
+
+    public String getAffName() {
+        return affName;
+    }
+
+    public void setAffName(String affName) {
+        this.affName = affName;
+    }
+
+    public String getServiceType() {
+        return serviceType;
+    }
+
+    public void setServiceType(String serviceType) {
+        this.serviceType = serviceType;
+    }
+
+    public String getServiceName() {
+        return serviceName;
+    }
+
+    public void setServiceName(String serviceName) {
+        this.serviceName = serviceName;
     }
 
     public String getCreateTimeStr() {

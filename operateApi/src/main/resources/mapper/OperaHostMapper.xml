@@ -11,9 +11,12 @@
     <result column="host_cpu" jdbcType="VARCHAR" property="hostCpu" />
     <result column="host_memory" jdbcType="VARCHAR" property="hostMemory" />
     <result column="host_harddisk" jdbcType="VARCHAR" property="hostHarddisk" />
-    <result column="host_os_id" jdbcType="INTEGER" property="hostOsId" />
-    <result column="host_env_id" jdbcType="INTEGER" property="hostEnvId" />
-    <result column="host_affiliation_id" jdbcType="INTEGER" property="hostAffiliationId" />
+    <result column="os_name" jdbcType="VARCHAR" property="osName" />
+    <result column="os_version" jdbcType="VARCHAR" property="osVersion" />
+    <result column="env_name" jdbcType="VARCHAR" property="envName" />
+    <result column="aff_name" jdbcType="VARCHAR" property="affName" />
+    <result column="service_type" jdbcType="VARCHAR" property="serviceType" />
+    <result column="service_name" jdbcType="VARCHAR" property="serviceName" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
     <result column="modify_time" jdbcType="TIMESTAMP" property="modifyTime" />
   </resultMap>
@@ -23,8 +26,13 @@
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
     select 
-    <include refid="Base_Column_List" />
-    from opera_host
+    <include refid="Pager_Column_List" />
+    FROM
+    opera_host h
+    LEFT JOIN opera_os o ON h.host_os_id = o.id
+    LEFT JOIN opera_env e ON h.host_env_id = e.id
+    LEFT JOIN opera_affiliation aff ON h.host_affiliation_id = aff.id
+    LEFT JOIN opera_service_type st ON h.host_service_type = st.id
     where ID = #{id,jdbcType=VARCHAR}
   </select>
   <select id="query" parameterType="com.chenss.operateapi.model.OperaHost" resultMap="BaseResultMap">
@@ -54,10 +62,10 @@
         AND host_memory = #{hostMemory,jdbcType=VARCHAR}
       </if>
       <if test="hostHarddisk != null">
-        host_harddisk = #{hostHarddisk,jdbcType=VARCHAR}
+        AND host_harddisk = #{hostHarddisk,jdbcType=VARCHAR}
       </if>
       <if test="hostOsId != null">
-        host_os_id = #{hostOsId,jdbcType=INTEGER}
+        AND host_os_id = #{hostOsId,jdbcType=INTEGER}
       </if>
       <if test="hostEnvId != null">
         AND host_env_id = #{hostEnvId,jdbcType=INTEGER}
@@ -228,4 +236,84 @@
       modify_time = now()
     where ID = #{id,jdbcType=VARCHAR}
   </update>
+
+  <sql id="Pager_Column_List">
+    h.id,h.host_name,h.host_ip,h.host_type,h.STATUS,h.host_cpu,h.host_memory,h.host_harddisk,o.os_name,o.os_version,
+    e.env_name,aff.NAME aff_name,st.service_type,st.service_name,h.host_remark,h.create_time,h.modify_time
+  </sql>
+  <sql id="Pager_end">
+  ORDER BY host_name LIMIT #{startRowNum},#{pageSize};
+  </sql>
+  <sql id="Pager_Where">
+    <trim prefix="WHERE" prefixOverrides="AND |OR ">
+      <if test="hostName != null">
+        host_name = #{hostName,jdbcType=VARCHAR}
+      </if>
+      <if test="hostIp != null">
+        AND host_ip = #{hostIp,jdbcType=VARCHAR}
+      </if>
+      <if test="hostType != null">
+        AND host_type = #{hostType,jdbcType=VARCHAR}
+      </if>
+      <if test="status != null">
+        AND h.`status` = #{status,jdbcType=INTEGER}
+      </if>
+      <if test="hostCpu != null">
+        AND host_cpu = #{hostCpu,jdbcType=VARCHAR}
+      </if>
+      <if test="hostMemory != null">
+        AND host_memory = #{hostMemory,jdbcType=VARCHAR}
+      </if>
+      <if test="hostHarddisk != null">
+        AND host_harddisk = #{hostHarddisk,jdbcType=VARCHAR}
+      </if>
+      <if test="hostOsId != null">
+        AND host_os_id = #{hostOsId,jdbcType=INTEGER}
+      </if>
+      <if test="hostEnvId != null">
+        AND host_env_id = #{hostEnvId,jdbcType=INTEGER}
+      </if>
+      <if test="hostAffiliationId != null">
+        AND host_affiliation_id = #{hostAffiliationId,jdbcType=INTEGER}
+      </if>
+      <if test="serviceType != null">
+        AND host_service_type = #{serviceType,jdbcType=INTEGER}
+      </if>
+      <if test="createTimeBegin != null">
+        AND h.create_time >= #{createTimeBegin,jdbcType=TIMESTAMP}
+      </if>
+      <if test="createTimeEnd != null">
+        AND <![CDATA[ h.create_time < #{createTimeEnd,jdbcType=TIMESTAMP} ]]>
+      </if>
+      <if test="modifyTimeBegin != null">
+        AND h.modify_time >= #{modifyTimeBegin,jdbcType=TIMESTAMP}
+      </if>
+      <if test="modifyTimeEnd != null">
+        AND <![CDATA[ h.modify_time < #{modifyTimeEnd,jdbcType=TIMESTAMP} ]]>
+      </if>
+    </trim>
+  </sql>
+  <select id="listPaging" parameterType="com.chenss.operateapi.param.OperaHostParam" resultMap="BaseResultMap">
+    select
+    <include refid="Pager_Column_List"></include>
+    FROM
+    opera_host h
+    LEFT JOIN opera_os o ON h.host_os_id = o.id
+    LEFT JOIN opera_env e ON h.host_env_id = e.id
+    LEFT JOIN opera_affiliation aff ON h.host_affiliation_id = aff.id
+    LEFT JOIN opera_service_type st ON h.host_service_type = st.id
+    <include refid="Pager_Where"></include>
+    <include refid="Pager_end"></include>
+  </select>
+  <select id="countListPaging" parameterType="com.chenss.operateapi.param.OperaHostParam" resultType="java.lang.Integer">
+  select
+  count(1)
+    FROM
+    opera_host h
+    LEFT JOIN opera_os o ON h.host_os_id = o.id
+    LEFT JOIN opera_env e ON h.host_env_id = e.id
+    LEFT JOIN opera_affiliation aff ON h.host_affiliation_id = aff.id
+    LEFT JOIN opera_service_type st ON h.host_service_type = st.id
+    <include refid="Pager_Where"></include>
+</select>
 </mapper>
