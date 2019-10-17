@@ -1,12 +1,12 @@
 package com.chenss.operateapi.controller;
 
+import com.chenss.operate.MyResultCode;
 import com.chenss.operateapi.BaseController;
 import com.chenss.operateapi.common.ResponseDTO;
-import com.chenss.operateapi.common.Result;
-import com.chenss.operateapi.common.ResultCode;
 import com.chenss.operateapi.common.SeviceResultDTO;
 import com.chenss.operateapi.model.OperaOs;
 import com.chenss.operateapi.request.OperaOsDO;
+import com.chenss.operate.ResponseResult;
 import com.chenss.operateapi.service.OperaOsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -21,30 +21,31 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("/api/os")
+@ResponseResult
 public class OperaOsController extends BaseController {
     @Autowired
     private OperaOsService operaOsService;
     @RequestMapping("")
-    public Result<List<OperaOs>> findOs(@RequestBody OperaOsDO params) {
+    public List<OperaOs> findOs(@RequestBody OperaOsDO params) {
         SeviceResultDTO<List<OperaOs>> operaOs= operaOsService.getOs(params);
-        return new Result(ResultCode.SUCCESS,operaOs.getObject());
+        return operaOs.getObject();
         //return "[OperaOs [Hash = -1782734848, id=1, envType=DEV, envName=开发环境, apolloOs=DEV, envDesc=开发环境, serialVersionUID=1], OperaOs [Hash = 1949561467, id=2, envType=TEST, envName=测试环境, apolloOs=QA, envDesc=测试环境, serialVersionUID=1], OperaOs [Hash = -323490972, id=3, envType=UAT, envName=UAT预发环境, apolloOs=UAT, envDesc=UAT预发环境, serialVersionUID=1], OperaOs [Hash = 1255912080, id=4, envType=HZ, envName=富阳环境, apolloOs=ONLINE_FY, envDesc=富阳生产环境, serialVersionUID=1], OperaOs [Hash = 327114008, id=5, envType=SZ, envName=苏州环境, apolloOs=ONLINE, envDesc=苏州生产环境, serialVersionUID=1]]";
     }
     @RequestMapping("/view")
-    public ResponseDTO<OperaOs> viewObject(int id) {
+    public OperaOs viewObject(int id) {
         SeviceResultDTO<OperaOs> operaOs= operaOsService.selectByPrimaryKey(id);
-        return new ResponseDTO(operaOs.getObject());
+        return operaOs.getObject();
     }
     @RequestMapping("/edit")
     public ResponseDTO<Integer> edit(@RequestBody OperaOsDO params) {
         if (!params.validate()) {
-            return new ResponseDTO(ResultCode.PARAM_IS_BLANK,"参数不完整");
+            return new ResponseDTO(MyResultCode.PARAM_IS_BLANK,"参数不完整");
         }
         SeviceResultDTO<Integer> resultService= operaOsService.insertOrUpdate(params);
         if (resultService.isSuccess()) {
             return new ResponseDTO(resultService.getObject());
         } else {
-            return new ResponseDTO(ResultCode.SERVICE_ERROR,resultService.getMsg());
+            return new ResponseDTO(MyResultCode.SYSTEM_INNER_ERROR,resultService.getMsg());
         }
     }
     @RequestMapping("/delete")
@@ -53,7 +54,7 @@ public class OperaOsController extends BaseController {
         if (deleteResult.isSuccess()) {
             return new ResponseDTO(deleteResult.getObject());
         } else {
-            return new ResponseDTO(ResultCode.SERVICE_ERROR,deleteResult.getMsg());
+            return new ResponseDTO(MyResultCode.SYSTEM_INNER_ERROR,deleteResult.getMsg());
         }
     }
 }

@@ -11,6 +11,7 @@
       <module>operation-service</module>
       <module>operation-api</module>
       <module>operateApi</module>
+        <module>operate-share</module>
     </modules>
     <packaging>pom</packaging>
 

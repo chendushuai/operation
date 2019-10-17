@@ -55,7 +55,7 @@ public class OperaHostService {
         }
 
         param.setHostIp(obj.getHostIp());
-        param.setHostUse(obj.getHostUse());
+        param.setHostType(obj.getHostType());
         param.setHostRemark(obj.getHostRemark());
         param.setStatus(obj.getStatus());
         param.setHostCpu(obj.getHostCpu());

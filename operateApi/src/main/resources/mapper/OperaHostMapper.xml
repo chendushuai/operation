@@ -5,7 +5,7 @@
     <id column="ID" jdbcType="VARCHAR" property="id" />
     <result column="host_name" jdbcType="VARCHAR" property="hostName" />
     <result column="host_ip" jdbcType="VARCHAR" property="hostIp" />
-    <result column="host_use" jdbcType="VARCHAR" property="hostUse" />
+    <result column="host_type" jdbcType="VARCHAR" property="hostType" />
     <result column="host_remark" jdbcType="VARCHAR" property="hostRemark" />
     <result column="status" jdbcType="INTEGER" property="status" />
     <result column="host_cpu" jdbcType="VARCHAR" property="hostCpu" />
@@ -18,7 +18,7 @@
     <result column="modify_time" jdbcType="TIMESTAMP" property="modifyTime" />
   </resultMap>
   <sql id="Base_Column_List">
-    ID, host_name, host_ip, host_use, host_remark, `status`, host_cpu, host_memory, host_harddisk, 
+    ID, host_name, host_ip, host_type, host_remark, `status`, host_cpu, host_memory, host_harddisk, 
     host_os_id, host_env_id, host_affiliation_id, create_time, modify_time
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
@@ -38,8 +38,8 @@
       <if test="hostIp != null">
         AND host_ip = #{hostIp,jdbcType=VARCHAR}
       </if>
-      <if test="hostUse != null">
-        AND host_use = #{hostUse,jdbcType=VARCHAR}
+      <if test="hostType != null">
+        AND host_type = #{hostType,jdbcType=VARCHAR}
       </if>
       <if test="hostRemark != null">
         AND host_remark = #{hostRemark,jdbcType=VARCHAR}
@@ -85,12 +85,12 @@
     where ID = #{id,jdbcType=VARCHAR}
   </delete>
   <insert id="insert" keyColumn="ID" keyProperty="id" parameterType="com.chenss.operateapi.model.OperaHost" useGeneratedKeys="true">
-    insert into opera_host (host_name, host_ip, host_use, 
+    insert into opera_host (host_name, host_ip, host_type, 
       host_remark, `status`, host_cpu, 
       host_memory, host_harddisk, host_os_id, 
       host_env_id, host_affiliation_id, create_time, 
       modify_time)
-    values (#{hostName,jdbcType=VARCHAR}, #{hostIp,jdbcType=VARCHAR}, #{hostUse,jdbcType=VARCHAR}, 
+    values (#{hostName,jdbcType=VARCHAR}, #{hostIp,jdbcType=VARCHAR}, #{hostType,jdbcType=VARCHAR}, 
       #{hostRemark,jdbcType=VARCHAR}, #{status,jdbcType=INTEGER}, #{hostCpu,jdbcType=VARCHAR}, 
       #{hostMemory,jdbcType=VARCHAR}, #{hostHarddisk,jdbcType=VARCHAR}, #{hostOsId,jdbcType=INTEGER}, 
       #{hostEnvId,jdbcType=INTEGER}, #{hostAffiliationId,jdbcType=INTEGER}, now(), now())
@@ -104,8 +104,8 @@
       <if test="hostIp != null">
         host_ip,
       </if>
-      <if test="hostUse != null">
-        host_use,
+      <if test="hostType != null">
+        host_type,
       </if>
       <if test="hostRemark != null">
         host_remark,
@@ -141,8 +141,8 @@
       <if test="hostIp != null">
         #{hostIp,jdbcType=VARCHAR},
       </if>
-      <if test="hostUse != null">
-        #{hostUse,jdbcType=VARCHAR},
+      <if test="hostType != null">
+        #{hostType,jdbcType=VARCHAR},
       </if>
       <if test="hostRemark != null">
         #{hostRemark,jdbcType=VARCHAR},
@@ -181,8 +181,8 @@
       <if test="hostIp != null">
         host_ip = #{hostIp,jdbcType=VARCHAR},
       </if>
-      <if test="hostUse != null">
-        host_use = #{hostUse,jdbcType=VARCHAR},
+      <if test="hostType != null">
+        host_type = #{hostType,jdbcType=VARCHAR},
       </if>
       <if test="hostRemark != null">
         host_remark = #{hostRemark,jdbcType=VARCHAR},
@@ -216,7 +216,7 @@
     update opera_host
     set host_name = #{hostName,jdbcType=VARCHAR},
       host_ip = #{hostIp,jdbcType=VARCHAR},
-      host_use = #{hostUse,jdbcType=VARCHAR},
+      host_type = #{hostType,jdbcType=VARCHAR},
       host_remark = #{hostRemark,jdbcType=VARCHAR},
       `status` = #{status,jdbcType=INTEGER},
       host_cpu = #{hostCpu,jdbcType=VARCHAR},

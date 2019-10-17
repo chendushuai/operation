@@ -7,7 +7,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class OperaHostResponse {
-    SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+    SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH24:mm:ss");
     /**
      * 主键
      */
@@ -24,9 +24,9 @@ public class OperaHostResponse {
     private String hostIp;
 
     /**
-     * 主机用途
+     * 主机机器类型
      */
-    private String hostUse;
+    private String hostType;
 
     /**
      * 主机说明
@@ -85,7 +85,7 @@ public class OperaHostResponse {
         this.id=operaHost.getId();
         this.hostName=operaHost.getHostName();
         this.hostIp=operaHost.getHostIp();
-        this.hostUse=operaHost.getHostUse();
+        this.hostType=operaHost.getHostType();
         this.hostRemark=operaHost.getHostRemark();
         this.status=operaHost.getStatus();
         this.hostCpu=operaHost.getHostCpu();
@@ -122,12 +122,12 @@ public class OperaHostResponse {
         this.hostIp = hostIp;
     }
 
-    public String getHostUse() {
-        return hostUse;
+    public String getHostType() {
+        return hostType;
     }
 
-    public void setHostUse(String hostUse) {
-        this.hostUse = hostUse;
+    public void setHostType(String hostType) {
+        this.hostType = hostType;
     }
 
     public String getHostRemark() {

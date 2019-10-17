@@ -1,8 +1,8 @@
 package com.chenss.operateapi.controller;
 
+import com.chenss.operate.MyResultCode;
 import com.chenss.operateapi.BaseController;
 import com.chenss.operateapi.common.ResponseDTO;
-import com.chenss.operateapi.common.ResultCode;
 import com.chenss.operateapi.common.SeviceResultDTO;
 import com.chenss.operateapi.model.OperaServiceType;
 import com.chenss.operateapi.request.OperaServiceTypeDO;
@@ -38,13 +38,13 @@ public class OperaServiceTypeController extends BaseController {
     @RequestMapping("/edit")
     public ResponseDTO<Integer> edit(@RequestBody OperaServiceTypeDO params) {
         if (!params.validate()) {
-            return new ResponseDTO(ResultCode.SERVICE_ERROR,"参数不完整");
+            return new ResponseDTO(MyResultCode.PARAM_IS_BLANK,"参数不完整");
         }
         SeviceResultDTO<Integer> resultService= operaServiceTypeService.insertOrUpdate(params);
         if (resultService.isSuccess()) {
             return new ResponseDTO(resultService.getObject());
         } else {
-            return new ResponseDTO(ResultCode.SERVICE_ERROR,resultService.getMsg());
+            return new ResponseDTO(MyResultCode.SYSTEM_INNER_ERROR,resultService.getMsg());
         }
     }
     @RequestMapping("/delete")
@@ -53,7 +53,7 @@ public class OperaServiceTypeController extends BaseController {
         if (deleteResult.isSuccess()) {
             return new ResponseDTO(deleteResult.getObject());
         } else {
-            return new ResponseDTO(ResultCode.SERVICE_ERROR,deleteResult.getMsg());
+            return new ResponseDTO(MyResultCode.SYSTEM_INNER_ERROR,deleteResult.getMsg());
         }
     }
     private List<OperaServiceTypeResponse> convertList(List<OperaServiceType> operaServiceTypeList) {

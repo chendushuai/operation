@@ -24,18 +24,16 @@
 
         function query() {
             var modal = $('#query-form');
-            var osType = modal.find('#query-osType').val();
             var osName = modal.find('#query-osName').val();
-            var apolloEnv = modal.find('#query-apolloEnv').val();
+            var osVersion = modal.find('#query-osVersion').val();
             $.ajax({
-                    type: "POST",
-                    url: '/api/os',
-                    contentType: "application/json",
-                    dataType: "json",
-                    data: JSON.stringify({
-                        osType: osType,
+                type: "POST",
+                url: '/api/os',
+                contentType: "application/json",
+                dataType: "json",
+                data: JSON.stringify({
                     osName: osName,
-                    apolloEnv: apolloEnv
+                    osVersion: osVersion
                 }),
                 success: function (jsonResult) {
                     createEnvTable(jsonResult);
@@ -63,10 +61,9 @@
                     modal.find('.modal-body textarea').removeAttr("readonly");
                     modal.find('#edit-save').show();
                     modal.find('.modal-title').html('新增服务器操作系统');
-                    modal.find('.modal-body #element-osType').val("");
                     modal.find('.modal-body #element-osName').val("");
-                    modal.find('.modal-body #element-apolloEnv').val("");
-                    modal.find('.modal-body #element-osDesc').val("");
+                    modal.find('.modal-body #element-osVersion').val("");
+                    modal.find('.modal-body #element-osRemark').val("");
                     modal.find('.modal-body #element-id').html("");
                     return;
                 }
@@ -89,12 +86,11 @@
                             modal.find('.modal-body textarea').removeAttr("readonly");
                             modal.find('#edit-save').show();
                         }
-                        var jsonObject = $(jsonResult.object)[0];
+                        var jsonObject = $(jsonResult.data)[0];
                         modal.find('.modal-title').html(titleName + ' [ ' + jsonObject.osName + ' - ' + jsonObject.osType + ' ] 操作系统配置');
-                        modal.find('.modal-body #element-osType').val(jsonObject.osType);
                         modal.find('.modal-body #element-osName').val(jsonObject.osName);
-                        modal.find('.modal-body #element-apolloEnv').val(jsonObject.apolloEnv);
-                        modal.find('.modal-body #element-osDesc').val(jsonObject.osDesc);
+                        modal.find('.modal-body #element-osVersion').val(jsonObject.apolloEnv);
+                        modal.find('.modal-body #element-osRemark').val(jsonObject.osDesc);
                         modal.find('.modal-body #element-id').html(jsonObject.id);
                     },
                     error: function (xhr) {
@@ -108,15 +104,15 @@
             });
             $('#deleteModal').on('show.bs.modal', function (event) {
                 var button = $(event.relatedTarget) // Button that triggered the modal
-                var osType = button.data('ostype');
                 var osName = button.data('osname');
+                var osVersion = button.data('osversion');
                 var id = button.data('id');
                 var modal = $('#deleteModal');
                 modal.find(".err-msg").hide();
                 // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
                 // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
                 modal.find('.modal-body #delete-id').html(id);
-                modal.find('#delete-body').html('<p>确认要彻底删除 <strong>'+osName+' ['+osType+']</strong> 吗？</p>');
+                modal.find('#delete-body').html('<p>确认要彻底删除 <strong>'+osName+' ['+osVersion+']</strong> 吗？</p>');
             })
         }
 
@@ -124,10 +120,9 @@
             $('#viewModal').find('#edit-save').on('click', function () {
                 var modal = $('#viewModal');
                 var id = modal.find('.modal-body #element-id').html();
-                var osType = modal.find('.modal-body #element-osType').val();
                 var osName = modal.find('.modal-body #element-osName').val();
-                var apolloEnv = modal.find('.modal-body #element-apolloEnv').val();
-                var osDesc = modal.find('.modal-body #element-osDesc').val();
+                var osVersion = modal.find('.modal-body #element-osVersion').val();
+                var osRemark = modal.find('.modal-body #element-osRemark').val();
                 $.ajax({
                     type: "POST",
                     url: '/api/os/edit',
@@ -135,10 +130,9 @@
                     dataType: "json",
                     data: JSON.stringify({
                         id: id,
-                        osType: osType,
                         osName: osName,
-                        apolloEnv: apolloEnv,
-                        osDesc: osDesc
+                        osVersion: osVersion,
+                        osRemark: osRemark
                     }),
                     success: function (jsonResult) {
                         console.log(jsonResult);
@@ -191,22 +185,20 @@
             var res = "";
             console.log(jsonResult);
             $("#osTable").html(res);
-            $(jsonResult.object).each(function (index, element) {
+            $(jsonResult.data).each(function (index, element) {
                 res = "<tr><td align=\"right\">";
                 res = res + $(element)[0].id;
                 res = res + "</td><td align=\"left\">";
-                res = res + $(element)[0].osType;
-                res = res + "</td><td align=\"left\">";
                 res = res + $(element)[0].osName;
                 res = res + "</td><td align=\"left\">";
-                res = res + $(element)[0].osDesc
+                res = res + $(element)[0].osVersion
                 res = res + "</td><td align=\"left\">";
-                res = res + $(element)[0].apolloEnv
+                res = res + $(element)[0].osRemark
                 res = res + "</td><td align=\"left\">";
                 res = res + "<div class=\"btn-group\" role=\"group\" aria-label=\"...\">";
                 res = res + "<button type=\"button\" class=\"btn btn-info\" data-toggle=\"modal\" data-target=\"#viewModal\" data-id=\"" + $(element)[0].id + "\" data-viewtype='view'>查看</button>";
                 res = res + "<button type=\"button\" class=\"btn btn-primary\" data-toggle=\"modal\" data-target=\"#viewModal\" data-id=\"" + $(element)[0].id + "\" data-viewtype='edit'>编辑</button>";
-                res = res + "<button type=\"button\" class=\"btn btn-danger\" data-toggle=\"modal\" data-target=\"#deleteModal\" data-id=\"" + $(element)[0].id + "\" data-ostype='" + $(element)[0].osType + "' data-osname='" + $(element)[0].osName + "'>删除</button>";
+                res = res + "<button type=\"button\" class=\"btn btn-danger\" data-toggle=\"modal\" data-target=\"#deleteModal\" data-id=\"" + $(element)[0].id + "\" data-osname='" + $(element)[0].osName + "' data-osversion='" + $(element)[0].osVersion + "'>删除</button>";
                 res = res + "</div>";
                 res = res + "</td><td align=\"left\"></tr>";
                 $("#osTable").html($("#osTable").html() + res);
@@ -228,21 +220,15 @@
             </button>
             <form class="form-horizontal" id="query-form">
                 <div class="form-group">
-                    <label for="query-osType" class="col-sm-4 control-label">环境类型</label>
+                    <label for="query-osName" class="col-sm-4 control-label">系统名称</label>
                     <div class="col-sm-8">
-                        <input type="text" class="form-control" id="query-osType" placeholder="环境类型">
+                        <input type="text" class="form-control" id="query-osName" placeholder="系统名称">
                     </div>
                 </div>
                 <div class="form-group">
-                    <label for="query-osName" class="col-sm-4 control-label">环境名称</label>
+                    <label for="query-osVersion" class="col-sm-4 control-label">系统版本</label>
                     <div class="col-sm-8">
-                        <input type="text" class="form-control" id="query-osName" placeholder="环境名称">
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label for="query-apolloEnv" class="col-sm-4 control-label">Apollo对应名称</label>
-                    <div class="col-sm-8">
-                        <input type="text" class="form-control" id="query-apolloEnv" placeholder="Apollo对应名称">
+                        <input type="text" class="form-control" id="query-osVersion" placeholder="系统版本">
                     </div>
                 </div>
                 <div class="form-group">
@@ -257,10 +243,9 @@
                 <thead>
                 <tr>
                     <td>编号</td>
-                    <td>环境类型</td>
-                    <td>环境名称</td>
-                    <td>环境描述</td>
-                    <td>Apollo对应名称</td>
+                    <td>系统名称</td>
+                    <td>系统版本</td>
+                    <td>系统描述</td>
                     <td>操作</td>
                 </tr>
                 </thead>
@@ -286,20 +271,16 @@
                         <label class="control-label">编码:</label><label class="control-label" id="element-id"></label>
                     </div>
                     <div class="form-group">
-                        <label for="element-osType" class="control-label">环境类型:</label>
-                        <input type="text" class="form-control" id="element-osType">
-                    </div>
-                    <div class="form-group">
-                        <label for="element-osName" class="control-label">环境名称:</label>
+                        <label for="element-osName" class="control-label">系统名称:</label>
                         <input type="text" class="form-control" id="element-osName">
                     </div>
                     <div class="form-group">
-                        <label for="element-apolloEnv" class="control-label">Apollo对应名称:</label>
-                        <input type="text" class="form-control" id="element-apolloEnv">
+                        <label for="element-osVersion" class="control-label">系统版本:</label>
+                        <input type="text" class="form-control" id="element-osVersion">
                     </div>
                     <div class="form-group">
-                        <label for="element-osDesc" class="control-label">环境描述:</label>
-                        <textarea class="form-control" id="element-osDesc"></textarea>
+                        <label for="element-osRemark" class="control-label">系统描述:</label>
+                        <textarea class="form-control" id="element-osRemark"></textarea>
                     </div>
                 </form>
             </div>
@@ -317,7 +298,7 @@
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span>
                 </button>
-                <h4 class="modal-title" id="deleteModalLabel">删除环境配置</h4>
+                <h4 class="modal-title" id="deleteModalLabel">删除服务器操作系统配置</h4>
             </div>
             <div class="modal-body">
                 <div class="alert alert-danger err-msg" role="alert"></div>

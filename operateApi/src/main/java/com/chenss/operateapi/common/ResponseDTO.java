@@ -1,11 +1,13 @@
 package com.chenss.operateapi.common;
 
+import com.chenss.operate.MyResultCode;
+
 import java.io.Serializable;
 
 public class ResponseDTO<T> implements Serializable {
     private boolean success = false;
     private T object;
-    private ResultCode error;
+    private MyResultCode error;
     private String msg;
 
     public ResponseDTO(T object) {
@@ -13,7 +15,7 @@ public class ResponseDTO<T> implements Serializable {
         this.object = object;
     }
 
-    public ResponseDTO(ResultCode error, String msg) {
+    public ResponseDTO(MyResultCode error, String msg) {
         this.error = error;
         this.msg = msg;
     }
@@ -34,11 +36,11 @@ public class ResponseDTO<T> implements Serializable {
         this.object = object;
     }
 
-    public ResultCode getError() {
+    public MyResultCode getError() {
         return error;
     }
 
-    public void setError(ResultCode error) {
+    public void setError(MyResultCode error) {
         this.error = error;
     }
 

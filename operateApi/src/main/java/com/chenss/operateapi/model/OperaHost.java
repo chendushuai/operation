@@ -26,9 +26,9 @@ public class OperaHost extends TimeCommonParam implements Serializable {
     private String hostIp;
 
     /**
-     * 主机用途
+     * 主机机器类型
      */
-    private String hostUse;
+    private String hostType;
 
     /**
      * 主机说明
@@ -106,12 +106,12 @@ public class OperaHost extends TimeCommonParam implements Serializable {
         this.hostIp = hostIp;
     }
 
-    public String getHostUse() {
-        return hostUse;
+    public String getHostType() {
+        return hostType;
     }
 
-    public void setHostUse(String hostUse) {
-        this.hostUse = hostUse;
+    public void setHostType(String hostType) {
+        this.hostType = hostType;
     }
 
     public String getHostRemark() {
@@ -209,7 +209,7 @@ public class OperaHost extends TimeCommonParam implements Serializable {
         return (this.getId() == null ? other.getId() == null : this.getId().equals(other.getId()))
             && (this.getHostName() == null ? other.getHostName() == null : this.getHostName().equals(other.getHostName()))
             && (this.getHostIp() == null ? other.getHostIp() == null : this.getHostIp().equals(other.getHostIp()))
-            && (this.getHostUse() == null ? other.getHostUse() == null : this.getHostUse().equals(other.getHostUse()))
+            && (this.getHostType() == null ? other.getHostType() == null : this.getHostType().equals(other.getHostType()))
             && (this.getHostRemark() == null ? other.getHostRemark() == null : this.getHostRemark().equals(other.getHostRemark()))
             && (this.getStatus() == null ? other.getStatus() == null : this.getStatus().equals(other.getStatus()))
             && (this.getHostCpu() == null ? other.getHostCpu() == null : this.getHostCpu().equals(other.getHostCpu()))
@@ -229,7 +229,7 @@ public class OperaHost extends TimeCommonParam implements Serializable {
         result = prime * result + ((getId() == null) ? 0 : getId().hashCode());
         result = prime * result + ((getHostName() == null) ? 0 : getHostName().hashCode());
         result = prime * result + ((getHostIp() == null) ? 0 : getHostIp().hashCode());
-        result = prime * result + ((getHostUse() == null) ? 0 : getHostUse().hashCode());
+        result = prime * result + ((getHostType() == null) ? 0 : getHostType().hashCode());
         result = prime * result + ((getHostRemark() == null) ? 0 : getHostRemark().hashCode());
         result = prime * result + ((getStatus() == null) ? 0 : getStatus().hashCode());
         result = prime * result + ((getHostCpu() == null) ? 0 : getHostCpu().hashCode());
@@ -252,7 +252,7 @@ public class OperaHost extends TimeCommonParam implements Serializable {
         sb.append(", id=").append(id);
         sb.append(", hostName=").append(hostName);
         sb.append(", hostIp=").append(hostIp);
-        sb.append(", hostUse=").append(hostUse);
+        sb.append(", hostType=").append(hostType);
         sb.append(", hostRemark=").append(hostRemark);
         sb.append(", status=").append(status);
         sb.append(", hostCpu=").append(hostCpu);
