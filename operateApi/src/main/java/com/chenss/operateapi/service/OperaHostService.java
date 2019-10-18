@@ -5,6 +5,8 @@ import com.chenss.operateapi.common.GuidUtils;
 import com.chenss.operateapi.common.SeviceResultDTO;
 import com.chenss.operateapi.mapper.OperaHostMapper;
 import com.chenss.operateapi.model.OperaHost;
+import com.chenss.operateapi.param.OperaHostParam;
+import com.chenss.operateapi.response.PaginationQueryResult;
 import com.mysql.cj.util.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -88,5 +90,16 @@ public class OperaHostService {
         }
         int updateResult = operaHostMapper.deleteByPrimaryKey(id);
         return new SeviceResultDTO<Integer>().ok(updateResult);
+    }
+
+    public PaginationQueryResult<OperaHost> pageQuery(OperaHostParam param) {
+        PaginationQueryResult<OperaHost> result = new PaginationQueryResult<OperaHost>();
+        int totalSize = operaHostMapper.countListPaging(param);
+        if (totalSize>0) {
+            List<OperaHost> operaHostList = operaHostMapper.listPaging(param);
+            result.setResultList(operaHostList);
+        }
+        result.setTotalSize(totalSize);
+        return result;
     }
 }

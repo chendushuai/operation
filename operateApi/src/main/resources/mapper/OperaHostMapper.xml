@@ -33,7 +33,7 @@
     LEFT JOIN opera_env e ON h.host_env_id = e.id
     LEFT JOIN opera_affiliation aff ON h.host_affiliation_id = aff.id
     LEFT JOIN opera_service_type st ON h.host_service_type = st.id
-    where ID = #{id,jdbcType=VARCHAR}
+    where h.ID = #{id,jdbcType=VARCHAR}
   </select>
   <select id="query" parameterType="com.chenss.operateapi.model.OperaHost" resultMap="BaseResultMap">
     select
@@ -242,18 +242,18 @@
     e.env_name,aff.NAME aff_name,st.service_type,st.service_name,h.host_remark,h.create_time,h.modify_time
   </sql>
   <sql id="Pager_end">
-  ORDER BY host_name LIMIT #{startRowNum},#{pageSize};
+  ORDER BY host_name LIMIT #{pageBegin},#{pageSize};
   </sql>
   <sql id="Pager_Where">
     <trim prefix="WHERE" prefixOverrides="AND |OR ">
       <if test="hostName != null">
-        host_name = #{hostName,jdbcType=VARCHAR}
+        host_name like concat(concat('%',#{hostName,jdbcType=VARCHAR}),'%')
       </if>
       <if test="hostIp != null">
-        AND host_ip = #{hostIp,jdbcType=VARCHAR}
+        AND host_ip like concat(concat('%',#{hostIp,jdbcType=VARCHAR}),'%')
       </if>
       <if test="hostType != null">
-        AND host_type = #{hostType,jdbcType=VARCHAR}
+        AND host_type like concat(concat('%',#{hostType,jdbcType=VARCHAR}),'%')
       </if>
       <if test="status != null">
         AND h.`status` = #{status,jdbcType=INTEGER}

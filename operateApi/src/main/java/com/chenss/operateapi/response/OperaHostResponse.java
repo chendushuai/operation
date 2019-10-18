@@ -2,12 +2,16 @@ package com.chenss.operateapi.response;
 
 import com.chenss.operateapi.model.OperaHost;
 import com.chenss.operateapi.model.OperaServiceType;
+import org.springframework.beans.BeanUtils;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 public class OperaHostResponse {
-    SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH24:mm:ss");
+    SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+
     /**
      * 主键
      */
@@ -92,7 +96,7 @@ public class OperaHostResponse {
     private String modifyTimeStr;
 
     public OperaHostResponse(OperaHost operaHost) {
-
+        BeanUtils.copyProperties(operaHost,this);
     }
 
     public String getId() {
@@ -245,5 +249,14 @@ public class OperaHostResponse {
         }
 
         return simpleDateFormat.format(this.modifyTime);
+    }
+
+    public static List<OperaHostResponse> convertList(List<OperaHost> operaHosts) {
+        List<OperaHostResponse> result = new ArrayList<>();
+        for (OperaHost operaHostItem :
+                operaHosts) {
+            result.add(new OperaHostResponse(operaHostItem));
+        }
+        return result;
     }
 }

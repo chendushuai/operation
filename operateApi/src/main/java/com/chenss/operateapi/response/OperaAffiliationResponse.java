@@ -8,7 +8,7 @@ import java.util.Date;
 import java.util.List;
 
 public class OperaAffiliationResponse {
-    SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH24:mm:ss");
+    SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
     /**
      * 主键
      */

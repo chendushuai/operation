@@ -5,8 +5,10 @@ import com.chenss.operateapi.BaseController;
 import com.chenss.operateapi.common.ResponseDTO;
 import com.chenss.operateapi.common.SeviceResultDTO;
 import com.chenss.operateapi.model.OperaHost;
+import com.chenss.operateapi.param.OperaHostParam;
 import com.chenss.operateapi.request.OperaHostDO;
 import com.chenss.operateapi.response.OperaHostResponse;
+import com.chenss.operateapi.response.PaginationQueryResult;
 import com.chenss.operateapi.service.OperaHostService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -26,9 +28,13 @@ public class OperaHostController extends BaseController {
     @Autowired
     private OperaHostService operaHostService;
     @RequestMapping("")
-    public ResponseDTO<List<OperaHostResponse>> findEnv(@RequestBody OperaHostDO params) {
-        SeviceResultDTO<List<OperaHost>> operaAff= operaHostService.listAll(params);
-        return new ResponseDTO(convertList(operaAff.getObject()));
+    public ResponseDTO<PaginationQueryResult<OperaHostResponse>> findEnv(@RequestBody OperaHostParam params) {
+        PaginationQueryResult<OperaHost> operaAff= operaHostService.pageQuery(params);
+
+        PaginationQueryResult<OperaHostResponse> resultResponse = new PaginationQueryResult<>();
+        resultResponse.setTotalSize(operaAff.getTotalSize());
+        resultResponse.setResultList(convertList(operaAff.getResultList()));
+        return new ResponseDTO(resultResponse);
     }
     @RequestMapping("/view")
     public ResponseDTO<OperaHostResponse> viewObject(String id) {
