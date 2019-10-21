@@ -4,6 +4,7 @@ import com.chenss.operateapi.param.TimeCommonParam;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.Objects;
 
 /**
  * opera_host
@@ -89,6 +90,11 @@ public class OperaHost extends TimeCommonParam implements Serializable {
      * 所属区域类型名称
      */
     private String serviceName;
+
+    private Integer hostOsId;
+    private Integer hostEnvId;
+    private Integer hostAffiliationId;
+    private Integer hostServiceType;
 
     private static final long serialVersionUID = 1L;
 
@@ -232,86 +238,95 @@ public class OperaHost extends TimeCommonParam implements Serializable {
         return serialVersionUID;
     }
 
+    public Integer getHostOsId() {
+        return hostOsId;
+    }
+
+    public void setHostOsId(Integer hostOsId) {
+        this.hostOsId = hostOsId;
+    }
+
+    public Integer getHostEnvId() {
+        return hostEnvId;
+    }
+
+    public void setHostEnvId(Integer hostEnvId) {
+        this.hostEnvId = hostEnvId;
+    }
+
+    public Integer getHostAffiliationId() {
+        return hostAffiliationId;
+    }
+
+    public void setHostAffiliationId(Integer hostAffiliationId) {
+        this.hostAffiliationId = hostAffiliationId;
+    }
+
+    public Integer getHostServiceType() {
+        return hostServiceType;
+    }
+
+    public void setHostServiceType(Integer hostServiceType) {
+        this.hostServiceType = hostServiceType;
+    }
+
     @Override
-    public boolean equals(Object that) {
-        if (this == that) {
-            return true;
-        }
-        if (that == null) {
-            return false;
-        }
-        if (getClass() != that.getClass()) {
-            return false;
-        }
-        OperaHost other = (OperaHost) that;
-        return (this.getId() == null ? other.getId() == null : this.getId().equals(other.getId()))
-            && (this.getHostName() == null ? other.getHostName() == null : this.getHostName().equals(other.getHostName()))
-            && (this.getHostIp() == null ? other.getHostIp() == null : this.getHostIp().equals(other.getHostIp()))
-            && (this.getHostType() == null ? other.getHostType() == null : this.getHostType().equals(other.getHostType()))
-            && (this.getHostRemark() == null ? other.getHostRemark() == null : this.getHostRemark().equals(other.getHostRemark()))
-            && (this.getStatus() == null ? other.getStatus() == null : this.getStatus().equals(other.getStatus()))
-            && (this.getHostCpu() == null ? other.getHostCpu() == null : this.getHostCpu().equals(other.getHostCpu()))
-            && (this.getHostMemory() == null ? other.getHostMemory() == null : this.getHostMemory().equals(other.getHostMemory()))
-            && (this.getHostHarddisk() == null ? other.getHostHarddisk() == null : this.getHostHarddisk().equals(other.getHostHarddisk()))
-            && (this.getOsName() == null ? other.getOsName() == null : this.getOsName().equals(other.getOsName()))
-            && (this.getOsVersion() == null ? other.getOsVersion() == null : this.getOsVersion().equals(other.getOsVersion()))
-            && (this.getCreateTime() == null ? other.getCreateTime() == null : this.getCreateTime().equals(other.getCreateTime()))
-            && (this.getModifyTime() == null ? other.getModifyTime() == null : this.getModifyTime().equals(other.getModifyTime()))
-            && (this.getEnvName() == null ? other.getEnvName() == null : this.getEnvName().equals(other.getEnvName()))
-            && (this.getAffName() == null ? other.getAffName() == null : this.getAffName().equals(other.getAffName()))
-            && (this.getServiceType() == null ? other.getServiceType() == null : this.getServiceType().equals(other.getServiceType()))
-            && (this.getServiceName() == null ? other.getServiceName() == null : this.getServiceName().equals(other.getServiceName()));
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        OperaHost operaHost = (OperaHost) o;
+        return Objects.equals(id, operaHost.id) &&
+                Objects.equals(hostName, operaHost.hostName) &&
+                Objects.equals(hostIp, operaHost.hostIp) &&
+                Objects.equals(hostType, operaHost.hostType) &&
+                Objects.equals(hostRemark, operaHost.hostRemark) &&
+                Objects.equals(status, operaHost.status) &&
+                Objects.equals(hostCpu, operaHost.hostCpu) &&
+                Objects.equals(hostMemory, operaHost.hostMemory) &&
+                Objects.equals(hostHarddisk, operaHost.hostHarddisk) &&
+                Objects.equals(createTime, operaHost.createTime) &&
+                Objects.equals(modifyTime, operaHost.modifyTime) &&
+                Objects.equals(osName, operaHost.osName) &&
+                Objects.equals(osVersion, operaHost.osVersion) &&
+                Objects.equals(envName, operaHost.envName) &&
+                Objects.equals(affName, operaHost.affName) &&
+                Objects.equals(serviceType, operaHost.serviceType) &&
+                Objects.equals(serviceName, operaHost.serviceName) &&
+                Objects.equals(hostOsId, operaHost.hostOsId) &&
+                Objects.equals(hostEnvId, operaHost.hostEnvId) &&
+                Objects.equals(hostAffiliationId, operaHost.hostAffiliationId) &&
+                Objects.equals(hostServiceType, operaHost.hostServiceType);
     }
 
     @Override
     public int hashCode() {
-        final int prime = 31;
-        int result = 1;
-        result = prime * result + ((getId() == null) ? 0 : getId().hashCode());
-        result = prime * result + ((getHostName() == null) ? 0 : getHostName().hashCode());
-        result = prime * result + ((getHostIp() == null) ? 0 : getHostIp().hashCode());
-        result = prime * result + ((getHostType() == null) ? 0 : getHostType().hashCode());
-        result = prime * result + ((getHostRemark() == null) ? 0 : getHostRemark().hashCode());
-        result = prime * result + ((getStatus() == null) ? 0 : getStatus().hashCode());
-        result = prime * result + ((getHostCpu() == null) ? 0 : getHostCpu().hashCode());
-        result = prime * result + ((getHostMemory() == null) ? 0 : getHostMemory().hashCode());
-        result = prime * result + ((getHostHarddisk() == null) ? 0 : getHostHarddisk().hashCode());
-        result = prime * result + ((getOsName() == null) ? 0 : getOsName().hashCode());
-        result = prime * result + ((getOsVersion() == null) ? 0 : getOsVersion().hashCode());
-        result = prime * result + ((getCreateTime() == null) ? 0 : getCreateTime().hashCode());
-        result = prime * result + ((getModifyTime() == null) ? 0 : getModifyTime().hashCode());
-        result = prime * result + ((getEnvName() == null) ? 0 : getEnvName().hashCode());
-        result = prime * result + ((getAffName() == null) ? 0 : getAffName().hashCode());
-        result = prime * result + ((getServiceType() == null) ? 0 : getServiceType().hashCode());
-        result = prime * result + ((getServiceName() == null) ? 0 : getServiceName().hashCode());
-        return result;
+        return Objects.hash(id, hostName, hostIp, hostType, hostRemark, status, hostCpu, hostMemory, hostHarddisk, createTime, modifyTime, osName, osVersion, envName, affName, serviceType, serviceName, hostOsId, hostEnvId, hostAffiliationId, hostServiceType);
     }
 
     @Override
     public String toString() {
-        StringBuilder sb = new StringBuilder();
-        sb.append(getClass().getSimpleName());
-        sb.append(" [");
-        sb.append("Hash = ").append(hashCode());
-        sb.append(", id=").append(id);
-        sb.append(", hostName=").append(hostName);
-        sb.append(", hostIp=").append(hostIp);
-        sb.append(", hostType=").append(hostType);
-        sb.append(", hostRemark=").append(hostRemark);
-        sb.append(", status=").append(status);
-        sb.append(", hostCpu=").append(hostCpu);
-        sb.append(", hostMemory=").append(hostMemory);
-        sb.append(", hostHarddisk=").append(hostHarddisk);
-        sb.append(", osName=").append(osName);
-        sb.append(", osVersion=").append(osVersion);
-        sb.append(", createTime=").append(createTime);
-        sb.append(", modifyTime=").append(modifyTime);
-        sb.append(", envName=").append(envName);
-        sb.append(", affName=").append(affName);
-        sb.append(", serviceType=").append(serviceType);
-        sb.append(", serviceName=").append(serviceName);
-        sb.append(", serialVersionUID=").append(serialVersionUID);
-        sb.append("]");
-        return sb.toString();
+        return "OperaHost{" +
+                "id='" + id + '\'' +
+                ", hostName='" + hostName + '\'' +
+                ", hostIp='" + hostIp + '\'' +
+                ", hostType='" + hostType + '\'' +
+                ", hostRemark='" + hostRemark + '\'' +
+                ", status=" + status +
+                ", hostCpu='" + hostCpu + '\'' +
+                ", hostMemory='" + hostMemory + '\'' +
+                ", hostHarddisk='" + hostHarddisk + '\'' +
+                ", createTime=" + createTime +
+                ", modifyTime=" + modifyTime +
+                ", osName='" + osName + '\'' +
+                ", osVersion='" + osVersion + '\'' +
+                ", envName='" + envName + '\'' +
+                ", affName='" + affName + '\'' +
+                ", serviceType='" + serviceType + '\'' +
+                ", serviceName='" + serviceName + '\'' +
+                ", hostOsId=" + hostOsId +
+                ", hostEnvId=" + hostEnvId +
+                ", hostAffiliationId=" + hostAffiliationId +
+                ", hostServiceType=" + hostServiceType +
+                '}';
     }
 }

@@ -19,21 +19,21 @@
     <result column="service_name" jdbcType="VARCHAR" property="serviceName" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
     <result column="modify_time" jdbcType="TIMESTAMP" property="modifyTime" />
+    <result column="host_os_id" jdbcType="INTEGER" property="hostOsId" />
+    <result column="host_env_id" jdbcType="INTEGER" property="hostEnvId" />
+    <result column="host_affiliation_id" jdbcType="INTEGER" property="hostAffiliationId" />
+    <result column="host_service_type" jdbcType="INTEGER" property="hostServiceType" />
   </resultMap>
   <sql id="Base_Column_List">
     ID, host_name, host_ip, host_type, host_remark, `status`, host_cpu, host_memory, host_harddisk, 
-    host_os_id, host_env_id, host_affiliation_id, create_time, modify_time
+    host_os_id, host_env_id, host_affiliation_id, host_service_type, create_time, modify_time
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
     select 
-    <include refid="Pager_Column_List" />
+    <include refid="Base_Column_List" />
     FROM
-    opera_host h
-    LEFT JOIN opera_os o ON h.host_os_id = o.id
-    LEFT JOIN opera_env e ON h.host_env_id = e.id
-    LEFT JOIN opera_affiliation aff ON h.host_affiliation_id = aff.id
-    LEFT JOIN opera_service_type st ON h.host_service_type = st.id
-    where h.ID = #{id,jdbcType=VARCHAR}
+    opera_host
+    where ID = #{id,jdbcType=VARCHAR}
   </select>
   <select id="query" parameterType="com.chenss.operateapi.model.OperaHost" resultMap="BaseResultMap">
     select
@@ -93,19 +93,22 @@
     where ID = #{id,jdbcType=VARCHAR}
   </delete>
   <insert id="insert" keyColumn="ID" keyProperty="id" parameterType="com.chenss.operateapi.model.OperaHost" useGeneratedKeys="true">
-    insert into opera_host (host_name, host_ip, host_type, 
+    insert into opera_host (ID,host_name, host_ip, host_type,
       host_remark, `status`, host_cpu, 
       host_memory, host_harddisk, host_os_id, 
-      host_env_id, host_affiliation_id, create_time, 
+      host_env_id, host_affiliation_id, host_service_type, create_time,
       modify_time)
-    values (#{hostName,jdbcType=VARCHAR}, #{hostIp,jdbcType=VARCHAR}, #{hostType,jdbcType=VARCHAR}, 
+    values (#{id,jdbcType=VARCHAR},#{hostName,jdbcType=VARCHAR}, #{hostIp,jdbcType=VARCHAR}, #{hostType,jdbcType=VARCHAR},
       #{hostRemark,jdbcType=VARCHAR}, #{status,jdbcType=INTEGER}, #{hostCpu,jdbcType=VARCHAR}, 
       #{hostMemory,jdbcType=VARCHAR}, #{hostHarddisk,jdbcType=VARCHAR}, #{hostOsId,jdbcType=INTEGER}, 
-      #{hostEnvId,jdbcType=INTEGER}, #{hostAffiliationId,jdbcType=INTEGER}, now(), now())
+      #{hostEnvId,jdbcType=INTEGER}, #{hostAffiliationId,jdbcType=INTEGER}, #{hostServiceType,jdbcType=INTEGER}, now(), now())
   </insert>
   <insert id="insertSelective" keyColumn="ID" keyProperty="id" parameterType="com.chenss.operateapi.model.OperaHost" useGeneratedKeys="true">
     insert into opera_host
     <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        ID,
+      </if>
       <if test="hostName != null">
         host_name,
       </if>
@@ -139,10 +142,16 @@
       <if test="hostAffiliationId != null">
         host_affiliation_id,
       </if>
+      <if test="hostAffiliationId != null">
+        host_service_type,
+      </if>
         create_time,
         modify_time
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=VARCHAR},
+      </if>
       <if test="hostName != null">
         #{hostName,jdbcType=VARCHAR},
       </if>
@@ -175,6 +184,9 @@
       </if>
       <if test="hostAffiliationId != null">
         #{hostAffiliationId,jdbcType=INTEGER},
+      </if>
+      <if test="hostServiceType != null">
+        #{hostServiceType,jdbcType=INTEGER},
       </if>
       now(),
       now()
@@ -216,6 +228,9 @@
       <if test="hostAffiliationId != null">
         host_affiliation_id = #{hostAffiliationId,jdbcType=INTEGER},
       </if>
+      <if test="hostServiceType != null">
+        host_service_type = #{hostServiceType,jdbcType=INTEGER},
+      </if>
         modify_time = now()
     </set>
     where ID = #{id,jdbcType=VARCHAR}
@@ -233,6 +248,7 @@
       host_os_id = #{hostOsId,jdbcType=INTEGER},
       host_env_id = #{hostEnvId,jdbcType=INTEGER},
       host_affiliation_id = #{hostAffiliationId,jdbcType=INTEGER},
+      host_service_type = #{hostServiceType,jdbcType=INTEGER},
       modify_time = now()
     where ID = #{id,jdbcType=VARCHAR}
   </update>
@@ -255,7 +271,7 @@
       <if test="hostType != null">
         AND host_type like concat(concat('%',#{hostType,jdbcType=VARCHAR}),'%')
       </if>
-      <if test="status != null">
+      <if test="status != null and status != -1">
         AND h.`status` = #{status,jdbcType=INTEGER}
       </if>
       <if test="hostCpu != null">
@@ -267,16 +283,16 @@
       <if test="hostHarddisk != null">
         AND host_harddisk = #{hostHarddisk,jdbcType=VARCHAR}
       </if>
-      <if test="hostOsId != null">
+      <if test="hostOsId != null and hostOsId != -1">
         AND host_os_id = #{hostOsId,jdbcType=INTEGER}
       </if>
-      <if test="hostEnvId != null">
+      <if test="hostEnvId != null and hostEnvId != -1">
         AND host_env_id = #{hostEnvId,jdbcType=INTEGER}
       </if>
-      <if test="hostAffiliationId != null">
+      <if test="hostAffiliationId != null and hostAffiliationId != -1">
         AND host_affiliation_id = #{hostAffiliationId,jdbcType=INTEGER}
       </if>
-      <if test="serviceType != null">
+      <if test="serviceType != null and serviceType != -1">
         AND host_service_type = #{serviceType,jdbcType=INTEGER}
       </if>
       <if test="createTimeBegin != null">

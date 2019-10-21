@@ -30,6 +30,9 @@ function createNav() {
     if (url.indexOf("?") > 0) {
         url = url.substr(0, url.indexOf("?"))
     }
+    if (url.indexOf("#") > 0) {
+        url = url.substr(0, url.indexOf("#"))
+    }
     var pageurl = url.substr(url.lastIndexOf("/") + 1);
     $(urlList).each(function (index, element) {
         var active = "";

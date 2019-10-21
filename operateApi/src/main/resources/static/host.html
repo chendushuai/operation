@@ -12,13 +12,14 @@
             integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
             crossorigin="anonymous"></script>
     <!-- Latest compiled and minified CSS -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.9/dist/css/bootstrap-select.min.css">
+    <link rel="stylesheet"
+          href="https://cdn.bootcss.com/bootstrap-select/1.13.9/css/bootstrap-select.min.css">
     <!-- Latest compiled and minified JavaScript -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.9/dist/js/bootstrap-select.min.js"></script>
-    <!-- (Optional) Latest compiled and minified JavaScript translation files -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.9/dist/js/i18n/defaults-*.min.js"></script>
+    <script src="https://cdn.bootcss.com/bootstrap-select/1.13.9/js/bootstrap-select.min.js"></script>
 
     <script src="script/nav.js"></script>
+    <script src="script/page.js"></script>
+    <script src="script/base.js"></script>
     <link rel="stylesheet" href="css/nav.css">
     <script>
         $(function () {
@@ -44,26 +45,32 @@
                 data: JSON.stringify({
                     needOperaEnv: true,
                     needOperaAffiliation: true,
-                    needOperaOs:true,
-                    needOperaServiceType:true
+                    needOperaOs: true,
+                    needOperaServiceType: true
                 }),
                 success: function (jsonResult) {
                     $(jsonResult.object.operaAffiliationList).each(function (index, element) {
-                        var eleObj=$(element)[0];
-                        $("#query-hostAffiliationId").html($("#query-hostAffiliationId").html()+"<option value=\""+eleObj.id+"\">"+eleObj.name+"</option>");
+                        var eleObj = $(element)[0];
+                        $("#query-hostAffiliationId").html($("#query-hostAffiliationId").html() + "<option value=\"" + eleObj.id + "\">" + eleObj.name + "</option>");
                     });
                     $(jsonResult.object.operaEnvList).each(function (index, element) {
-                        var eleObj=$(element)[0];
-                        $("#query-hostEnvId").html($("#query-hostEnvId").html()+"<option value=\""+eleObj.id+"\">"+eleObj.envName+" - "+eleObj.envType+"</option>");
+                        var eleObj = $(element)[0];
+                        $("#query-hostEnvId").html($("#query-hostEnvId").html() + "<option value=\"" + eleObj.id + "\">" + eleObj.envName + " - " + eleObj.envType + "</option>");
                     });
                     $(jsonResult.object.operaOsList).each(function (index, element) {
-                        var eleObj=$(element)[0];
-                        $("#query-hostOsId").html($("#query-hostOsId").html()+"<option value=\""+eleObj.id+"\">"+eleObj.osName+" - "+eleObj.osVersion+"</option>");
+                        var eleObj = $(element)[0];
+                        $("#query-hostOsId").html($("#query-hostOsId").html() + "<option value=\"" + eleObj.id + "\">" + eleObj.osName + " - " + eleObj.osVersion + "</option>");
                     });
                     $(jsonResult.object.operaServiceTypeList).each(function (index, element) {
-                        var eleObj=$(element)[0];
-                        $("#query-serviceType").html($("#query-serviceType").html()+"<option value=\""+eleObj.id+"\">"+eleObj.serviceName+" - "+eleObj.serviceType+"</option>");
+                        var eleObj = $(element)[0];
+                        $("#query-serviceType").html($("#query-serviceType").html() + "<option value=\"" + eleObj.id + "\">" + eleObj.serviceName + " - " + eleObj.serviceType + "</option>");
                     });
+
+                    $("#element-hostAffiliationId").html($("#query-hostAffiliationId").html());
+                    $("#element-hostEnvId").html($("#query-hostEnvId").html());
+                    $("#element-hostOsId").html($("#query-hostOsId").html());
+                    $("#element-serviceType").html($("#query-serviceType").html());
+                    $('.selectpicker').selectpicker('refresh');
                 },
                 error: function (xhr) {
                     alert("错误提示： " + xhr.status + " " + xhr.statusText);
@@ -78,20 +85,67 @@
 
         function query(pageIndex) {
             var modal = $('#query-form');
-            var serviceType = modal.find('#query-host').val();
-            var serviceName = modal.find('#query-servicename').val();
+            var hostName = modal.find('#query-hostName').val();
+            var hostIp = modal.find('#query-hostIp').val();
+            var hostType = modal.find('#query-hostType').val();
+            var status = modal.find('#query-status').val();
+            var hostCpu = modal.find('#query-hostCpu').val();
+            var hostMemory = modal.find('#query-hostMemory').val();
+            var hostHarddisk = modal.find('#query-hostHarddisk').val();
+            var hostOsId = modal.find('#query-hostOsId').val();
+            var hostEnvId = modal.find('#query-hostEnvId').val();
+            var hostAffiliationId = modal.find('#query-hostAffiliationId').val();
+            var serviceType = modal.find('#query-serviceType').val();
+
+            var jsonString = "{";
+            if ($.trim(hostName) != "") {
+                jsonString += "hostName: " + hostName + ",";
+            }
+            if ($.trim(hostIp) != "") {
+                jsonString += "hostIp: " + hostIp + ",";
+            }
+            if ($.trim(hostType) != "") {
+                jsonString += "hostType: " + hostType + ",";
+            }
+            jsonString += "status: " + status + ",";
+            if ($.trim(hostCpu) != "") {
+                jsonString += "hostCpu: " + hostCpu + ",";
+            }
+            if ($.trim(hostMemory) != "") {
+                jsonString += "hostMemory: " + hostMemory + ",";
+            }
+            if ($.trim(hostHarddisk) != "") {
+                jsonString += "hostHarddisk: " + hostHarddisk + ",";
+            }
+            jsonString += "hostOsId: " + hostOsId + ",";
+            jsonString += "hostEnvId: " + hostEnvId + ",";
+            jsonString += "hostAffiliationId: " + hostAffiliationId + ",";
+            jsonString += "serviceType: " + serviceType + ",";
+            jsonString += "pageIndex: " + pageIndex + ",";
+            jsonString += "}";
+            console.log(jsonString);
             $.ajax({
                 type: "POST",
                 url: '/api/host',
                 contentType: "application/json",
                 dataType: "json",
                 data: JSON.stringify({
+                    hostName: hostName,
+                    hostIp: hostIp,
+                    hostType: hostType,
+                    status: status,
+                    hostCpu: hostCpu,
+                    hostMemory: hostMemory,
+                    hostHarddisk: hostHarddisk,
+                    hostOsId: hostOsId,
+                    hostEnvId: hostEnvId,
+                    hostAffiliationId: hostAffiliationId,
                     serviceType: serviceType,
-                    serviceName: serviceName,
-                    pageIndex:pageIndex
+                    pageIndex: pageIndex
                 }),
                 success: function (jsonResult) {
                     createTable(jsonResult);
+                    pageRefresh(jsonResult.object.totalSize, 20, 10, pageIndex);
                 },
                 error: function (xhr) {
                     alert("错误提示： " + xhr.status + " " + xhr.statusText);
@@ -117,6 +171,7 @@
                     modal.find('#edit-save').show();
                     modal.find('.modal-title').html('新增服务器主机配置');
                     modal.find('.modal-body #element-id').html("");
+                    modal.find('.modal-body select').selectpicker('val', '-1');
                     return;
                 }
                 // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
@@ -125,24 +180,57 @@
                     type: "POST",
                     url: '/api/host/view?id=' + id,
                     success: function (jsonResult) {
-                        console.log(viewtype);
                         var titleName = "";
                         if (viewtype == "view") {
                             titleName = "查看";
                             modal.find('.modal-body input').attr("readonly", "readonly");
                             modal.find('.modal-body textarea').attr("readonly", "readonly");
+                            modal.find('.modal-body select').attr("readonly", "readonly");
                             modal.find('#edit-save').hide();
                         } else if (viewtype == "edit") {
                             titleName = "编辑";
                             modal.find('.modal-body input').removeAttr("readonly");
                             modal.find('.modal-body textarea').removeAttr("readonly");
+                            modal.find('.modal-body select').removeAttr("readonly");
                             modal.find('#edit-save').show();
                         }
                         var jsonObject = $(jsonResult.object)[0];
-                        modal.find('.modal-title').html(titleName + ' [ ' + jsonObject.serviceType + ' - ' + jsonObject.serviceName + ' ] 服务器归属区域');
-                        modal.find('.modal-body #element-host').val(jsonObject.serviceType);
-                        modal.find('.modal-body #element-servicename').val(jsonObject.serviceName);
-                        modal.find('.modal-body #element-servicedesc').val(jsonObject.serviceDesc);
+                        modal.find('.modal-title').html(titleName + ' [ ' + jsonObject.hostName + ' - ' + jsonObject.hostIp + ' ] 服务器主机配置');
+                        modal.find('.modal-body #element-hostIp').val(jsonObject.hostIp);
+                        modal.find('.modal-body #element-hostName').val(jsonObject.hostName);
+                        modal.find('.modal-body #element-hostType').val(jsonObject.hostType);
+                        if (jsonObject.status != null && jsonObject.status + "" != "") {
+                            console.log(jsonObject.status);
+                            modal.find('.modal-body #element-status').selectpicker('val', jsonObject.status + "");
+                        } else {
+                            modal.find('.modal-body #element-status').selectpicker('val', "-1");
+                        }
+                        modal.find('.modal-body #element-hostCpu').val(jsonObject.hostCpu);
+                        modal.find('.modal-body #element-hostMemory').val(jsonObject.hostMemory);
+                        modal.find('.modal-body #element-hostHarddisk').val(jsonObject.hostHarddisk);
+                        if (jsonObject.hostOsId != null && jsonObject.hostOsId + "" != "") {
+                            console.log(jsonObject.hostOsId);
+                            modal.find('.modal-body #element-hostOsId').selectpicker('val', jsonObject.hostOsId + "");
+                        } else {
+                            modal.find('.modal-body #element-hostOsId').selectpicker('val', "-1");
+                        }
+                        if (jsonObject.hostAffiliationId != null && jsonObject.hostAffiliationId != "") {
+                            modal.find('.modal-body #element-hostAffiliationId').selectpicker('val', jsonObject.hostAffiliationId);
+                        } else {
+                            modal.find('.modal-body #element-hostAffiliationId').selectpicker('val', "-1");
+                        }
+                        if (jsonObject.hostEnvId != null && jsonObject.hostEnvId != "") {
+                            modal.find('.modal-body #element-hostEnvId').selectpicker('val', jsonObject.hostEnvId);
+                        } else {
+                            modal.find('.modal-body #element-hostEnvId').selectpicker('val', "-1");
+                        }
+                        if (jsonObject.hostServiceType != null && jsonObject.hostServiceType + "" != "") {
+                            modal.find('.modal-body #element-serviceType').selectpicker('val', jsonObject.hostServiceType + "");
+                        } else {
+                            modal.find('.modal-body #element-serviceType').selectpicker('val', "-1");
+                        }
+                        modal.find('.modal-body #element-hostRemark').val(jsonObject.hostRemark);
+
                         modal.find('.modal-body #element-id').html(jsonObject.id);
                     },
                     error: function (xhr) {
@@ -156,15 +244,15 @@
             });
             $('#deleteModal').on('show.bs.modal', function (event) {
                 var button = $(event.relatedTarget) // Button that triggered the modal
-                var name = button.data('name');
-                var type = button.data('type');
+                var hostname = button.data('hostname');
+                var hostip = button.data('hostip');
                 var id = button.data('id');
                 var modal = $('#deleteModal');
                 modal.find(".err-msg").hide();
                 // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
                 // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
                 modal.find('.modal-body #delete-id').html(id);
-                modal.find('#delete-body').html('<p>确认要彻底删除 <strong>'+type+' - '+name+'</strong> 吗？</p>');
+                modal.find('#delete-body').html('<p>确认要彻底删除 <strong>' + hostname + ' [ ' + hostip + ']</strong> 吗？</p>');
             })
         }
 
@@ -172,9 +260,24 @@
             $('#viewModal').find('#edit-save').on('click', function () {
                 var modal = $('#viewModal');
                 var id = modal.find('.modal-body #element-id').html();
-                var serviceType = modal.find('.modal-body #element-host').val();
-                var serviceName = modal.find('.modal-body #element-servicename').val();
-                var serviceDesc = modal.find('.modal-body #element-servicedesc').val();
+                var hostIp = modal.find('.modal-body #element-hostIp').val();
+                var hostName = modal.find('.modal-body #element-hostName').val();
+                var hostType = modal.find('.modal-body #element-hostType').val();
+                var status = modal.find('.modal-body #element-status').val();
+                status = status == "-1" ? "" : status;
+                var hostCpu = modal.find('.modal-body #element-hostCpu').val();
+                var hostMemory = modal.find('.modal-body #element-hostMemory').val();
+                var hostHarddisk = modal.find('.modal-body #element-hostHarddisk').val();
+                var hostOsId = modal.find('.modal-body #element-hostOsId').val();
+                hostOsId = hostOsId == "-1" ? "" : hostOsId;
+                var hostAffiliationId = modal.find('.modal-body #element-hostAffiliationId').val();
+                hostAffiliationId = hostAffiliationId == "-1" ? "" : hostAffiliationId;
+                var hostEnvId = modal.find('.modal-body #element-hostEnvId').val();
+                hostEnvId = hostEnvId == "-1" ? "" : hostEnvId;
+                var hostServiceType = modal.find('.modal-body #element-serviceType').val();
+                hostServiceType = hostServiceType == "-1" ? "" : hostServiceType;
+                var hostRemark = modal.find('.modal-body #element-hostRemark').val();
+
                 $.ajax({
                     type: "POST",
                     url: '/api/host/edit',
@@ -182,9 +285,18 @@
                     dataType: "json",
                     data: JSON.stringify({
                         id: id,
-                        serviceType: serviceType,
-                        serviceName: serviceName,
-                        serviceDesc: serviceDesc
+                        hostIp: hostIp,
+                        hostName: hostName,
+                        hostType: hostType,
+                        status: status,
+                        hostCpu: hostCpu,
+                        hostMemory: hostMemory,
+                        hostHarddisk: hostHarddisk,
+                        hostOsId: hostOsId,
+                        hostAffiliationId: hostAffiliationId,
+                        hostEnvId: hostEnvId,
+                        hostServiceType:hostServiceType,
+                        hostRemark: hostRemark
                     }),
                     success: function (jsonResult) {
                         console.log(jsonResult);
@@ -213,7 +325,7 @@
                     success: function (jsonResult) {
                         if (jsonResult.success) {
                             modal.modal('hide');
-                            query();
+                            query(0);
                         } else {
                             modal.find(".err-msg").show().html("<strong>" + jsonResult.error + " :</strong> " + jsonResult.msg);
                         }
@@ -229,7 +341,7 @@
                 });
             });
             $('#query-form').find('#query-button').on('click', function () {
-                query();
+                query(0);
             });
         }
 
@@ -238,17 +350,28 @@
             console.log(jsonResult);
             $("#dataTable").html(res);
             $(jsonResult.object.resultList).each(function (index, element) {
-                var eleObj=$(element)[0];
+                var eleObj = $(element)[0];
                 res = "<tr><td align=\"right\">";
                 res = res + eleObj.hostName;
                 res = res + "</td><td align=\"left\">";
                 res = res + eleObj.hostIp;
                 res = res + "</td><td align=\"left\">";
-                res = res + "";
+                if (eleObj.osName != null) {
+                    res = res + "<span class=\"label label-default\">" + eleObj.osName + " " + eleObj.osVersion + "</span><br />";
+                }
+                if (eleObj.envName != null) {
+                    res = res + "<span class=\"label label-primary\">" + eleObj.envName + "</span><br />";
+                }
+                if (eleObj.affName != null) {
+                    res = res + "<span class=\"label label-success\">" + eleObj.affName + "</span><br />";
+                }
+                if (eleObj.serviceName != null) {
+                    res = res + "<span class=\"label label-info\">" + eleObj.serviceName + " " + eleObj.serviceType + "</span>";
+                }
                 res = res + "</td><td align=\"left\">";
                 res = res + eleObj.hostType;
                 res = res + "</td><td align=\"left\">";
-                res = res + eleObj.status;
+                res = res + convertStatus(eleObj.status);
                 res = res + "</td><td align=\"left\">";
                 res = res + eleObj.hostCpu;
                 res = res + "</td><td align=\"left\">";
@@ -256,7 +379,7 @@
                 res = res + "</td><td align=\"left\">";
                 res = res + eleObj.hostHarddisk;
                 res = res + "</td><td align=\"left\">";
-                res = res + eleObj.hostType;
+                res = res + eleObj.hostRemark;
                 res = res + "</td><td align=\"left\">";
                 res = res + eleObj.createTimeStr;
                 res = res + "</td><td align=\"left\">";
@@ -307,7 +430,7 @@
                 <div class="form-group">
                     <label for="query-status" class="col-sm-4 control-label">主机状态</label>
                     <div class="col-sm-8 dropdown">
-                        <select class="selectpicker" data-liveSearch="true" id = "query-status">
+                        <select class="selectpicker" data-live-search="true" id="query-status">
                             <option value="-1">请选择</option>
                             <option value="0">启用</option>
                             <option value="1">禁用</option>
@@ -336,7 +459,7 @@
                 <div class="form-group">
                     <label for="query-hostOsId" class="col-sm-4 control-label">主机操作系统类型</label>
                     <div class="col-sm-8 dropdown">
-                        <select class="selectpicker" data-liveSearch="true" id = "query-hostOsId">
+                        <select class="selectpicker" data-live-search="true" id="query-hostOsId">
                             <option value="-1">请选择</option>
                         </select>
                     </div>
@@ -344,7 +467,7 @@
                 <div class="form-group">
                     <label for="query-hostEnvId" class="col-sm-4 control-label">主机机房环境</label>
                     <div class="col-sm-8 dropdown">
-                        <select class="selectpicker" data-liveSearch="true" id = "query-hostEnvId">
+                        <select class="selectpicker" data-live-search="true" id="query-hostEnvId">
                             <option value="-1">请选择</option>
                         </select>
                     </div>
@@ -352,7 +475,7 @@
                 <div class="form-group">
                     <label for="query-hostAffiliationId" class="col-sm-4 control-label">主机归属信息</label>
                     <div class="col-sm-8 dropdown">
-                        <select class="selectpicker" data-liveSearch="true" id = "query-hostAffiliationId">
+                        <select class="selectpicker" data-live-search="true" id="query-hostAffiliationId">
                             <option value="-1">请选择</option>
                         </select>
                     </div>
@@ -360,7 +483,7 @@
                 <div class="form-group">
                     <label for="query-serviceType" class="col-sm-4 control-label">主机所属区域类型</label>
                     <div class="col-sm-8 dropdown">
-                        <select class="selectpicker" data-liveSearch="true" id = "query-serviceType">
+                        <select class="selectpicker" data-live-search="true" id="query-serviceType">
                             <option value="-1">请选择</option>
                         </select>
                     </div>
@@ -373,25 +496,39 @@
             </form>
         </div>
         <div class="col-md-9">
-            <table class="table table-condensed table-striped">
-                <thead>
-                <tr>
-                    <td>主机名称</td>
-                    <td>主机IP</td>
-                    <td>标签说明</td>
-                    <td>主机机器类型</td>
-                    <td>主机状态</td>
-                    <td>CPU</td>
-                    <td>内存大小</td>
-                    <td>硬盘大小</td>
-                    <td>主机说明</td>
-                    <td>创建时间</td>
-                    <td>修改时间</td>
-                    <td>操作</td>
-                </tr>
-                </thead>
-                <tbody id="dataTable"></tbody>
-            </table>
+            <div>
+                <nav aria-label="...">
+                    <ul class="pagination" id="data-pager-top">
+                    </ul>
+                </nav>
+            </div>
+            <div>
+                <table class="table table-condensed table-striped">
+                    <thead>
+                    <tr>
+                        <td>主机名称</td>
+                        <td>主机IP</td>
+                        <td>标签说明</td>
+                        <td>主机机器类型</td>
+                        <td>主机状态</td>
+                        <td>CPU</td>
+                        <td>内存大小</td>
+                        <td>硬盘大小</td>
+                        <td>主机说明</td>
+                        <td>创建时间</td>
+                        <td>修改时间</td>
+                        <td>操作</td>
+                    </tr>
+                    </thead>
+                    <tbody id="dataTable"></tbody>
+                </table>
+            </div>
+            <div>
+                <nav aria-label="...">
+                    <ul class="pagination" id="data-pager">
+                    </ul>
+                </nav>
+            </div>
         </div>
     </div>
 </div>
@@ -412,16 +549,75 @@
                         <label class="control-label">编码:</label><label class="control-label" id="element-id"></label>
                     </div>
                     <div class="form-group">
-                        <label for="element-host" class="control-label">归属区域类型:</label>
-                        <input type="text" class="form-control" id="element-host">
+                        <label for="element-hostName" class="control-label">主机名称:</label>
+                        <input type="text" class="form-control" id="element-hostName">
                     </div>
                     <div class="form-group">
-                        <label for="element-servicename" class="control-label">归属区域名称:</label>
-                        <input type="text" class="form-control" id="element-servicename">
+                        <label for="element-hostIp" class="control-label">主机IP:</label>
+                        <input type="text" class="form-control" id="element-hostIp">
                     </div>
                     <div class="form-group">
-                        <label for="element-servicedesc" class="control-label">归属区域说明:</label>
-                        <textarea class="form-control" id="element-servicedesc"></textarea>
+                        <label for="element-hostType" class="control-label">主机机器类型:</label>
+                        <input type="text" class="form-control" id="element-hostType">
+                    </div>
+                    <div class="form-group">
+                        <label for="element-status" class="control-label">主机状态:</label>
+                        <div class="dropdown">
+                            <select class="selectpicker" data-live-search="true" id="element-status">
+                                <option value="-1">请选择</option>
+                                <option value="0">启用</option>
+                                <option value="1">禁用</option>
+                                <option value="2">删除</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="element-hostCpu" class="control-label">主机CPU:</label>
+                        <input type="text" class="form-control" id="element-hostCpu">
+                    </div>
+                    <div class="form-group">
+                        <label for="element-hostMemory" class="control-label">主机内存:</label>
+                        <input type="text" class="form-control" id="element-hostMemory">
+                    </div>
+                    <div class="form-group">
+                        <label for="element-hostHarddisk" class="control-label">主机硬盘:</label>
+                        <input type="text" class="form-control" id="element-hostHarddisk">
+                    </div>
+                    <div class="form-group">
+                        <label for="element-hostOsId" class="control-label">主机操作系统:</label>
+                        <div class="dropdown">
+                            <select class="selectpicker" data-live-search="true" id="element-hostOsId">
+                                <option value="-1">请选择</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="element-hostAffiliationId" class="control-label">主机归属:</label>
+                        <div class="dropdown">
+                            <select class="selectpicker" data-live-search="true" id="element-hostAffiliationId">
+                                <option value="-1">请选择</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="element-hostEnvId" class="control-label">主机所属环境:</label>
+                        <div class="dropdown">
+                            <select class="selectpicker" data-live-search="true" id="element-hostEnvId">
+                                <option value="-1">请选择</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="element-serviceType" class="control-label">主机归属区域:</label>
+                        <div class="dropdown">
+                            <select class="selectpicker" data-live-search="true" id="element-serviceType">
+                                <option value="-1">请选择</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="element-hostRemark" class="control-label">主机描述信息:</label>
+                        <textarea class="form-control" id="element-hostRemark"></textarea>
                     </div>
                 </form>
             </div>

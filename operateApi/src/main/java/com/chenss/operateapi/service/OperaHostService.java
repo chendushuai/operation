@@ -63,13 +63,12 @@ public class OperaHostService {
         param.setHostCpu(obj.getHostCpu());
         param.setHostMemory(obj.getHostMemory());
         param.setHostHarddisk(obj.getHostHarddisk());
-        param.setOsName(obj.getOsName());
-        param.setOsVersion(obj.getOsVersion());
-        param.setEnvName(obj.getEnvName());
-        param.setAffName(obj.getAffName());
-        param.setServiceName(obj.getServiceName());
-        param.setServiceType(obj.getServiceType());
-        if (obj.getId() == null) {
+        param.setHostRemark(obj.getHostRemark());
+        param.setHostOsId(obj.getHostOsId());
+        param.setHostAffiliationId(obj.getHostAffiliationId());
+        param.setHostEnvId(obj.getHostEnvId());
+        param.setHostServiceType(obj.getHostServiceType());
+        if (StringUtils.isNullOrEmpty(obj.getId())) {
             param.setId(GuidUtils.getUUID());
             int insertResult = operaHostMapper.insertSelective(param);
             return new SeviceResultDTO<Integer>().ok(insertResult);
