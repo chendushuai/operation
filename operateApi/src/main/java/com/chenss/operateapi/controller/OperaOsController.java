@@ -8,6 +8,8 @@ import com.chenss.operateapi.model.OperaOs;
 import com.chenss.operateapi.request.OperaOsDO;
 import com.chenss.operate.ResponseResult;
 import com.chenss.operateapi.service.OperaOsService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -23,6 +25,7 @@ import java.util.List;
 @RequestMapping("/api/os")
 @ResponseResult
 public class OperaOsController extends BaseController {
+    Logger logger = LoggerFactory.getLogger(OperaOsController.class);
     @Autowired
     private OperaOsService operaOsService;
     @RequestMapping("")
@@ -39,13 +42,13 @@ public class OperaOsController extends BaseController {
     @RequestMapping("/edit")
     public ResponseDTO<Integer> edit(@RequestBody OperaOsDO params) {
         if (!params.validate()) {
-            return new ResponseDTO(MyResultCode.PARAM_IS_BLANK,"参数不完整");
+            return new ResponseDTO(MyResultCode.PARAM_IS_BLANK);
         }
         SeviceResultDTO<Integer> resultService= operaOsService.insertOrUpdate(params);
         if (resultService.isSuccess()) {
             return new ResponseDTO(resultService.getObject());
         } else {
-            return new ResponseDTO(MyResultCode.SYSTEM_INNER_ERROR,resultService.getMsg());
+            return new ResponseDTO(MyResultCode.SYSTEM_INNER_ERROR);
         }
     }
     @RequestMapping("/delete")
@@ -54,7 +57,7 @@ public class OperaOsController extends BaseController {
         if (deleteResult.isSuccess()) {
             return new ResponseDTO(deleteResult.getObject());
         } else {
-            return new ResponseDTO(MyResultCode.SYSTEM_INNER_ERROR,deleteResult.getMsg());
+            return new ResponseDTO(MyResultCode.SYSTEM_INNER_ERROR);
         }
     }
 }

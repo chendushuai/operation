@@ -38,13 +38,13 @@ public class OperaAffiliationController extends BaseController {
     @RequestMapping("/edit")
     public ResponseDTO<Integer> edit(@RequestBody OperaAffiliationDO params) {
         if (!params.validate()) {
-            return new ResponseDTO(MyResultCode.PARAM_IS_BLANK,"参数不完整");
+            return new ResponseDTO(MyResultCode.PARAM_IS_BLANK);
         }
         SeviceResultDTO<Integer> resultService= operaAffiliationService.insertOrUpdate(params);
         if (resultService.isSuccess()) {
             return new ResponseDTO(resultService.getObject());
         } else {
-            return new ResponseDTO(MyResultCode.SYSTEM_INNER_ERROR,resultService.getMsg());
+            return new ResponseDTO(MyResultCode.SYSTEM_INNER_ERROR);
         }
     }
     @RequestMapping("/delete")
@@ -53,7 +53,7 @@ public class OperaAffiliationController extends BaseController {
         if (deleteResult.isSuccess()) {
             return new ResponseDTO(deleteResult.getObject());
         } else {
-            return new ResponseDTO(MyResultCode.SYSTEM_INNER_ERROR,deleteResult.getMsg());
+            return new ResponseDTO(MyResultCode.SYSTEM_INNER_ERROR);
         }
     }
     private List<OperaAffiliationResponse> convertList(List<OperaAffiliation> operaAffiliationList) {

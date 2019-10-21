@@ -1,4 +1,4 @@
-package com.chenss.operateapi;
+package com.chenss.operateapi.common;
 
 import com.chenss.operateapi.common.GuidUtils;
 import org.junit.Test;

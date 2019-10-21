@@ -5,27 +5,25 @@ import com.chenss.operate.MyResultCode;
 import java.io.Serializable;
 
 public class ResponseDTO<T> implements Serializable {
-    private boolean success = false;
+    private static final long serialVersionUID = 609255741792982634L;
     private T object;
-    private MyResultCode error;
+    private String success;
     private String msg;
 
     public ResponseDTO(T object) {
-        this.success = true;
+        this.success = MyResultCode.SUCCESS.getCode();
+        this.msg = MyResultCode.SUCCESS.getMessage();
         this.object = object;
     }
 
-    public ResponseDTO(MyResultCode error, String msg) {
-        this.error = error;
-        this.msg = msg;
+    public ResponseDTO(MyResultCode myResultCode) {
+        this.success = myResultCode.getCode();
+        this.msg = myResultCode.getMessage();
     }
 
-    public boolean isSuccess() {
-        return success;
-    }
-
-    public void setSuccess(boolean success) {
-        this.success = success;
+    public ResponseDTO(String code, String message) {
+        this.success = code;
+        this.msg = message;
     }
 
     public T getObject() {
@@ -36,12 +34,12 @@ public class ResponseDTO<T> implements Serializable {
         this.object = object;
     }
 
-    public MyResultCode getError() {
-        return error;
+    public String getSuccess() {
+        return success;
     }
 
-    public void setError(MyResultCode error) {
-        this.error = error;
+    public void setSuccess(String success) {
+        this.success = success;
     }
 
     public String getMsg() {

@@ -2,6 +2,7 @@ package com.chenss.operateapi.controller;
 
 import com.chenss.operate.MyResultCode;
 import com.chenss.operateapi.BaseController;
+import com.chenss.operateapi.common.ParamNullProcess;
 import com.chenss.operateapi.common.ResponseDTO;
 import com.chenss.operateapi.common.SeviceResultDTO;
 import com.chenss.operateapi.model.OperaHost;
@@ -31,6 +32,8 @@ public class OperaHostController extends BaseController {
     private OperaHostService operaHostService;
     @RequestMapping("")
     public ResponseDTO<PaginationQueryResult<OperaHostResponse>> findEnv(@RequestBody OperaHostParam params) {
+        ParamNullProcess<OperaHostParam> paramNullProcess = new ParamNullProcess();
+        params = paramNullProcess.process(params,"-1");
         params = copyParam(params);
         PaginationQueryResult<OperaHost> operaAff= operaHostService.pageQuery(params);
 
@@ -47,7 +50,7 @@ public class OperaHostController extends BaseController {
     @RequestMapping("/edit")
     public ResponseDTO<Integer> edit(@RequestBody OperaHostDO params) {
         if (!params.validate()) {
-            return new ResponseDTO(MyResultCode.PARAM_IS_BLANK,"参数不完整");
+            return new ResponseDTO(MyResultCode.PARAM_IS_BLANK);
         }
         OperaHostDO hostDO = new OperaHostDO();
         if (!StringUtils.isNullOrEmpty(params.getId())) {
@@ -78,7 +81,7 @@ public class OperaHostController extends BaseController {
         if (resultService.isSuccess()) {
             return new ResponseDTO(resultService.getObject());
         } else {
-            return new ResponseDTO(MyResultCode.SYSTEM_INNER_ERROR,resultService.getMsg());
+            return new ResponseDTO(MyResultCode.SYSTEM_INNER_ERROR);
         }
     }
     @RequestMapping("/delete")
@@ -87,7 +90,7 @@ public class OperaHostController extends BaseController {
         if (deleteResult.isSuccess()) {
             return new ResponseDTO(deleteResult.getObject());
         } else {
-            return new ResponseDTO(MyResultCode.SYSTEM_INNER_ERROR,deleteResult.getMsg());
+            return new ResponseDTO(MyResultCode.SYSTEM_INNER_ERROR);
         }
     }
     private List<OperaHostResponse> convertList(List<OperaHost> operaHostList) {

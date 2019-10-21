@@ -37,13 +37,13 @@ public class OperaEnvController extends BaseController {
     @RequestMapping("/edit")
     public ResponseDTO<Integer> edit(@RequestBody OperaEnvDO params) {
         if (!params.validate()) {
-            return new ResponseDTO(MyResultCode.PARAM_IS_BLANK,"参数不完整");
+            return new ResponseDTO(MyResultCode.PARAM_IS_BLANK);
         }
         SeviceResultDTO<Integer> resultService= operaEnvService.insertOrUpdate(params);
         if (resultService.isSuccess()) {
             return new ResponseDTO(resultService.getObject());
         } else {
-            return new ResponseDTO(MyResultCode.SYSTEM_INNER_ERROR,resultService.getMsg());
+            return new ResponseDTO(MyResultCode.SYSTEM_INNER_ERROR);
         }
     }
     @RequestMapping("/delete")
@@ -52,7 +52,7 @@ public class OperaEnvController extends BaseController {
         if (deleteResult.isSuccess()) {
             return new ResponseDTO(deleteResult.getObject());
         } else {
-            return new ResponseDTO(MyResultCode.SYSTEM_INNER_ERROR,deleteResult.getMsg());
+            return new ResponseDTO(MyResultCode.SYSTEM_INNER_ERROR);
         }
     }
 }
