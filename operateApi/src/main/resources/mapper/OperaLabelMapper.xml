@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.chenss.operateapi.mapper.OperaLabelMapper">
+  <resultMap id="BaseResultMap" type="com.chenss.operateapi.model.OperaLabel">
+    <id column="id" jdbcType="VARCHAR" property="id" />
+    <result column="label_group" jdbcType="VARCHAR" property="labelGroup" />
+    <result column="label_key" jdbcType="VARCHAR" property="labelKey" />
+    <result column="label_value" jdbcType="VARCHAR" property="labelValue" />
+    <result column="label_desc" jdbcType="VARCHAR" property="labelDesc" />
+    <result column="label_remark" jdbcType="VARCHAR" property="labelRemark" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="modify_time" jdbcType="TIMESTAMP" property="modifyTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, label_group, label_key, label_value, label_desc, label_remark, create_time, modify_time
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from opera_label
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from opera_label
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.chenss.operateapi.model.OperaLabel">
+    insert into opera_label (id, label_group, label_key, 
+      label_value, label_desc, label_remark, 
+      create_time, modify_time)
+    values (#{id,jdbcType=VARCHAR}, #{labelGroup,jdbcType=VARCHAR}, #{labelKey,jdbcType=VARCHAR}, 
+      #{labelValue,jdbcType=VARCHAR}, #{labelDesc,jdbcType=VARCHAR}, #{labelRemark,jdbcType=VARCHAR}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{modifyTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.chenss.operateapi.model.OperaLabel">
+    insert into opera_label
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="labelGroup != null">
+        label_group,
+      </if>
+      <if test="labelKey != null">
+        label_key,
+      </if>
+      <if test="labelValue != null">
+        label_value,
+      </if>
+      <if test="labelDesc != null">
+        label_desc,
+      </if>
+      <if test="labelRemark != null">
+        label_remark,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="modifyTime != null">
+        modify_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="labelGroup != null">
+        #{labelGroup,jdbcType=VARCHAR},
+      </if>
+      <if test="labelKey != null">
+        #{labelKey,jdbcType=VARCHAR},
+      </if>
+      <if test="labelValue != null">
+        #{labelValue,jdbcType=VARCHAR},
+      </if>
+      <if test="labelDesc != null">
+        #{labelDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="labelRemark != null">
+        #{labelRemark,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifyTime != null">
+        #{modifyTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.chenss.operateapi.model.OperaLabel">
+    update opera_label
+    <set>
+      <if test="labelGroup != null">
+        label_group = #{labelGroup,jdbcType=VARCHAR},
+      </if>
+      <if test="labelKey != null">
+        label_key = #{labelKey,jdbcType=VARCHAR},
+      </if>
+      <if test="labelValue != null">
+        label_value = #{labelValue,jdbcType=VARCHAR},
+      </if>
+      <if test="labelDesc != null">
+        label_desc = #{labelDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="labelRemark != null">
+        label_remark = #{labelRemark,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifyTime != null">
+        modify_time = #{modifyTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.chenss.operateapi.model.OperaLabel">
+    update opera_label
+    set label_group = #{labelGroup,jdbcType=VARCHAR},
+      label_key = #{labelKey,jdbcType=VARCHAR},
+      label_value = #{labelValue,jdbcType=VARCHAR},
+      label_desc = #{labelDesc,jdbcType=VARCHAR},
+      label_remark = #{labelRemark,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      modify_time = #{modifyTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>
