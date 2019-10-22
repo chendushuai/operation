@@ -27,10 +27,7 @@
     from opera_application
     where id = #{id,jdbcType=VARCHAR}
   </select>
-  <select id="query" parameterType="com.chenss.operateapi.model.OperaApplication" resultMap="BaseResultMap">
-    select
-    <include refid="Base_Column_List" />
-    from opera_application
+  <sql id="Page_Where_Sql">
     <trim prefix="WHERE" prefixOverrides="AND |OR ">
       <if test="id != null">
         id = #{id,jdbcType=VARCHAR}
@@ -69,6 +66,13 @@
         AND app_remark = #{appRemark,jdbcType=VARCHAR}
       </if>
     </trim>
+  </sql>
+  <select id="query" parameterType="com.chenss.operateapi.model.OperaApplication" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from opera_application
+    <include refid="Page_Where_Sql"></include>
+    order by app_name,app_cmdb_id
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
     delete from opera_application

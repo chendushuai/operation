@@ -21,10 +21,7 @@
     from opera_domain
     where id = #{id,jdbcType=VARCHAR}
   </select>
-  <select id="query" parameterType="com.chenss.operateapi.model.OperaDomain" resultMap="BaseResultMap">
-    select
-    <include refid="Base_Column_List" />
-    from opera_domain
+  <sql id="Page_Where_Sql">
     <trim prefix="WHERE" prefixOverrides="AND |OR ">
       <if test="id != null">
         id = #{id,jdbcType=VARCHAR}
@@ -45,6 +42,13 @@
         AND configuration_strategy = #{configurationStrategy,jdbcType=VARCHAR}
       </if>
     </trim>
+  </sql>
+  <select id="query" parameterType="com.chenss.operateapi.model.OperaDomain" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from opera_domain
+    <include refid="Page_Where_Sql"></include>
+    order by domail_url
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
     delete from opera_domain

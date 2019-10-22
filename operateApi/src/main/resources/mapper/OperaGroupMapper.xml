@@ -18,10 +18,7 @@
     from opera_group
     where id = #{id,jdbcType=VARCHAR}
   </select>
-  <select id="query" parameterType="com.chenss.operateapi.model.OperaGroup" resultMap="BaseResultMap">
-    select
-    <include refid="Base_Column_List" />
-    from opera_group
+  <sql id="Page_Where_Sql">
     <trim prefix="WHERE" prefixOverrides="AND |OR ">
       <if test="id != null">
         id = #{id,jdbcType=VARCHAR}
@@ -36,6 +33,13 @@
         AND group_remark = #{groupRemark,jdbcType=VARCHAR}
       </if>
     </trim>
+  </sql>
+  <select id="query" parameterType="com.chenss.operateapi.model.OperaGroup" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from opera_group
+    <include refid="Page_Where_Sql"></include>
+    order by group_type,group_name
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
     delete from opera_group

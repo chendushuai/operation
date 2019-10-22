@@ -11,16 +11,7 @@
   <sql id="Base_Column_List">
     id, item_id, group_id, create_time, modify_time
   </sql>
-  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
-    select 
-    <include refid="Base_Column_List" />
-    from opera_group_detail
-    where id = #{id,jdbcType=VARCHAR}
-  </select>
-  <select id="query" parameterType="com.chenss.operateapi.model.OperaGroupDetail" resultMap="BaseResultMap">
-    select
-    <include refid="Base_Column_List" />
-    from opera_group_detail
+  <sql id="Page_Where_Sql">
     <trim prefix="WHERE" prefixOverrides="AND |OR ">
       <if test="id != null">
         id = #{id,jdbcType=VARCHAR}
@@ -32,6 +23,19 @@
         AND group_id = #{groupId,jdbcType=VARCHAR}
       </if>
     </trim>
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from opera_group_detail
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <select id="query" parameterType="com.chenss.operateapi.model.OperaGroupDetail" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from opera_group_detail
+    <include refid="Page_Where_Sql"></include>
+    group by group_id,item_id
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
     delete from opera_group_detail

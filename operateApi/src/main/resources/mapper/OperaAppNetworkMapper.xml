@@ -15,6 +15,28 @@
     id, app_source_id, app_target_id, internet_visit, link_use, remark, create_time, 
     modify_time
   </sql>
+  <sql id="Page_Where_Sql">
+    <trim prefix="WHERE" prefixOverrides="AND |OR ">
+      <if test="id != null">
+        id = #{id,jdbcType=VARCHAR}
+      </if>
+      <if test="appSourceId != null">
+        AND app_source_id = #{appSourceId,jdbcType=VARCHAR}
+      </if>
+      <if test="appTargetId != null">
+        AND app_target_id = #{appTargetId,jdbcType=VARCHAR}
+      </if>
+      <if test="internetVisit != null">
+        AND internet_visit = #{internetVisit,jdbcType=INTEGER}
+      </if>
+      <if test="linkUse != null">
+        AND link_use = #{linkUse,jdbcType=VARCHAR}
+      </if>
+      <if test="remark != null">
+        AND remark = #{remark,jdbcType=VARCHAR}
+      </if>
+    </trim>
+  </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
@@ -25,11 +47,8 @@
     select
     <include refid="Base_Column_List" />
     from opera_app_network
-    <trim prefix="WHERE" prefixOverrides="AND |OR ">
-      <if test="id != null">
-        id = #{id,jdbcType=VARCHAR}
-      </if>
-    </trim>
+    <include refid="Page_Where_Sql"></include>
+    order by app_source_id, app_target_id
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
     delete from opera_app_network

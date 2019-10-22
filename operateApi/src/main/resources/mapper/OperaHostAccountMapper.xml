@@ -12,10 +12,7 @@
   <sql id="Base_Column_List">
     id, host_id, account, remark, create_time, modify_time
   </sql>
-  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
-    select 
-    <include refid="Base_Column_List" />
-    from opera_host_account
+  <sql id="Page_Where_Sql">
     <trim prefix="WHERE" prefixOverrides="AND |OR ">
       <if test="id != null">
         id = #{id,jdbcType=VARCHAR}
@@ -30,6 +27,13 @@
         AND remark = #{remark,jdbcType=VARCHAR}
       </if>
     </trim>
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from opera_host_account
+    <include refid="Page_Where_Sql"></include>
+    order by host_id,account
   </select>
   <select id="query" parameterType="com.chenss.operateapi.model.OperaHostAccount" resultMap="BaseResultMap">
     select
