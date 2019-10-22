@@ -1,11 +1,14 @@
 package com.chenss.operateapi.service;
 
+import cn.hutool.core.util.IdUtil;
 import com.chenss.operateapi.common.GuidUtils;
 import com.chenss.operateapi.common.SeviceResultDTO;
 import com.chenss.operateapi.mapper.OperaEnvMapper;
 import com.chenss.operateapi.mapper.OperaLabelMapper;
 import com.chenss.operateapi.model.OperaEnv;
 import com.chenss.operateapi.model.OperaLabel;
+import com.chenss.operateapi.param.OperaLabelPageParam;
+import com.chenss.operateapi.response.PaginationQueryResult;
 import com.mysql.cj.util.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -22,7 +25,7 @@ public class OperaLabelService {
     @Autowired
     private OperaLabelMapper operaLabelMapper;
 
-    public SeviceResultDTO<List<OperaLabel>> list(OperaLabel operaLabel) {
+    public SeviceResultDTO<List<OperaLabel>> query(OperaLabel operaLabel) {
         return new SeviceResultDTO<>(operaLabelMapper.query(operaLabel));
     }
 
@@ -39,7 +42,7 @@ public class OperaLabelService {
             if (null != operaEnvs && operaEnvs.size() > 0) {
                 return new SeviceResultDTO<Integer>().fail("指定键值已经存在，无法插入");
             }
-            obj.setId(GuidUtils.getUUID());
+            obj.setId(IdUtil.simpleUUID());
             int insertResult = operaLabelMapper.insertSelective(obj);
             return new SeviceResultDTO<Integer>().ok(insertResult);
         }
@@ -66,5 +69,16 @@ public class OperaLabelService {
         }
         int updateResult = operaLabelMapper.deleteByPrimaryKey(id);
         return new SeviceResultDTO<Integer>().ok(updateResult);
+    }
+
+    public PaginationQueryResult<OperaLabel> pageQuery(OperaLabelPageParam param) {
+        PaginationQueryResult<OperaLabel> result = new PaginationQueryResult<OperaLabel>();
+        int totalSize = operaLabelMapper.countListPaging(param);
+        if (totalSize>0) {
+            List<OperaLabel> operaHostList = operaLabelMapper.listPaging(param);
+            result.setResultList(operaHostList);
+        }
+        result.setTotalSize(totalSize);
+        return result;
     }
 }

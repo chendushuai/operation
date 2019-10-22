@@ -14,16 +14,7 @@
   <sql id="Base_Column_List">
     id, label_group, label_key, label_value, label_desc, label_remark, create_time, modify_time
   </sql>
-  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
-    select
-    <include refid="Base_Column_List" />
-    from opera_label
-    where id = #{id,jdbcType=VARCHAR}
-  </select>
-  <select id="query" parameterType="com.chenss.operateapi.model.OperaLabel" resultMap="BaseResultMap">
-    select
-    <include refid="Base_Column_List" />
-    from opera_label
+  <sql id="Page_Where_Sql">
     <trim prefix="WHERE" prefixOverrides="AND |OR ">
       <if test="id != null">
         id = #{id,jdbcType=VARCHAR}
@@ -44,6 +35,19 @@
         AND label_remark = #{labelRemark,jdbcType=VARCHAR}
       </if>
     </trim>
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from opera_label
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <select id="query" parameterType="com.chenss.operateapi.model.OperaLabel" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from opera_label
+    <include refid="Page_Where_Sql"></include>
+    order by label_group, label_key
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
     delete from opera_label
@@ -136,4 +140,16 @@
       modify_time = now()
     where id = #{id,jdbcType=VARCHAR}
   </update>
+  <select id="listPaging" parameterType="com.chenss.operateapi.param.OperaLabelPageParam" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List"></include>
+    FROM
+    opera_label
+    <include refid="Page_Where_Sql"></include>
+    order by label_group, label_key LIMIT #{pageBegin},#{pageSize};
+  </select>
+  <select id="countListPaging" parameterType="com.chenss.operateapi.param.OperaLabelPageParam" resultType="java.lang.Integer">
+    select count(1) FROM opera_label
+    <include refid="Page_Where_Sql"></include>
+  </select>
 </mapper>

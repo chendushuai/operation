@@ -322,14 +322,14 @@
     <include refid="Pager_end"></include>
   </select>
   <select id="countListPaging" parameterType="com.chenss.operateapi.param.OperaHostParam" resultType="java.lang.Integer">
-  select
-  count(1)
-    FROM
-    opera_host h
-    LEFT JOIN opera_os o ON h.host_os_id = o.id
-    LEFT JOIN opera_env e ON h.host_env_id = e.id
-    LEFT JOIN opera_affiliation aff ON h.host_affiliation_id = aff.id
-    LEFT JOIN opera_service_type st ON h.host_service_type = st.id
-    <include refid="Pager_Where"></include>
-</select>
+    select
+    count(1)
+      FROM
+      opera_host h
+      LEFT JOIN opera_os o ON h.host_os_id = o.id
+      LEFT JOIN opera_env e ON h.host_env_id = e.id
+      LEFT JOIN opera_affiliation aff ON h.host_affiliation_id = aff.id
+      LEFT JOIN opera_service_type st ON h.host_service_type = st.id
+      <include refid="Pager_Where"></include>
+  </select>
 </mapper>
