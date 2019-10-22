@@ -29,7 +29,7 @@ public class OperaOsController extends BaseController {
     @Autowired
     private OperaOsService operaOsService;
     @RequestMapping("")
-    public List<OperaOs> findOs(@RequestBody OperaOsDO params) {
+    public List<OperaOs> query(@RequestBody OperaOsDO params) {
         SeviceResultDTO<List<OperaOs>> operaOs= operaOsService.getOs(params);
         return operaOs.getObject();
         //return "[OperaOs [Hash = -1782734848, id=1, envType=DEV, envName=开发环境, apolloOs=DEV, envDesc=开发环境, serialVersionUID=1], OperaOs [Hash = 1949561467, id=2, envType=TEST, envName=测试环境, apolloOs=QA, envDesc=测试环境, serialVersionUID=1], OperaOs [Hash = -323490972, id=3, envType=UAT, envName=UAT预发环境, apolloOs=UAT, envDesc=UAT预发环境, serialVersionUID=1], OperaOs [Hash = 1255912080, id=4, envType=HZ, envName=富阳环境, apolloOs=ONLINE_FY, envDesc=富阳生产环境, serialVersionUID=1], OperaOs [Hash = 327114008, id=5, envType=SZ, envName=苏州环境, apolloOs=ONLINE, envDesc=苏州生产环境, serialVersionUID=1]]";

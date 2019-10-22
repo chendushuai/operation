@@ -27,6 +27,49 @@
     from opera_application
     where id = #{id,jdbcType=VARCHAR}
   </select>
+  <select id="query" parameterType="com.chenss.operateapi.model.OperaApplication" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from opera_application
+    <trim prefix="WHERE" prefixOverrides="AND |OR ">
+      <if test="id != null">
+        id = #{id,jdbcType=VARCHAR}
+      </if>
+      <if test="appCmdbId != null">
+        AND app_cmdb_id = #{appCmdbId,jdbcType=VARCHAR}
+      </if>
+      <if test="appName != null">
+        AND app_name = #{appName,jdbcType=VARCHAR}
+      </if>
+      <if test="appType != null">
+        AND app_type = #{appType,jdbcType=VARCHAR}
+      </if>
+      <if test="repoType != null">
+        AND repo_type = #{repoType,jdbcType=VARCHAR}
+      </if>
+      <if test="svnUrl != null">
+        AND svn_url = #{svnUrl,jdbcType=VARCHAR}
+      </if>
+      <if test="gitUrl != null">
+        AND git_url = #{gitUrl,jdbcType=VARCHAR}
+      </if>
+      <if test="jdkVersion != null">
+        AND jdk_version = #{jdkVersion,jdbcType=VARCHAR}
+      </if>
+      <if test="appAffiliationId != null">
+        AND app_affiliation_id = #{appAffiliationId,jdbcType=INTEGER}
+      </if>
+      <if test="appPrincipal != null">
+        AND app_principal = #{appPrincipal,jdbcType=VARCHAR}
+      </if>
+      <if test="appPurpose != null">
+        AND app_purpose = #{appPurpose,jdbcType=VARCHAR}
+      </if>
+      <if test="appRemark != null">
+        AND app_remark = #{appRemark,jdbcType=VARCHAR}
+      </if>
+    </trim>
+  </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
     delete from opera_application
     where id = #{id,jdbcType=VARCHAR}
@@ -41,7 +84,7 @@
       #{appType,jdbcType=VARCHAR}, #{repoType,jdbcType=VARCHAR}, #{svnUrl,jdbcType=VARCHAR}, 
       #{gitUrl,jdbcType=VARCHAR}, #{jdkVersion,jdbcType=VARCHAR}, #{appAffiliationId,jdbcType=INTEGER}, 
       #{appPrincipal,jdbcType=VARCHAR}, #{appPurpose,jdbcType=VARCHAR}, #{appRemark,jdbcType=VARCHAR}, 
-      #{createTime,jdbcType=TIMESTAMP}, #{modifyTime,jdbcType=TIMESTAMP})
+      now(),now())
   </insert>
   <insert id="insertSelective" parameterType="com.chenss.operateapi.model.OperaApplication">
     insert into opera_application
@@ -82,12 +125,8 @@
       <if test="appRemark != null">
         app_remark,
       </if>
-      <if test="createTime != null">
         create_time,
-      </if>
-      <if test="modifyTime != null">
-        modify_time,
-      </if>
+        modify_time
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -126,12 +165,7 @@
       <if test="appRemark != null">
         #{appRemark,jdbcType=VARCHAR},
       </if>
-      <if test="createTime != null">
-        #{createTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="modifyTime != null">
-        #{modifyTime,jdbcType=TIMESTAMP},
-      </if>
+      now(),now()
     </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="com.chenss.operateapi.model.OperaApplication">
@@ -170,12 +204,7 @@
       <if test="appRemark != null">
         app_remark = #{appRemark,jdbcType=VARCHAR},
       </if>
-      <if test="createTime != null">
-        create_time = #{createTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="modifyTime != null">
-        modify_time = #{modifyTime,jdbcType=TIMESTAMP},
-      </if>
+        modify_time = now()
     </set>
     where id = #{id,jdbcType=VARCHAR}
   </update>
@@ -192,8 +221,7 @@
       app_principal = #{appPrincipal,jdbcType=VARCHAR},
       app_purpose = #{appPurpose,jdbcType=VARCHAR},
       app_remark = #{appRemark,jdbcType=VARCHAR},
-      create_time = #{createTime,jdbcType=TIMESTAMP},
-      modify_time = #{modifyTime,jdbcType=TIMESTAMP}
+      modify_time = now()
     where id = #{id,jdbcType=VARCHAR}
   </update>
 </mapper>

@@ -18,23 +18,7 @@ public class OperaEnvService {
     private OperaEnvMapper operaEnvMapper;
 
     public SeviceResultDTO<List<OperaEnv>> getEnv(OperaEnv operaEnv) {
-        OperaEnv param = new OperaEnv();
-        if (operaEnv.getId()!=null) {
-            param.setId(operaEnv.getId());
-        }
-        if (!StringUtils.isNullOrEmpty(operaEnv.getEnvType())) {
-            param.setEnvType(operaEnv.getEnvType());
-        }
-        if (!StringUtils.isNullOrEmpty(operaEnv.getEnvName())) {
-            param.setEnvName(operaEnv.getEnvName());
-        }
-        if (!StringUtils.isNullOrEmpty(operaEnv.getApolloEnv())) {
-            param.setApolloEnv(operaEnv.getApolloEnv());
-        }
-        if (!StringUtils.isNullOrEmpty(operaEnv.getEnvDesc())) {
-            param.setEnvDesc(operaEnv.getEnvDesc());
-        }
-        return new SeviceResultDTO<>(true, operaEnvMapper.query(param));
+        return new SeviceResultDTO<>(true, operaEnvMapper.query(operaEnv));
     }
 
     public SeviceResultDTO<OperaEnv> selectByPrimaryKey(int id) {

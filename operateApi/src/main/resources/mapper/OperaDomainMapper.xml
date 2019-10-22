@@ -21,6 +21,31 @@
     from opera_domain
     where id = #{id,jdbcType=VARCHAR}
   </select>
+  <select id="query" parameterType="com.chenss.operateapi.model.OperaDomain" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from opera_domain
+    <trim prefix="WHERE" prefixOverrides="AND |OR ">
+      <if test="id != null">
+        id = #{id,jdbcType=VARCHAR}
+      </if>
+      <if test="domainUrl != null">
+        AND domain_url = #{domainUrl,jdbcType=VARCHAR}
+      </if>
+      <if test="visitControl != null">
+        AND visit_control = #{visitControl,jdbcType=VARCHAR}
+      </if>
+      <if test="domainPrincipal != null">
+        AND domain_principal = #{domainPrincipal,jdbcType=VARCHAR}
+      </if>
+      <if test="domainEnv != null">
+        AND domain_env = #{domainEnv,jdbcType=VARCHAR}
+      </if>
+      <if test="configurationStrategy != null">
+        AND configuration_strategy = #{configurationStrategy,jdbcType=VARCHAR}
+      </if>
+    </trim>
+  </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
     delete from opera_domain
     where id = #{id,jdbcType=VARCHAR}
@@ -31,7 +56,7 @@
       create_time, modify_time)
     values (#{id,jdbcType=VARCHAR}, #{domainUrl,jdbcType=VARCHAR}, #{visitControl,jdbcType=VARCHAR}, 
       #{domainPrincipal,jdbcType=VARCHAR}, #{domainEnv,jdbcType=VARCHAR}, #{configurationStrategy,jdbcType=VARCHAR}, 
-      #{createTime,jdbcType=TIMESTAMP}, #{modifyTime,jdbcType=TIMESTAMP})
+      now(), now())
   </insert>
   <insert id="insertSelective" parameterType="com.chenss.operateapi.model.OperaDomain">
     insert into opera_domain
@@ -54,12 +79,8 @@
       <if test="configurationStrategy != null">
         configuration_strategy,
       </if>
-      <if test="createTime != null">
         create_time,
-      </if>
-      <if test="modifyTime != null">
-        modify_time,
-      </if>
+        modify_time
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -80,12 +101,7 @@
       <if test="configurationStrategy != null">
         #{configurationStrategy,jdbcType=VARCHAR},
       </if>
-      <if test="createTime != null">
-        #{createTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="modifyTime != null">
-        #{modifyTime,jdbcType=TIMESTAMP},
-      </if>
+        now(),now()
     </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="com.chenss.operateapi.model.OperaDomain">
@@ -106,12 +122,7 @@
       <if test="configurationStrategy != null">
         configuration_strategy = #{configurationStrategy,jdbcType=VARCHAR},
       </if>
-      <if test="createTime != null">
-        create_time = #{createTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="modifyTime != null">
-        modify_time = #{modifyTime,jdbcType=TIMESTAMP},
-      </if>
+        modify_time = now()
     </set>
     where id = #{id,jdbcType=VARCHAR}
   </update>
@@ -122,8 +133,7 @@
       domain_principal = #{domainPrincipal,jdbcType=VARCHAR},
       domain_env = #{domainEnv,jdbcType=VARCHAR},
       configuration_strategy = #{configurationStrategy,jdbcType=VARCHAR},
-      create_time = #{createTime,jdbcType=TIMESTAMP},
-      modify_time = #{modifyTime,jdbcType=TIMESTAMP}
+      modify_time = now()
     where id = #{id,jdbcType=VARCHAR}
   </update>
 </mapper>

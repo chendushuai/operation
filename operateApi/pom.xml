@@ -54,6 +54,12 @@
 			<artifactId>operate-share</artifactId>
 			<version>1.0-SNAPSHOT</version>
 		</dependency>
+		<!--添加AOP关键 AspectJ支持-->
+		<dependency>
+			<groupId>org.aspectj</groupId>
+			<artifactId>aspectjweaver</artifactId>
+			<version>1.8.13</version>
+		</dependency>
 	</dependencies>
 
 	<build>

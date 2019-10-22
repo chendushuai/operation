@@ -21,6 +21,16 @@
     from opera_app_network
     where id = #{id,jdbcType=VARCHAR}
   </select>
+  <select id="query" parameterType="com.chenss.operateapi.model.OperaAppNetwork" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from opera_app_network
+    <trim prefix="WHERE" prefixOverrides="AND |OR ">
+      <if test="id != null">
+        id = #{id,jdbcType=VARCHAR}
+      </if>
+    </trim>
+  </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
     delete from opera_app_network
     where id = #{id,jdbcType=VARCHAR}
@@ -31,7 +41,7 @@
       create_time, modify_time)
     values (#{id,jdbcType=VARCHAR}, #{appSourceId,jdbcType=VARCHAR}, #{appTargetId,jdbcType=VARCHAR}, 
       #{internetVisit,jdbcType=INTEGER}, #{linkUse,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}, 
-      #{createTime,jdbcType=TIMESTAMP}, #{modifyTime,jdbcType=TIMESTAMP})
+      now(), now())
   </insert>
   <insert id="insertSelective" parameterType="com.chenss.operateapi.model.OperaAppNetwork">
     insert into opera_app_network
@@ -54,12 +64,8 @@
       <if test="remark != null">
         remark,
       </if>
-      <if test="createTime != null">
         create_time,
-      </if>
-      <if test="modifyTime != null">
-        modify_time,
-      </if>
+        modify_time
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -80,12 +86,7 @@
       <if test="remark != null">
         #{remark,jdbcType=VARCHAR},
       </if>
-      <if test="createTime != null">
-        #{createTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="modifyTime != null">
-        #{modifyTime,jdbcType=TIMESTAMP},
-      </if>
+      now(),now()
     </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="com.chenss.operateapi.model.OperaAppNetwork">
@@ -106,12 +107,7 @@
       <if test="remark != null">
         remark = #{remark,jdbcType=VARCHAR},
       </if>
-      <if test="createTime != null">
-        create_time = #{createTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="modifyTime != null">
-        modify_time = #{modifyTime,jdbcType=TIMESTAMP},
-      </if>
+        modify_time = now()
     </set>
     where id = #{id,jdbcType=VARCHAR}
   </update>
@@ -122,8 +118,7 @@
       internet_visit = #{internetVisit,jdbcType=INTEGER},
       link_use = #{linkUse,jdbcType=VARCHAR},
       remark = #{remark,jdbcType=VARCHAR},
-      create_time = #{createTime,jdbcType=TIMESTAMP},
-      modify_time = #{modifyTime,jdbcType=TIMESTAMP}
+      modify_time = now()
     where id = #{id,jdbcType=VARCHAR}
   </update>
 </mapper>

@@ -20,6 +20,31 @@
     from opera_domain_detail
     where id = #{id,jdbcType=VARCHAR}
   </select>
+  <select id="query" parameterType="com.chenss.operateapi.model.OperaDomainDetail" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from opera_domain_detail
+    <trim prefix="WHERE" prefixOverrides="AND |OR ">
+      <if test="id != null">
+        id = #{id,jdbcType=VARCHAR}
+      </if>
+      <if test="domainId != null">
+        AND domain_id = #{domainId,jdbcType=VARCHAR}
+      </if>
+      <if test="domainUrl != null">
+        AND domain_url = #{domainUrl,jdbcType=VARCHAR}
+      </if>
+      <if test="applicationId != null">
+        AND application_id = #{applicationId,jdbcType=VARCHAR}
+      </if>
+      <if test="innerUrl != null">
+        AND inner_url = #{innerUrl,jdbcType=VARCHAR}
+      </if>
+      <if test="appPort != null">
+        AND app_port = #{appPort,jdbcType=VARCHAR}
+      </if>
+    </trim>
+  </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
     delete from opera_domain_detail
     where id = #{id,jdbcType=VARCHAR}
@@ -30,7 +55,7 @@
       create_time, modify_time)
     values (#{id,jdbcType=VARCHAR}, #{domainId,jdbcType=VARCHAR}, #{domainUrl,jdbcType=VARCHAR}, 
       #{applicationId,jdbcType=VARCHAR}, #{innerUrl,jdbcType=VARCHAR}, #{appPort,jdbcType=VARCHAR}, 
-      #{createTime,jdbcType=TIMESTAMP}, #{modifyTime,jdbcType=TIMESTAMP})
+      now(), now())
   </insert>
   <insert id="insertSelective" parameterType="com.chenss.operateapi.model.OperaDomainDetail">
     insert into opera_domain_detail
@@ -53,12 +78,8 @@
       <if test="appPort != null">
         app_port,
       </if>
-      <if test="createTime != null">
         create_time,
-      </if>
-      <if test="modifyTime != null">
-        modify_time,
-      </if>
+        modify_time
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -79,12 +100,7 @@
       <if test="appPort != null">
         #{appPort,jdbcType=VARCHAR},
       </if>
-      <if test="createTime != null">
-        #{createTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="modifyTime != null">
-        #{modifyTime,jdbcType=TIMESTAMP},
-      </if>
+      now(),now()
     </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="com.chenss.operateapi.model.OperaDomainDetail">
@@ -105,12 +121,7 @@
       <if test="appPort != null">
         app_port = #{appPort,jdbcType=VARCHAR},
       </if>
-      <if test="createTime != null">
-        create_time = #{createTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="modifyTime != null">
-        modify_time = #{modifyTime,jdbcType=TIMESTAMP},
-      </if>
+        modify_time = now()
     </set>
     where id = #{id,jdbcType=VARCHAR}
   </update>
@@ -121,8 +132,7 @@
       application_id = #{applicationId,jdbcType=VARCHAR},
       inner_url = #{innerUrl,jdbcType=VARCHAR},
       app_port = #{appPort,jdbcType=VARCHAR},
-      create_time = #{createTime,jdbcType=TIMESTAMP},
-      modify_time = #{modifyTime,jdbcType=TIMESTAMP}
+      modify_time = now()
     where id = #{id,jdbcType=VARCHAR}
   </update>
 </mapper>

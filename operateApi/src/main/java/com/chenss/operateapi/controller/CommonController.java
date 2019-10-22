@@ -41,7 +41,7 @@ public class CommonController extends BaseController {
     private OperaServiceTypeService operaServiceTypeService;
 
     @RequestMapping("")
-    public ResponseDTO<CommonQueryResponse> findEnv(@RequestBody CommonQueryParam params) {
+    public ResponseDTO<CommonQueryResponse> query(@RequestBody CommonQueryParam params) {
         CommonQueryResponse commonQueryResponse = new CommonQueryResponse();
         if (params.isNeedOperaEnv()) {
             SeviceResultDTO<List<OperaEnv>> envList = operaEnvService.getEnv(new OperaEnv());

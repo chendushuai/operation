@@ -26,7 +26,7 @@ public class OperaAffiliationController extends BaseController {
     @Autowired
     private OperaAffiliationService operaAffiliationService;
     @RequestMapping("")
-    public ResponseDTO<List<OperaAffiliationResponse>> findEnv(@RequestBody OperaAffiliationDO params) {
+    public ResponseDTO<List<OperaAffiliationResponse>> query(@RequestBody OperaAffiliationDO params) {
         SeviceResultDTO<List<OperaAffiliation>> operaAff= operaAffiliationService.listAll(params);
         return new ResponseDTO(convertList(operaAff.getObject()));
     }

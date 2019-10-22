@@ -26,7 +26,7 @@ public class OperaServiceTypeController extends BaseController {
     @Autowired
     private OperaServiceTypeService operaServiceTypeService;
     @RequestMapping("")
-    public ResponseDTO<List<OperaServiceTypeResponse>> findEnv(@RequestBody OperaServiceTypeDO params) {
+    public ResponseDTO<List<OperaServiceTypeResponse>> query(@RequestBody OperaServiceTypeDO params) {
         SeviceResultDTO<List<OperaServiceType>> operaAff= operaServiceTypeService.listAll(params);
         return new ResponseDTO(convertList(operaAff.getObject()));
     }

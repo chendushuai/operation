@@ -1,8 +1,10 @@
 package com.chenss.operateapi.param;
 
+import com.chenss.operateapi.common.RequestParam;
+
 import java.io.Serializable;
 
-public class OperaHostParam extends PagerParam implements Serializable {
+public class OperaHostParam extends PagerParam implements Serializable, RequestParam {
     /**
      * 主键
      */
