@@ -41,12 +41,27 @@
     delete from opera_group_detail
     where id = #{id,jdbcType=VARCHAR}
   </delete>
+  <delete id="deleteByGroupId" parameterType="java.lang.String">
+    delete from opera_group_detail
+    where group_id = #{group_id,jdbcType=VARCHAR}
+  </delete>
   <insert id="insert" parameterType="com.chenss.operateapi.model.OperaGroupDetail">
     insert into opera_group_detail (id, item_id, group_id, 
       create_time, modify_time)
     values (#{id,jdbcType=VARCHAR}, #{itemId,jdbcType=VARCHAR}, #{groupId,jdbcType=VARCHAR}, 
       now(), now())
   </insert>
+  <insert id ="insertBatch" parameterType="java.util.List" >
+    opera_group_detail (id, item_id, group_id)
+    values
+    <foreach collection ="list" item="groupDetail" separator =",">
+      (
+      #{groupDetail.id},
+      #{groupDetail.item_id},
+      #{groupDetail.group_id}
+      )
+    </foreach >
+  </insert >
   <insert id="insertSelective" parameterType="com.chenss.operateapi.model.OperaGroupDetail">
     insert into opera_group_detail
     <trim prefix="(" suffix=")" suffixOverrides=",">

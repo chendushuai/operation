@@ -8,8 +8,13 @@ import java.util.List;
 
 /**
  * OperaGroupDetailMapper继承基类
+ * @author chenss002
+ * @date 2019-10-23 12:19:59
  */
 @Mapper
 public interface OperaGroupDetailMapper extends MyBatisBaseDao<OperaGroupDetail, String> {
     List<OperaGroupDetail> query(OperaGroupDetail obj);
+    int insertCodeBatch(List<OperaGroupDetail> groupDetailList);
+
+    int deleteByGroupId(String id);
 }

@@ -1,51 +1,123 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.chenss.operateapi.mapper.OperaGroupMapper">
-  <resultMap id="BaseResultMap" type="com.chenss.operateapi.model.OperaGroup">
-    <id column="id" jdbcType="VARCHAR" property="id" />
-    <result column="group_type" jdbcType="VARCHAR" property="groupType" />
-    <result column="group_name" jdbcType="VARCHAR" property="groupName" />
-    <result column="group_remark" jdbcType="VARCHAR" property="groupRemark" />
-    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
-    <result column="modify_time" jdbcType="TIMESTAMP" property="modifyTime" />
-  </resultMap>
-  <sql id="Base_Column_List">
+    <resultMap id="BaseResultMap" type="com.chenss.operateapi.model.OperaGroup">
+        <id column="id" jdbcType="VARCHAR" property="id"/>
+        <result column="group_type" jdbcType="VARCHAR" property="groupType"/>
+        <result column="group_name" jdbcType="VARCHAR" property="groupName"/>
+        <result column="group_remark" jdbcType="VARCHAR" property="groupRemark"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="modify_time" jdbcType="TIMESTAMP" property="modifyTime"/>
+    </resultMap>
+    <resultMap id="GroupHostResponseResultMap" type="com.chenss.operateapi.model.OperaGroupHostDo">
+        <id column="id" jdbcType="VARCHAR" property="id"/>
+        <result column="group_type" jdbcType="VARCHAR" property="groupType"/>
+        <result column="group_name" jdbcType="VARCHAR" property="groupName"/>
+        <result column="host_info" jdbcType="VARCHAR" property="hostInfo"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="modify_time" jdbcType="TIMESTAMP" property="modifyTime"/>
+    </resultMap>
+    <sql id="Base_Column_List">
     id, group_type, group_name, group_remark, create_time, modify_time
   </sql>
-  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
-    select 
-    <include refid="Base_Column_List" />
-    from opera_group
-    where id = #{id,jdbcType=VARCHAR}
-  </select>
-  <sql id="Page_Where_Sql">
-    <trim prefix="WHERE" prefixOverrides="AND |OR ">
-      <if test="id != null">
-        id = #{id,jdbcType=VARCHAR}
-      </if>
-      <if test="groupType != null">
-        AND group_type = #{groupType,jdbcType=VARCHAR}
-      </if>
-      <if test="groupName != null">
-        AND group_name = #{groupName,jdbcType=VARCHAR}
-      </if>
-      <if test="groupRemark != null">
-        AND group_remark = #{groupRemark,jdbcType=VARCHAR}
-      </if>
-    </trim>
-  </sql>
-  <select id="query" parameterType="com.chenss.operateapi.model.OperaGroup" resultMap="BaseResultMap">
-    select
-    <include refid="Base_Column_List" />
-    from opera_group
-    <include refid="Page_Where_Sql"></include>
-    order by group_type,group_name
-  </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from opera_group
+        where id = #{id,jdbcType=VARCHAR}
+    </select>
+    <sql id="Page_Where_Sql">
+        <trim prefix="WHERE" prefixOverrides="AND |OR ">
+            <if test="id != null">
+                id = #{id,jdbcType=VARCHAR}
+            </if>
+            <if test="groupType != null">
+                AND group_type = #{groupType,jdbcType=VARCHAR}
+            </if>
+            <if test="groupName != null">
+                AND group_name = #{groupName,jdbcType=VARCHAR}
+            </if>
+            <if test="groupRemark != null">
+                AND group_remark = #{groupRemark,jdbcType=VARCHAR}
+            </if>
+        </trim>
+    </sql>
+    <select id="query" parameterType="com.chenss.operateapi.model.OperaGroup" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from opera_group
+        <include refid="Page_Where_Sql"></include>
+        order by group_type,group_name
+    </select>
+    <sql id="Page_Query_Host_Sql">
+        <if test="id != null">
+            AND id = #{id,jdbcType=VARCHAR}
+        </if>
+        <if test="groupType != null">
+            AND group_type = #{groupType,jdbcType=VARCHAR}
+        </if>
+        <if test="groupName != null">
+            AND group_name = #{groupName,jdbcType=VARCHAR}
+        </if>
+        <if test="envId != null">
+            AND e.id = #{envId,jdbcType=INTEGER}
+        </if>
+        <if test="hostName != null">
+            AND host_name = #{hostName,jdbcType=VARCHAR}
+        </if>
+        <if test="hostIp != null">
+            AND host_ip = #{hostIp,jdbcType=VARCHAR}
+        </if>
+    </sql>
+    <select id="pageQueryHosts" parameterType="com.chenss.operateapi.param.GroupHostParam" resultMap="GroupHostResponseResultMap">
+        SELECT
+        g.id,
+        g.group_type,
+        g.group_name,
+        g.create_time,
+        g.modify_time,
+        GROUP_CONCAT( e.env_type, '|', e.env_name, '|', h.host_name, '|', h.host_ip ) host_info
+        FROM
+        opera_group g,
+        opera_group_detail d,
+        opera_host h,
+        opera_env e
+        WHERE
+        g.id = d.group_id
+        AND d.item_id = h.id
+        AND h.host_env_id = e.id
+        <include refid="Page_Query_Host_Sql"></include>
+        GROUP BY
+        g.id,
+        g.group_type,
+        g.group_name,
+        g.create_time,
+        g.modify_time
+        order BY
+        g.id,
+        g.group_type,
+        g.group_name
+        LIMIT #{pageBegin},#{pageSize};
+    </select>
+    <select id="countQueryHosts" parameterType="com.chenss.operateapi.param.GroupHostParam" resultType="java.lang.Integer">
+        select
+        count(distinct g.id)
+        FROM
+        opera_group g,
+        opera_group_detail d,
+        opera_host h,
+        opera_env e
+        WHERE
+        g.id = d.group_id
+        AND d.item_id = h.id
+        AND h.host_env_id = e.id
+        <include refid="Page_Query_Host_Sql"></include>
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
     delete from opera_group
     where id = #{id,jdbcType=VARCHAR}
   </delete>
-  <insert id="insert" parameterType="com.chenss.operateapi.model.OperaGroup">
+    <insert id="insert" parameterType="com.chenss.operateapi.model.OperaGroup">
     insert into opera_group (id, group_type, group_name, 
       group_remark, create_time, modify_time
       )
@@ -53,58 +125,58 @@
       #{groupRemark,jdbcType=VARCHAR}, now(), now()
       )
   </insert>
-  <insert id="insertSelective" parameterType="com.chenss.operateapi.model.OperaGroup">
-    insert into opera_group
-    <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="id != null">
-        id,
-      </if>
-      <if test="groupType != null">
-        group_type,
-      </if>
-      <if test="groupName != null">
-        group_name,
-      </if>
-      <if test="groupRemark != null">
-        group_remark,
-      </if>
-        create_time,
-        modify_time
-    </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="id != null">
-        #{id,jdbcType=VARCHAR},
-      </if>
-      <if test="groupType != null">
-        #{groupType,jdbcType=VARCHAR},
-      </if>
-      <if test="groupName != null">
-        #{groupName,jdbcType=VARCHAR},
-      </if>
-      <if test="groupRemark != null">
-        #{groupRemark,jdbcType=VARCHAR},
-      </if>
-        now(),
-        now()
-    </trim>
-  </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.chenss.operateapi.model.OperaGroup">
-    update opera_group
-    <set>
-      <if test="groupType != null">
-        group_type = #{groupType,jdbcType=VARCHAR},
-      </if>
-      <if test="groupName != null">
-        group_name = #{groupName,jdbcType=VARCHAR},
-      </if>
-      <if test="groupRemark != null">
-        group_remark = #{groupRemark,jdbcType=VARCHAR},
-      </if>
-      modify_time = now()
-    </set>
-    where id = #{id,jdbcType=VARCHAR}
-  </update>
-  <update id="updateByPrimaryKey" parameterType="com.chenss.operateapi.model.OperaGroup">
+    <insert id="insertSelective" parameterType="com.chenss.operateapi.model.OperaGroup">
+        insert into opera_group
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="groupType != null">
+                group_type,
+            </if>
+            <if test="groupName != null">
+                group_name,
+            </if>
+            <if test="groupRemark != null">
+                group_remark,
+            </if>
+            create_time,
+            modify_time
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=VARCHAR},
+            </if>
+            <if test="groupType != null">
+                #{groupType,jdbcType=VARCHAR},
+            </if>
+            <if test="groupName != null">
+                #{groupName,jdbcType=VARCHAR},
+            </if>
+            <if test="groupRemark != null">
+                #{groupRemark,jdbcType=VARCHAR},
+            </if>
+            now(),
+            now()
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.chenss.operateapi.model.OperaGroup">
+        update opera_group
+        <set>
+            <if test="groupType != null">
+                group_type = #{groupType,jdbcType=VARCHAR},
+            </if>
+            <if test="groupName != null">
+                group_name = #{groupName,jdbcType=VARCHAR},
+            </if>
+            <if test="groupRemark != null">
+                group_remark = #{groupRemark,jdbcType=VARCHAR},
+            </if>
+            modify_time = now()
+        </set>
+        where id = #{id,jdbcType=VARCHAR}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.chenss.operateapi.model.OperaGroup">
     update opera_group
     set group_type = #{groupType,jdbcType=VARCHAR},
       group_name = #{groupName,jdbcType=VARCHAR},
