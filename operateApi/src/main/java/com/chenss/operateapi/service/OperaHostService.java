@@ -2,7 +2,7 @@ package com.chenss.operateapi.service;
 
 import com.chenss.operateapi.common.BaseUtils;
 import com.chenss.operateapi.common.GuidUtils;
-import com.chenss.operateapi.common.SeviceResultDTO;
+import com.chenss.operateapi.common.ServiceResultDTO;
 import com.chenss.operateapi.mapper.OperaHostMapper;
 import com.chenss.operateapi.model.OperaHost;
 import com.chenss.operateapi.param.OperaHostParam;
@@ -21,7 +21,7 @@ public class OperaHostService {
     @Autowired
     private OperaHostMapper operaHostMapper;
 
-    public SeviceResultDTO<List<OperaHost>> listAll(OperaHost operaHost) {
+    public ServiceResultDTO<List<OperaHost>> listAll(OperaHost operaHost) {
         OperaHost param = new OperaHost();
         if (operaHost.getId() != null) {
             param.setId(operaHost.getId());
@@ -31,20 +31,20 @@ public class OperaHostService {
         param.setCreateTimeEnd(BaseUtils.getString(operaHost.getCreateTimeEnd()));
         param.setModifyTimeBegin(BaseUtils.getString(operaHost.getModifyTimeBegin()));
         param.setModifyTimeEnd(BaseUtils.getString(operaHost.getModifyTimeEnd()));
-        return new SeviceResultDTO<>(true, operaHostMapper.query(param));
+        return new ServiceResultDTO<>(true, operaHostMapper.query(param));
     }
 
-    public SeviceResultDTO<OperaHost> selectByPrimaryKey(String id) {
-        return new SeviceResultDTO<>(true, operaHostMapper.selectByPrimaryKey(id));
+    public ServiceResultDTO<OperaHost> selectByPrimaryKey(String id) {
+        return new ServiceResultDTO<>(true, operaHostMapper.selectByPrimaryKey(id));
     }
 
-    public SeviceResultDTO<Integer> insertOrUpdate(OperaHost obj) {
+    public ServiceResultDTO<Integer> insertOrUpdate(OperaHost obj) {
         OperaHost param = new OperaHost();
         param.setHostIp(obj.getHostIp());
         List<OperaHost> operaHosts = operaHostMapper.query(param);
         if (null != operaHosts && operaHosts.size() > 0) {
             if (obj.getId() == null || !operaHosts.get(0).getId().equals(obj.getId())) {
-                return new SeviceResultDTO<Integer>().fail("服务器IP地址已经存在，无法插入");
+                return new ServiceResultDTO<Integer>().fail("服务器IP地址已经存在，无法插入");
             }
         }
         param = new OperaHost();
@@ -52,7 +52,7 @@ public class OperaHostService {
         operaHosts = operaHostMapper.query(param);
         if (null != operaHosts && operaHosts.size() > 0) {
             if (obj.getId() == null || !operaHosts.get(0).getId().equals(obj.getId())) {
-                return new SeviceResultDTO<Integer>().fail("服务器主机名称已经存在，无法插入");
+                return new ServiceResultDTO<Integer>().fail("服务器主机名称已经存在，无法插入");
             }
         }
 
@@ -71,24 +71,24 @@ public class OperaHostService {
         if (StringUtils.isNullOrEmpty(obj.getId())) {
             param.setId(GuidUtils.getUUID());
             int insertResult = operaHostMapper.insertSelective(param);
-            return new SeviceResultDTO<Integer>().ok(insertResult);
+            return new ServiceResultDTO<Integer>().ok(insertResult);
         }
         OperaHost opera = operaHostMapper.selectByPrimaryKey(obj.getId());
         if (null == opera) {
-            return new SeviceResultDTO<Integer>().fail("对象不存在无法修改");
+            return new ServiceResultDTO<Integer>().fail("对象不存在无法修改");
         }
         param.setId(obj.getId());
         int updateResult = operaHostMapper.updateByPrimaryKeySelective(param);
-        return new SeviceResultDTO<Integer>().ok(updateResult);
+        return new ServiceResultDTO<Integer>().ok(updateResult);
     }
 
-    public SeviceResultDTO<Integer> delete(String id) {
+    public ServiceResultDTO<Integer> delete(String id) {
         OperaHost opera = operaHostMapper.selectByPrimaryKey(id);
         if (null == opera) {
-            return new SeviceResultDTO<Integer>().fail("对象不存在无法删除");
+            return new ServiceResultDTO<Integer>().fail("对象不存在无法删除");
         }
         int updateResult = operaHostMapper.deleteByPrimaryKey(id);
-        return new SeviceResultDTO<Integer>().ok(updateResult);
+        return new ServiceResultDTO<Integer>().ok(updateResult);
     }
 
     public PaginationQueryResult<OperaHost> pageQuery(OperaHostParam param) {

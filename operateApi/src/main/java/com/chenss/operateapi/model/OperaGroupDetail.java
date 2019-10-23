@@ -2,6 +2,7 @@ package com.chenss.operateapi.model;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 /**
  * opera_group_detail
@@ -22,6 +23,8 @@ public class OperaGroupDetail implements Serializable {
      * 分组ID
      */
     private String groupId;
+
+    private List<String> hostIds;
 
     /**
      * 创建时间
@@ -59,6 +62,14 @@ public class OperaGroupDetail implements Serializable {
         this.groupId = groupId;
     }
 
+    public List<String> getHostIds() {
+        return hostIds;
+    }
+
+    public void setHostIds(List<String> hostIds) {
+        this.hostIds = hostIds;
+    }
+
     public Date getCreateTime() {
         return createTime;
     }
@@ -73,52 +84,5 @@ public class OperaGroupDetail implements Serializable {
 
     public void setModifyTime(Date modifyTime) {
         this.modifyTime = modifyTime;
-    }
-
-    @Override
-    public boolean equals(Object that) {
-        if (this == that) {
-            return true;
-        }
-        if (that == null) {
-            return false;
-        }
-        if (getClass() != that.getClass()) {
-            return false;
-        }
-        OperaGroupDetail other = (OperaGroupDetail) that;
-        return (this.getId() == null ? other.getId() == null : this.getId().equals(other.getId()))
-            && (this.getItemId() == null ? other.getItemId() == null : this.getItemId().equals(other.getItemId()))
-            && (this.getGroupId() == null ? other.getGroupId() == null : this.getGroupId().equals(other.getGroupId()))
-            && (this.getCreateTime() == null ? other.getCreateTime() == null : this.getCreateTime().equals(other.getCreateTime()))
-            && (this.getModifyTime() == null ? other.getModifyTime() == null : this.getModifyTime().equals(other.getModifyTime()));
-    }
-
-    @Override
-    public int hashCode() {
-        final int prime = 31;
-        int result = 1;
-        result = prime * result + ((getId() == null) ? 0 : getId().hashCode());
-        result = prime * result + ((getItemId() == null) ? 0 : getItemId().hashCode());
-        result = prime * result + ((getGroupId() == null) ? 0 : getGroupId().hashCode());
-        result = prime * result + ((getCreateTime() == null) ? 0 : getCreateTime().hashCode());
-        result = prime * result + ((getModifyTime() == null) ? 0 : getModifyTime().hashCode());
-        return result;
-    }
-
-    @Override
-    public String toString() {
-        StringBuilder sb = new StringBuilder();
-        sb.append(getClass().getSimpleName());
-        sb.append(" [");
-        sb.append("Hash = ").append(hashCode());
-        sb.append(", id=").append(id);
-        sb.append(", itemId=").append(itemId);
-        sb.append(", groupId=").append(groupId);
-        sb.append(", createTime=").append(createTime);
-        sb.append(", modifyTime=").append(modifyTime);
-        sb.append(", serialVersionUID=").append(serialVersionUID);
-        sb.append("]");
-        return sb.toString();
     }
 }

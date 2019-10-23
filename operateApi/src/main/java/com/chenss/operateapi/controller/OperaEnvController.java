@@ -3,7 +3,7 @@ package com.chenss.operateapi.controller;
 import com.chenss.operate.MyResultCode;
 import com.chenss.operateapi.BaseController;
 import com.chenss.operateapi.common.ResponseDTO;
-import com.chenss.operateapi.common.SeviceResultDTO;
+import com.chenss.operateapi.common.ServiceResultDTO;
 import com.chenss.operateapi.model.OperaEnv;
 import com.chenss.operateapi.request.OperaEnvDO;
 import com.chenss.operateapi.service.OperaEnvService;
@@ -25,13 +25,13 @@ public class OperaEnvController extends BaseController {
     private OperaEnvService operaEnvService;
     @RequestMapping("")
     public ResponseDTO<List<OperaEnv>> query(@RequestBody OperaEnvDO params) {
-        SeviceResultDTO<List<OperaEnv>> operaEnv= operaEnvService.getEnv(params);
+        ServiceResultDTO<List<OperaEnv>> operaEnv= operaEnvService.getEnv(params);
         return new ResponseDTO(operaEnv.getObject());
         //return "[OperaEnv [Hash = -1782734848, id=1, envType=DEV, envName=开发环境, apolloEnv=DEV, envDesc=开发环境, serialVersionUID=1], OperaEnv [Hash = 1949561467, id=2, envType=TEST, envName=测试环境, apolloEnv=QA, envDesc=测试环境, serialVersionUID=1], OperaEnv [Hash = -323490972, id=3, envType=UAT, envName=UAT预发环境, apolloEnv=UAT, envDesc=UAT预发环境, serialVersionUID=1], OperaEnv [Hash = 1255912080, id=4, envType=HZ, envName=富阳环境, apolloEnv=ONLINE_FY, envDesc=富阳生产环境, serialVersionUID=1], OperaEnv [Hash = 327114008, id=5, envType=SZ, envName=苏州环境, apolloEnv=ONLINE, envDesc=苏州生产环境, serialVersionUID=1]]";
     }
     @RequestMapping("/view")
     public ResponseDTO<OperaEnv> viewObject(int id) {
-        SeviceResultDTO<OperaEnv> operaEnv= operaEnvService.selectByPrimaryKey(id);
+        ServiceResultDTO<OperaEnv> operaEnv= operaEnvService.selectByPrimaryKey(id);
         return new ResponseDTO(operaEnv.getObject());
     }
     @RequestMapping("/edit")
@@ -39,7 +39,7 @@ public class OperaEnvController extends BaseController {
         if (!params.validate()) {
             return new ResponseDTO(MyResultCode.PARAM_IS_BLANK);
         }
-        SeviceResultDTO<Integer> resultService= operaEnvService.insertOrUpdate(params);
+        ServiceResultDTO<Integer> resultService= operaEnvService.insertOrUpdate(params);
         if (resultService.isSuccess()) {
             return new ResponseDTO(resultService.getObject());
         } else {
@@ -48,7 +48,7 @@ public class OperaEnvController extends BaseController {
     }
     @RequestMapping("/delete")
     public ResponseDTO<Integer> delete(int id) {
-        SeviceResultDTO<Integer> deleteResult= operaEnvService.delete(id);
+        ServiceResultDTO<Integer> deleteResult= operaEnvService.delete(id);
         if (deleteResult.isSuccess()) {
             return new ResponseDTO(deleteResult.getObject());
         } else {

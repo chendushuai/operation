@@ -1,6 +1,6 @@
 package com.chenss.operateapi.service;
 
-import com.chenss.operateapi.common.SeviceResultDTO;
+import com.chenss.operateapi.common.ServiceResultDTO;
 import com.chenss.operateapi.mapper.OperaServiceTypeMapper;
 import com.chenss.operateapi.model.OperaServiceType;
 import com.mysql.cj.util.StringUtils;
@@ -17,7 +17,7 @@ public class OperaServiceTypeService {
     @Autowired
     private OperaServiceTypeMapper operaServiceTypeMapper;
 
-    public SeviceResultDTO<List<OperaServiceType>> listAll(OperaServiceType operaServiceType) {
+    public ServiceResultDTO<List<OperaServiceType>> listAll(OperaServiceType operaServiceType) {
         OperaServiceType param = new OperaServiceType();
         if (operaServiceType.getId()!=null) {
             param.setId(operaServiceType.getId());
@@ -40,51 +40,51 @@ public class OperaServiceTypeService {
         if (!StringUtils.isNullOrEmpty(operaServiceType.getModifyTimeEnd())) {
             param.setModifyTimeEnd(operaServiceType.getModifyTimeEnd());
         }
-        return new SeviceResultDTO<>(true, operaServiceTypeMapper.query(param));
+        return new ServiceResultDTO<>(true, operaServiceTypeMapper.query(param));
     }
 
-    public SeviceResultDTO<OperaServiceType> selectByPrimaryKey(int id) {
-        return new SeviceResultDTO<>(true, operaServiceTypeMapper.selectByPrimaryKey(id));
+    public ServiceResultDTO<OperaServiceType> selectByPrimaryKey(int id) {
+        return new ServiceResultDTO<>(true, operaServiceTypeMapper.selectByPrimaryKey(id));
     }
 
-    public SeviceResultDTO<Integer> insertOrUpdate(OperaServiceType obj) {
+    public ServiceResultDTO<Integer> insertOrUpdate(OperaServiceType obj) {
         OperaServiceType param = new OperaServiceType();
         if (obj.getId() == null) {
             param.setServiceType(obj.getServiceType());
             List<OperaServiceType> operaServiceTypes = operaServiceTypeMapper.query(param);
             if (null != operaServiceTypes && operaServiceTypes.size() > 0) {
-                return new SeviceResultDTO<Integer>().fail("归属类型已经存在，无法插入");
+                return new ServiceResultDTO<Integer>().fail("归属类型已经存在，无法插入");
             }
             param.setServiceDesc(obj.getServiceDesc());
             param.setServiceName(obj.getServiceName());
 
             int insertResult = operaServiceTypeMapper.insertSelective(param);
-            return new SeviceResultDTO<Integer>().ok(insertResult);
+            return new ServiceResultDTO<Integer>().ok(insertResult);
         }
         OperaServiceType opera = operaServiceTypeMapper.selectByPrimaryKey(obj.getId());
         if (null == opera) {
-            return new SeviceResultDTO<Integer>().fail("对象不存在无法修改");
+            return new ServiceResultDTO<Integer>().fail("对象不存在无法修改");
         }
         param.setServiceType(obj.getServiceType());
         List<OperaServiceType> operaServiceTypes = operaServiceTypeMapper.query(param);
         if (null != operaServiceTypes && operaServiceTypes.size() > 0) {
             if (!operaServiceTypes.get(0).getId().equals(obj.getId())) {
-                return new SeviceResultDTO<Integer>().fail("归属类型已经存在，无法修改");
+                return new ServiceResultDTO<Integer>().fail("归属类型已经存在，无法修改");
             }
         }
         param.setId(obj.getId());
         param.setServiceDesc(obj.getServiceDesc());
         param.setServiceName(obj.getServiceName());
         int updateResult = operaServiceTypeMapper.updateByPrimaryKeySelective(param);
-        return new SeviceResultDTO<Integer>().ok(updateResult);
+        return new ServiceResultDTO<Integer>().ok(updateResult);
     }
 
-    public SeviceResultDTO<Integer> delete(int id) {
+    public ServiceResultDTO<Integer> delete(int id) {
         OperaServiceType opera = operaServiceTypeMapper.selectByPrimaryKey(id);
         if (null == opera) {
-            return new SeviceResultDTO<Integer>().fail("对象不存在无法删除");
+            return new ServiceResultDTO<Integer>().fail("对象不存在无法删除");
         }
         int updateResult = operaServiceTypeMapper.deleteByPrimaryKey(id);
-        return new SeviceResultDTO<Integer>().ok(updateResult);
+        return new ServiceResultDTO<Integer>().ok(updateResult);
     }
 }

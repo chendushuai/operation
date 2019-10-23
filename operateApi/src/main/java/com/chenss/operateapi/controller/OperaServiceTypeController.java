@@ -3,7 +3,7 @@ package com.chenss.operateapi.controller;
 import com.chenss.operate.MyResultCode;
 import com.chenss.operateapi.BaseController;
 import com.chenss.operateapi.common.ResponseDTO;
-import com.chenss.operateapi.common.SeviceResultDTO;
+import com.chenss.operateapi.common.ServiceResultDTO;
 import com.chenss.operateapi.model.OperaServiceType;
 import com.chenss.operateapi.request.OperaServiceTypeDO;
 import com.chenss.operateapi.response.OperaServiceTypeResponse;
@@ -27,12 +27,12 @@ public class OperaServiceTypeController extends BaseController {
     private OperaServiceTypeService operaServiceTypeService;
     @RequestMapping("")
     public ResponseDTO<List<OperaServiceTypeResponse>> query(@RequestBody OperaServiceTypeDO params) {
-        SeviceResultDTO<List<OperaServiceType>> operaAff= operaServiceTypeService.listAll(params);
+        ServiceResultDTO<List<OperaServiceType>> operaAff= operaServiceTypeService.listAll(params);
         return new ResponseDTO(convertList(operaAff.getObject()));
     }
     @RequestMapping("/view")
     public ResponseDTO<OperaServiceTypeResponse> viewObject(int id) {
-        SeviceResultDTO<OperaServiceType> operaAff= operaServiceTypeService.selectByPrimaryKey(id);
+        ServiceResultDTO<OperaServiceType> operaAff= operaServiceTypeService.selectByPrimaryKey(id);
         return new ResponseDTO(new OperaServiceTypeResponse(operaAff.getObject()));
     }
     @RequestMapping("/edit")
@@ -40,7 +40,7 @@ public class OperaServiceTypeController extends BaseController {
         if (!params.validate()) {
             return new ResponseDTO(MyResultCode.PARAM_IS_BLANK);
         }
-        SeviceResultDTO<Integer> resultService= operaServiceTypeService.insertOrUpdate(params);
+        ServiceResultDTO<Integer> resultService= operaServiceTypeService.insertOrUpdate(params);
         if (resultService.isSuccess()) {
             return new ResponseDTO(resultService.getObject());
         } else {
@@ -49,7 +49,7 @@ public class OperaServiceTypeController extends BaseController {
     }
     @RequestMapping("/delete")
     public ResponseDTO<Integer> delete(int id) {
-        SeviceResultDTO<Integer> deleteResult= operaServiceTypeService.delete(id);
+        ServiceResultDTO<Integer> deleteResult= operaServiceTypeService.delete(id);
         if (deleteResult.isSuccess()) {
             return new ResponseDTO(deleteResult.getObject());
         } else {

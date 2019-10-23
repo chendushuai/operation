@@ -2,7 +2,7 @@ package com.chenss.operateapi.service;
 
 import cn.hutool.core.util.IdUtil;
 import com.chenss.operateapi.common.GuidUtils;
-import com.chenss.operateapi.common.SeviceResultDTO;
+import com.chenss.operateapi.common.ServiceResultDTO;
 import com.chenss.operateapi.mapper.OperaEnvMapper;
 import com.chenss.operateapi.mapper.OperaLabelMapper;
 import com.chenss.operateapi.model.OperaEnv;
@@ -25,50 +25,50 @@ public class OperaLabelService {
     @Autowired
     private OperaLabelMapper operaLabelMapper;
 
-    public SeviceResultDTO<List<OperaLabel>> query(OperaLabel operaLabel) {
-        return new SeviceResultDTO<>(operaLabelMapper.query(operaLabel));
+    public ServiceResultDTO<List<OperaLabel>> query(OperaLabel operaLabel) {
+        return new ServiceResultDTO<>(operaLabelMapper.query(operaLabel));
     }
 
-    public SeviceResultDTO<OperaLabel> selectByPrimaryKey(String id) {
-        return new SeviceResultDTO<>(operaLabelMapper.selectByPrimaryKey(id));
+    public ServiceResultDTO<OperaLabel> selectByPrimaryKey(String id) {
+        return new ServiceResultDTO<>(operaLabelMapper.selectByPrimaryKey(id));
     }
 
-    public SeviceResultDTO<Integer> insertOrUpdate(OperaLabel obj) {
+    public ServiceResultDTO<Integer> insertOrUpdate(OperaLabel obj) {
         OperaLabel param = new OperaLabel();
         if (StringUtils.isNullOrEmpty(obj.getId())) {
             param.setLabelGroup(obj.getLabelGroup());
             param.setLabelKey(obj.getLabelKey());
             List<OperaLabel> operaEnvs = operaLabelMapper.query(param);
             if (null != operaEnvs && operaEnvs.size() > 0) {
-                return new SeviceResultDTO<Integer>().fail("指定键值已经存在，无法插入");
+                return new ServiceResultDTO<Integer>().fail("指定键值已经存在，无法插入");
             }
             obj.setId(IdUtil.simpleUUID());
             int insertResult = operaLabelMapper.insertSelective(obj);
-            return new SeviceResultDTO<Integer>().ok(insertResult);
+            return new ServiceResultDTO<Integer>().ok(insertResult);
         }
         OperaLabel opera = operaLabelMapper.selectByPrimaryKey(obj.getId());
         if (null == opera) {
-            return new SeviceResultDTO<Integer>().fail("对象不存在无法修改");
+            return new ServiceResultDTO<Integer>().fail("对象不存在无法修改");
         }
         param.setLabelGroup(obj.getLabelGroup());
         param.setLabelKey(obj.getLabelKey());
         List<OperaLabel> operaItems = operaLabelMapper.query(param);
         if (null != operaItems && operaItems.size() > 0) {
             if (!operaItems.get(0).getId().equals(obj.getId())) {
-                return new SeviceResultDTO<Integer>().fail("指定键值已经存在，无法修改");
+                return new ServiceResultDTO<Integer>().fail("指定键值已经存在，无法修改");
             }
         }
         int updateResult = operaLabelMapper.updateByPrimaryKeySelective(obj);
-        return new SeviceResultDTO<Integer>().ok(updateResult);
+        return new ServiceResultDTO<Integer>().ok(updateResult);
     }
 
-    public SeviceResultDTO<Integer> delete(String id) {
+    public ServiceResultDTO<Integer> delete(String id) {
         OperaLabel opera = operaLabelMapper.selectByPrimaryKey(id);
         if (null == opera) {
-            return new SeviceResultDTO<Integer>().fail("对象不存在无法删除");
+            return new ServiceResultDTO<Integer>().fail("对象不存在无法删除");
         }
         int updateResult = operaLabelMapper.deleteByPrimaryKey(id);
-        return new SeviceResultDTO<Integer>().ok(updateResult);
+        return new ServiceResultDTO<Integer>().ok(updateResult);
     }
 
     public PaginationQueryResult<OperaLabel> pageQuery(OperaLabelPageParam param) {

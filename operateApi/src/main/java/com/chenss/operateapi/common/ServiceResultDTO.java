@@ -11,7 +11,7 @@ import java.io.Serializable;
  * @author chenss002
  * @date 2019-10-22 11:36:29
  */
-public class SeviceResultDTO<T> implements Serializable {
+public class ServiceResultDTO<T> implements Serializable {
     private boolean success = false;
 
     private T object;
@@ -20,39 +20,39 @@ public class SeviceResultDTO<T> implements Serializable {
 
     private String msg;
 
-    public SeviceResultDTO() {
+    public ServiceResultDTO() {
     }
 
-    public SeviceResultDTO(boolean success, T object) {
+    public ServiceResultDTO(boolean success, T object) {
         this.success = success;
         this.object = object;
     }
 
-    public SeviceResultDTO(String msg) {
+    public ServiceResultDTO(String msg) {
         this.success = false;
         this.msg = msg;
     }
 
-    public SeviceResultDTO(T object) {
+    public ServiceResultDTO(T object) {
         this.code = MyResultCode.SUCCESS.getCode();
         this.msg = MyResultCode.SUCCESS.getMessage();
         this.object = object;
     }
-    public SeviceResultDTO(MyResultCode resultCode) {
+    public ServiceResultDTO(MyResultCode resultCode) {
         this.code = resultCode.getCode();
         this.msg = resultCode.getMessage();
     }
-    public SeviceResultDTO(String code,String msg) {
+    public ServiceResultDTO(String code,String msg) {
         this.code=code;
         this.msg=msg;
     }
 
-    public SeviceResultDTO<T> ok(T obj) {
-        return new SeviceResultDTO(obj);
+    public ServiceResultDTO<T> ok(T obj) {
+        return new ServiceResultDTO(obj);
     }
 
-    public SeviceResultDTO<T> fail(String msg) {
-        return new SeviceResultDTO<>(msg);
+    public ServiceResultDTO<T> fail(String msg) {
+        return new ServiceResultDTO<>(msg);
     }
 
     public boolean isSuccess() {

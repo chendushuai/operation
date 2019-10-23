@@ -1,16 +1,14 @@
 package com.chenss.operateapi.service;
 
-import cn.hutool.core.lang.func.VoidFunc0;
 import cn.hutool.core.util.IdUtil;
-import com.chenss.operateapi.common.SeviceResultDTO;
+import com.chenss.operateapi.common.ServiceResultDTO;
 import com.chenss.operateapi.mapper.OperaGroupDetailMapper;
 import com.chenss.operateapi.mapper.OperaGroupMapper;
 import com.chenss.operateapi.model.OperaGroup;
+import com.chenss.operateapi.model.OperaGroupAndDetailParam;
 import com.chenss.operateapi.model.OperaGroupDetail;
 import com.chenss.operateapi.model.OperaGroupHostDo;
-import com.chenss.operateapi.model.OperaLabel;
 import com.chenss.operateapi.param.GroupHostParam;
-import com.chenss.operateapi.param.OperaLabelPageParam;
 import com.chenss.operateapi.response.GroupHostResponse;
 import com.chenss.operateapi.response.PaginationQueryResult;
 import com.mysql.cj.util.StringUtils;
@@ -19,6 +17,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * 服务器分组服务
@@ -32,49 +31,110 @@ public class OperaGroupService {
     @Autowired
     private OperaGroupDetailMapper operaGroupDetailMapper;
 
-    public SeviceResultDTO<List<OperaGroup>> query(OperaGroup operaLabel) {
-        return new SeviceResultDTO<>(operaGroupMapper.query(operaLabel));
+    public ServiceResultDTO<List<OperaGroup>> query(OperaGroup operaLabel) {
+        return new ServiceResultDTO<>(operaGroupMapper.query(operaLabel));
     }
 
-    public SeviceResultDTO<OperaGroup> selectByPrimaryKey(String id) {
-        return new SeviceResultDTO<>(operaGroupMapper.selectByPrimaryKey(id));
+    public ServiceResultDTO<OperaGroup> selectByPrimaryKey(String id) {
+        return new ServiceResultDTO<>(operaGroupMapper.selectByPrimaryKey(id));
     }
 
-    public SeviceResultDTO<String> insertOrUpdate(OperaGroup obj) {
-        OperaGroup param = new OperaGroup();
-        if (StringUtils.isNullOrEmpty(obj.getId())) {
-            param.setGroupName(obj.getGroupName());
-            List<OperaGroup> operaGroups = operaGroupMapper.query(param);
+    public ServiceResultDTO<Integer> insert(OperaGroupAndDetailParam param) {
+        OperaGroup operaGroup = new OperaGroup();
+        if (StringUtils.isNullOrEmpty(param.getId())) {
+            operaGroup.setGroupName(param.getGroupName());
+            List<OperaGroup> operaGroups = operaGroupMapper.query(operaGroup);
             if (null != operaGroups && operaGroups.size() > 0) {
-                return new SeviceResultDTO<String>().fail("分组名称已经存在，无法插入");
+                return new ServiceResultDTO().fail("分组名称已经存在，无法插入");
             }
-            obj.setId(IdUtil.simpleUUID());
-            int insertResult = operaGroupMapper.insertSelective(obj);
-            return new SeviceResultDTO<String>().ok(obj.getId());
+
+            operaGroup.setId(IdUtil.simpleUUID());
+
+            List<String> hostIds = validateDetailExists(param,param.getId());
+            if (null != hostIds && hostIds.size()>0) {
+                return new ServiceResultDTO().fail(String.format("主机已经分组，无法重复分组，具体ID为：[%s]",hostIds));
+            }
+
+            operaGroup.setGroupType(param.getGroupType());
+            operaGroup.setGroupRemark(param.getGroupRemark());
+            int insertResult = operaGroupMapper.insertSelective(operaGroup);
+            List<OperaGroupDetail> details = new ArrayList<>();
+            for (String hostId: param.getHostIds()) {
+                OperaGroupDetail detailItem = new OperaGroupDetail();
+                detailItem.setId(IdUtil.simpleUUID());
+                detailItem.setGroupId(operaGroup.getId());
+                detailItem.setItemId(hostId);
+                details.add(detailItem);
+            }
+            operaGroupDetailMapper.insertBatch(details);
+            return new ServiceResultDTO().ok(insertResult);
         }
-        OperaGroup opera = operaGroupMapper.selectByPrimaryKey(obj.getId());
+        OperaGroup opera = operaGroupMapper.selectByPrimaryKey(param.getId());
         if (null == opera) {
-            return new SeviceResultDTO<String>().fail("对象不存在无法修改");
+            return new ServiceResultDTO().fail("对象不存在无法修改");
         }
-        param.setGroupName(obj.getGroupName());
+        param.setGroupName(param.getGroupName());
         List<OperaGroup> operaItems = operaGroupMapper.query(param);
         if (null != operaItems && operaItems.size() > 0) {
-            if (!operaItems.get(0).getId().equals(obj.getId())) {
-                return new SeviceResultDTO<String>().fail("分组名称已经存在，无法修改");
+            if (!operaItems.get(0).getId().equals(param.getId())) {
+                return new ServiceResultDTO().fail("分组名称已经存在，无法修改");
             }
         }
-        int updateResult = operaGroupMapper.updateByPrimaryKeySelective(obj);
-        return new SeviceResultDTO<String>().ok(obj.getId());
+        opera.setGroupType(param.getGroupType());
+        opera.setGroupName(param.getGroupName());
+        opera.setGroupRemark(param.getGroupRemark());
+        int updateResult = operaGroupMapper.updateByPrimaryKeySelective(opera);
+        return new ServiceResultDTO().ok(updateResult);
+    }
+    public ServiceResultDTO<Integer> addDetail(OperaGroupAndDetailParam param) {
+        if (StringUtils.isNullOrEmpty(param.getId())) {
+            return new ServiceResultDTO().fail("没有分组，无法增加主机");
+        }
+        OperaGroup opera = operaGroupMapper.selectByPrimaryKey(param.getId());
+        if (null == opera) {
+            return new ServiceResultDTO().fail("没有分组，无法增加主机");
+        }
+        List<String> hostIds = validateDetailExists(param,param.getId());
+        if (null != hostIds && hostIds.size()>0) {
+            return new ServiceResultDTO().fail(String.format("主机已经分组，无法重复分组，具体ID为：[%s]",hostIds));
+        }
+        hostIds = validateDetailExists(param,null);
+
+        List<OperaGroupDetail> details = new ArrayList<>();
+        for (String hostId: param.getHostIds()) {
+            if (null!=hostIds && hostIds.contains(hostId)) {
+                continue;
+            }
+            OperaGroupDetail detailItem = new OperaGroupDetail();
+            detailItem.setId(IdUtil.simpleUUID());
+            detailItem.setGroupId(opera.getId());
+            detailItem.setItemId(hostId);
+            details.add(detailItem);
+        }
+        int addResult = operaGroupDetailMapper.insertBatch(details);
+        return new ServiceResultDTO().ok(addResult);
     }
 
-    public SeviceResultDTO<Integer> delete(String id) {
+    private List<String> validateDetailExists(OperaGroupAndDetailParam param, String groupId) {
+        OperaGroupDetail detailParam = new OperaGroupDetail();
+        detailParam.setId(groupId);
+        detailParam.setHostIds(param.getHostIds());
+        List<OperaGroupDetail> detailList = operaGroupDetailMapper.query(detailParam);
+        if (null !=detailList &&detailList.size()>0) {
+            List<String> hostIds = detailList.stream().map(OperaGroupDetail::getItemId).collect(Collectors.toList());
+            return hostIds;
+        }
+        return null;
+    }
+
+    public ServiceResultDTO<Integer> delete(String id) {
         OperaGroup opera = operaGroupMapper.selectByPrimaryKey(id);
         if (null == opera) {
-            return new SeviceResultDTO<Integer>().fail("对象不存在无法删除");
+            return new ServiceResultDTO<Integer>().fail("对象不存在无法删除");
         }
         operaGroupDetailMapper.deleteByGroupId(id);
         int updateResult = operaGroupMapper.deleteByPrimaryKey(id);
-        return new SeviceResultDTO<Integer>().ok(updateResult);
+        return new ServiceResultDTO<Integer>().ok(updateResult);
     }
 
     public PaginationQueryResult<GroupHostResponse> pageQuery(GroupHostParam param) {

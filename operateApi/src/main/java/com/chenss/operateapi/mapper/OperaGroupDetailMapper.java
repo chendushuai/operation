@@ -14,7 +14,7 @@ import java.util.List;
 @Mapper
 public interface OperaGroupDetailMapper extends MyBatisBaseDao<OperaGroupDetail, String> {
     List<OperaGroupDetail> query(OperaGroupDetail obj);
-    int insertCodeBatch(List<OperaGroupDetail> groupDetailList);
+    int insertBatch(List<OperaGroupDetail> groupDetailList);
 
     int deleteByGroupId(String id);
 }

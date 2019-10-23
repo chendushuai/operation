@@ -4,7 +4,7 @@ import com.chenss.operate.MyResultCode;
 import com.chenss.operateapi.BaseController;
 import com.chenss.operateapi.aop.ParamNotNull;
 import com.chenss.operateapi.common.ResponseDTO;
-import com.chenss.operateapi.common.SeviceResultDTO;
+import com.chenss.operateapi.common.ServiceResultDTO;
 import com.chenss.operateapi.model.OperaEnv;
 import com.chenss.operateapi.model.OperaLabel;
 import com.chenss.operateapi.param.OperaLabelPageParam;
@@ -48,12 +48,12 @@ public class OperaLabelController extends BaseController {
     @RequestMapping("/kv")
     @ParamNotNull(exclude = {})
     public ResponseDTO<List<OperaLabel>> query(@RequestBody OperaLabel params) {
-        SeviceResultDTO<List<OperaLabel>> queryResult= operaLabelService.query(params);
+        ServiceResultDTO<List<OperaLabel>> queryResult= operaLabelService.query(params);
         return new ResponseDTO(queryResult.getObject());
     }
     @RequestMapping("/view")
     public ResponseDTO<OperaLabel> viewObject(String id) {
-        SeviceResultDTO<OperaLabel> operaItem= operaLabelService.selectByPrimaryKey(id);
+        ServiceResultDTO<OperaLabel> operaItem= operaLabelService.selectByPrimaryKey(id);
         return new ResponseDTO(operaItem.getObject());
     }
     @RequestMapping("/edit")
@@ -62,7 +62,7 @@ public class OperaLabelController extends BaseController {
         if (!params.validate()) {
             return new ResponseDTO(MyResultCode.PARAM_IS_BLANK);
         }
-        SeviceResultDTO<Integer> resultService= operaLabelService.insertOrUpdate(params);
+        ServiceResultDTO<Integer> resultService= operaLabelService.insertOrUpdate(params);
         if (resultService.isSuccess()) {
             return new ResponseDTO(resultService.getObject());
         } else {
@@ -71,7 +71,7 @@ public class OperaLabelController extends BaseController {
     }
     @RequestMapping("/delete")
     public ResponseDTO<Integer> delete(String id) {
-        SeviceResultDTO<Integer> deleteResult= operaLabelService.delete(id);
+        ServiceResultDTO<Integer> deleteResult= operaLabelService.delete(id);
         if (deleteResult.isSuccess()) {
             return new ResponseDTO(deleteResult.getObject());
         } else {

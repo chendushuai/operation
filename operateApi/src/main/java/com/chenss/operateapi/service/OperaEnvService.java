@@ -1,6 +1,6 @@
 package com.chenss.operateapi.service;
 
-import com.chenss.operateapi.common.SeviceResultDTO;
+import com.chenss.operateapi.common.ServiceResultDTO;
 import com.chenss.operateapi.mapper.OperaEnvMapper;
 import com.chenss.operateapi.model.OperaEnv;
 import com.mysql.cj.util.StringUtils;
@@ -17,47 +17,47 @@ public class OperaEnvService {
     @Autowired
     private OperaEnvMapper operaEnvMapper;
 
-    public SeviceResultDTO<List<OperaEnv>> getEnv(OperaEnv operaEnv) {
-        return new SeviceResultDTO<>(true, operaEnvMapper.query(operaEnv));
+    public ServiceResultDTO<List<OperaEnv>> getEnv(OperaEnv operaEnv) {
+        return new ServiceResultDTO<>(true, operaEnvMapper.query(operaEnv));
     }
 
-    public SeviceResultDTO<OperaEnv> selectByPrimaryKey(int id) {
-        return new SeviceResultDTO<>(true, operaEnvMapper.selectByPrimaryKey(id));
+    public ServiceResultDTO<OperaEnv> selectByPrimaryKey(int id) {
+        return new ServiceResultDTO<>(true, operaEnvMapper.selectByPrimaryKey(id));
     }
 
-    public SeviceResultDTO<Integer> insertOrUpdate(OperaEnv obj) {
+    public ServiceResultDTO<Integer> insertOrUpdate(OperaEnv obj) {
         OperaEnv param = new OperaEnv();
         if (obj.getId() == null) {
             param.setEnvType(obj.getEnvType());
             List<OperaEnv> operaEnvs = operaEnvMapper.query(param);
             if (null != operaEnvs && operaEnvs.size() > 0) {
-                return new SeviceResultDTO<Integer>().fail("环境类型已经存在，无法插入");
+                return new ServiceResultDTO<Integer>().fail("环境类型已经存在，无法插入");
             }
 
             int insertResult = operaEnvMapper.insertSelective(obj);
-            return new SeviceResultDTO<Integer>().ok(insertResult);
+            return new ServiceResultDTO<Integer>().ok(insertResult);
         }
         OperaEnv opera = operaEnvMapper.selectByPrimaryKey(obj.getId());
         if (null == opera) {
-            return new SeviceResultDTO<Integer>().fail("对象不存在无法修改");
+            return new ServiceResultDTO<Integer>().fail("对象不存在无法修改");
         }
         param.setEnvType(obj.getEnvType());
         List<OperaEnv> operaEnvs = operaEnvMapper.query(param);
         if (null != operaEnvs && operaEnvs.size() > 0) {
             if (!operaEnvs.get(0).getId().equals(obj.getId())) {
-                return new SeviceResultDTO<Integer>().fail("环境类型已经存在，无法修改");
+                return new ServiceResultDTO<Integer>().fail("环境类型已经存在，无法修改");
             }
         }
         int updateResult = operaEnvMapper.updateByPrimaryKeySelective(obj);
-        return new SeviceResultDTO<Integer>().ok(updateResult);
+        return new ServiceResultDTO<Integer>().ok(updateResult);
     }
 
-    public SeviceResultDTO<Integer> delete(int id) {
+    public ServiceResultDTO<Integer> delete(int id) {
         OperaEnv opera = operaEnvMapper.selectByPrimaryKey(id);
         if (null == opera) {
-            return new SeviceResultDTO<Integer>().fail("对象不存在无法删除");
+            return new ServiceResultDTO<Integer>().fail("对象不存在无法删除");
         }
         int updateResult = operaEnvMapper.deleteByPrimaryKey(id);
-        return new SeviceResultDTO<Integer>().ok(updateResult);
+        return new ServiceResultDTO<Integer>().ok(updateResult);
     }
 }

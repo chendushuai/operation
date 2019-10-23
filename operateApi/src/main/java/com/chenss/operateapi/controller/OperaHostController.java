@@ -4,7 +4,7 @@ import com.chenss.operate.MyResultCode;
 import com.chenss.operateapi.BaseController;
 import com.chenss.operateapi.aop.ParamNotNull;
 import com.chenss.operateapi.common.ResponseDTO;
-import com.chenss.operateapi.common.SeviceResultDTO;
+import com.chenss.operateapi.common.ServiceResultDTO;
 import com.chenss.operateapi.model.OperaHost;
 import com.chenss.operateapi.param.OperaHostParam;
 import com.chenss.operateapi.request.OperaHostDO;
@@ -40,7 +40,7 @@ public class OperaHostController extends BaseController {
     }
     @RequestMapping("/view")
     public ResponseDTO<OperaHost> viewObject(String id) {
-        SeviceResultDTO<OperaHost> operaAff= operaHostService.selectByPrimaryKey(id);
+        ServiceResultDTO<OperaHost> operaAff= operaHostService.selectByPrimaryKey(id);
         return new ResponseDTO(operaAff.getObject());
     }
     @RequestMapping("/edit")
@@ -49,7 +49,7 @@ public class OperaHostController extends BaseController {
         if (!params.validate()) {
             return new ResponseDTO(MyResultCode.PARAM_IS_BLANK);
         }
-        SeviceResultDTO<Integer> resultService= operaHostService.insertOrUpdate(params);
+        ServiceResultDTO<Integer> resultService= operaHostService.insertOrUpdate(params);
         if (resultService.isSuccess()) {
             return new ResponseDTO(resultService.getObject());
         } else {
@@ -58,7 +58,7 @@ public class OperaHostController extends BaseController {
     }
     @RequestMapping("/delete")
     public ResponseDTO<Integer> delete(String id) {
-        SeviceResultDTO<Integer> deleteResult= operaHostService.delete(id);
+        ServiceResultDTO<Integer> deleteResult= operaHostService.delete(id);
         if (deleteResult.isSuccess()) {
             return new ResponseDTO(deleteResult.getObject());
         } else {

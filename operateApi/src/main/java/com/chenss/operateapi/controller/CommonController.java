@@ -3,7 +3,7 @@ package com.chenss.operateapi.controller;
 import com.chenss.operate.MyResultCode;
 import com.chenss.operateapi.BaseController;
 import com.chenss.operateapi.common.ResponseDTO;
-import com.chenss.operateapi.common.SeviceResultDTO;
+import com.chenss.operateapi.common.ServiceResultDTO;
 import com.chenss.operateapi.model.OperaAffiliation;
 import com.chenss.operateapi.model.OperaEnv;
 import com.chenss.operateapi.model.OperaOs;
@@ -44,19 +44,19 @@ public class CommonController extends BaseController {
     public ResponseDTO<CommonQueryResponse> query(@RequestBody CommonQueryParam params) {
         CommonQueryResponse commonQueryResponse = new CommonQueryResponse();
         if (params.isNeedOperaEnv()) {
-            SeviceResultDTO<List<OperaEnv>> envList = operaEnvService.getEnv(new OperaEnv());
+            ServiceResultDTO<List<OperaEnv>> envList = operaEnvService.getEnv(new OperaEnv());
             commonQueryResponse.setOperaEnvList(envList.getObject());
         }
         if (params.isNeedOperaAffiliation()) {
-            SeviceResultDTO<List<OperaAffiliation>> affList = operaAffiliationService.listAll(new OperaAffiliation());
+            ServiceResultDTO<List<OperaAffiliation>> affList = operaAffiliationService.listAll(new OperaAffiliation());
             commonQueryResponse.setOperaAffiliationList(affList.getObject());
         }
         if (params.isNeedOperaOs()) {
-            SeviceResultDTO<List<OperaOs>> osList = operaOsService.getOs(new OperaOs());
+            ServiceResultDTO<List<OperaOs>> osList = operaOsService.getOs(new OperaOs());
             commonQueryResponse.setOperaOsList(osList.getObject());
         }
         if (params.isNeedOperaServiceType()) {
-            SeviceResultDTO<List<OperaServiceType>> serviceTypeList = operaServiceTypeService.listAll(new OperaServiceType());
+            ServiceResultDTO<List<OperaServiceType>> serviceTypeList = operaServiceTypeService.listAll(new OperaServiceType());
             commonQueryResponse.setOperaServiceTypeList(serviceTypeList.getObject());
         }
         return new ResponseDTO(commonQueryResponse);

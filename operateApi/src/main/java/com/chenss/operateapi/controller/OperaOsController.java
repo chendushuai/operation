@@ -3,7 +3,7 @@ package com.chenss.operateapi.controller;
 import com.chenss.operate.MyResultCode;
 import com.chenss.operateapi.BaseController;
 import com.chenss.operateapi.common.ResponseDTO;
-import com.chenss.operateapi.common.SeviceResultDTO;
+import com.chenss.operateapi.common.ServiceResultDTO;
 import com.chenss.operateapi.model.OperaOs;
 import com.chenss.operateapi.request.OperaOsDO;
 import com.chenss.operate.ResponseResult;
@@ -30,13 +30,13 @@ public class OperaOsController extends BaseController {
     private OperaOsService operaOsService;
     @RequestMapping("")
     public List<OperaOs> query(@RequestBody OperaOsDO params) {
-        SeviceResultDTO<List<OperaOs>> operaOs= operaOsService.getOs(params);
+        ServiceResultDTO<List<OperaOs>> operaOs= operaOsService.getOs(params);
         return operaOs.getObject();
         //return "[OperaOs [Hash = -1782734848, id=1, envType=DEV, envName=开发环境, apolloOs=DEV, envDesc=开发环境, serialVersionUID=1], OperaOs [Hash = 1949561467, id=2, envType=TEST, envName=测试环境, apolloOs=QA, envDesc=测试环境, serialVersionUID=1], OperaOs [Hash = -323490972, id=3, envType=UAT, envName=UAT预发环境, apolloOs=UAT, envDesc=UAT预发环境, serialVersionUID=1], OperaOs [Hash = 1255912080, id=4, envType=HZ, envName=富阳环境, apolloOs=ONLINE_FY, envDesc=富阳生产环境, serialVersionUID=1], OperaOs [Hash = 327114008, id=5, envType=SZ, envName=苏州环境, apolloOs=ONLINE, envDesc=苏州生产环境, serialVersionUID=1]]";
     }
     @RequestMapping("/view")
     public OperaOs viewObject(int id) {
-        SeviceResultDTO<OperaOs> operaOs= operaOsService.selectByPrimaryKey(id);
+        ServiceResultDTO<OperaOs> operaOs= operaOsService.selectByPrimaryKey(id);
         return operaOs.getObject();
     }
     @RequestMapping("/edit")
@@ -44,7 +44,7 @@ public class OperaOsController extends BaseController {
         if (!params.validate()) {
             return new ResponseDTO(MyResultCode.PARAM_IS_BLANK);
         }
-        SeviceResultDTO<Integer> resultService= operaOsService.insertOrUpdate(params);
+        ServiceResultDTO<Integer> resultService= operaOsService.insertOrUpdate(params);
         if (resultService.isSuccess()) {
             return new ResponseDTO(resultService.getObject());
         } else {
@@ -53,7 +53,7 @@ public class OperaOsController extends BaseController {
     }
     @RequestMapping("/delete")
     public ResponseDTO<Integer> delete(int id) {
-        SeviceResultDTO<Integer> deleteResult= operaOsService.delete(id);
+        ServiceResultDTO<Integer> deleteResult= operaOsService.delete(id);
         if (deleteResult.isSuccess()) {
             return new ResponseDTO(deleteResult.getObject());
         } else {
