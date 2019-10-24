@@ -1,5 +1,7 @@
 package com.chenss.operateapi.param;
 
+import com.chenss.operateapi.common.RequestParam;
+
 import java.io.Serializable;
 
 /**
@@ -7,7 +9,7 @@ import java.io.Serializable;
  * @author chenss002
  * @date 2019-10-23 10:51:51
  */
-public class GroupHostParam extends PagerParam implements Serializable {
+public class GroupHostParam extends PagerParam implements Serializable, RequestParam {
     /**
      * 分组ID
      */

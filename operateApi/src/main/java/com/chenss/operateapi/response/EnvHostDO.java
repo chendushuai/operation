@@ -8,10 +8,20 @@ import java.io.Serializable;
  * @date 2019-10-23 10:35:49
  */
 public class EnvHostDO implements Serializable {
+    private static final long serialVersionUID = 5864218166171270016L;
+    private String id;
     private String envType;
     private String envName;
     private String hostName;
     private String hostIp;
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
 
     public String getEnvType() {
         return envType;
@@ -48,7 +58,8 @@ public class EnvHostDO implements Serializable {
     @Override
     public String toString() {
         return "EnvHostDO{" +
-                "envType='" + envType + '\'' +
+                "id='" + id + '\'' +
+                ", envType='" + envType + '\'' +
                 ", envName='" + envName + '\'' +
                 ", hostName='" + hostName + '\'' +
                 ", hostIp='" + hostIp + '\'' +

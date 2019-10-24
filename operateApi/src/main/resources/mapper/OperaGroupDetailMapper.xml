@@ -8,6 +8,13 @@
         <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
         <result column="modify_time" jdbcType="TIMESTAMP" property="modifyTime"/>
     </resultMap>
+    <resultMap id="EnvHostDOResultMap" type="com.chenss.operateapi.response.EnvHostDO">
+        <id column="id" jdbcType="VARCHAR" property="id"/>
+        <result column="env_type" jdbcType="VARCHAR" property="envType"/>
+        <result column="env_name" jdbcType="VARCHAR" property="envName"/>
+        <result column="host_name" jdbcType="VARCHAR" property="hostName"/>
+        <result column="host_ip" jdbcType="VARCHAR" property="hostIp"/>
+    </resultMap>
     <sql id="Base_Column_List">
     id, item_id, group_id, create_time, modify_time
   </sql>
@@ -36,6 +43,18 @@
         <include refid="Base_Column_List"/>
         from opera_group_detail
         where id = #{id,jdbcType=VARCHAR}
+    </select>
+    <select id="queryGroupHostId" parameterType="java.lang.String" resultMap="EnvHostDOResultMap">
+        SELECT
+	        d.id,e.env_type, e.env_name, h.host_name, h.host_ip
+        FROM
+            opera_group_detail d,
+            opera_host h,
+            opera_env e
+        WHERE d.item_id = h.id
+            AND h.host_env_id = e.id
+            and d.group_id = #{id,jdbcType=VARCHAR}
+        ORDER BY e.env_type,h.host_name,h.host_ip
     </select>
     <select id="query" parameterType="com.chenss.operateapi.model.OperaGroupDetail" resultMap="BaseResultMap">
         select

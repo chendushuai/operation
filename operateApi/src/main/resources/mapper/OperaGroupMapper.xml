@@ -57,20 +57,23 @@
             AND group_type = #{groupType,jdbcType=VARCHAR}
         </if>
         <if test="groupName != null">
-            AND group_name = #{groupName,jdbcType=VARCHAR}
+            AND group_name like concat(concat('%', #{groupName,jdbcType=VARCHAR}),'%')
         </if>
         <if test="envId != null">
             AND e.id = #{envId,jdbcType=INTEGER}
         </if>
         <if test="hostName != null">
-            AND host_name = #{hostName,jdbcType=VARCHAR}
+            AND host_name like concat(concat('%', #{hostName,jdbcType=VARCHAR}),'%')
         </if>
         <if test="hostIp != null">
-            AND host_ip = #{hostIp,jdbcType=VARCHAR}
+            AND host_ip like concat(concat('%', #{hostIp,jdbcType=VARCHAR}),'%')
         </if>
     </sql>
     <select id="pageQueryHosts" parameterType="com.chenss.operateapi.param.GroupHostParam" resultMap="GroupHostResponseResultMap">
         SELECT
+        *
+        FROM
+        (SELECT
         g.id,
         g.group_type,
         g.group_name,
@@ -93,10 +96,41 @@
         g.group_name,
         g.create_time,
         g.modify_time
+        UNION
+        SELECT
+        g2.id,
+        g2.group_type,
+        g2.group_name,
+        g2.create_time,
+        g2.modify_time,
+        NULL host_info
+        FROM
+        opera_group g2
+        WHERE
+        NOT EXISTS ( SELECT 1 FROM opera_group_detail d2, opera_host h2 WHERE d2.item_id = h2.id AND g2.id = d2.group_id )
+        <if test="id != null">
+            AND id = #{id,jdbcType=VARCHAR}
+        </if>
+        <if test="groupType != null">
+            AND group_type = #{groupType,jdbcType=VARCHAR}
+        </if>
+        <if test="groupName != null">
+            AND group_name like concat(concat('%', #{groupName,jdbcType=VARCHAR}),'%')
+        </if>
+        <if test="envId != null">
+            AND id = ''
+        </if>
+        <if test="hostName != null">
+            AND id = ''
+        </if>
+        <if test="hostIp != null">
+            AND id = ''
+        </if>
+        ) marge
         order BY
-        g.id,
-        g.group_type,
-        g.group_name
+        id,
+        group_type,
+        group_name
         LIMIT #{pageBegin},#{pageSize};
     </select>
     <select id="countQueryHosts" parameterType="com.chenss.operateapi.param.GroupHostParam" resultType="java.lang.Integer">
