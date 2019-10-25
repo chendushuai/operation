@@ -30,6 +30,7 @@ public class GroupHostResponse extends OperaGroupHostDo implements Serializable 
     public void createHostInfoList() {
         childHosts = new ArrayList<>();
         if (StringUtils.isNullOrEmpty(getHostInfo())) {
+            return;
         }
         String[] envHostArr = getHostInfo().split(",");
         childHosts = new ArrayList<>();
