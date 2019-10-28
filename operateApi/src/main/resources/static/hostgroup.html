@@ -296,7 +296,7 @@
                         res = res + "</td><td align=\"left\">";
                         res = res + $(element)[0].hostIp;
                         res = res + "</td><td align=\"center\">";
-                        res = res + "<button type=\"button\" class=\"btn btn-danger\">删除</button>";
+                        res = res + "<button type=\"button\" class=\"btn btn-danger\" onclick=\"javascript:deleteExistsHost('"+$(element)[0].id+"');\">删除</button>";
                         res = res + "</td></tr>";
                         $("#detail-exist-host").html($("#detail-exist-host").html() + res);
                     });
@@ -439,10 +439,63 @@
                 res = res + "</td><td align=\"left\">";
                 res = res + eleObj.hostIp;
                 res = res + "</td><td align=\"center\">";
-                res = res + "<button type=\"button\" class=\"btn btn-success\">添加</button>";
+                res = res + "<button type=\"button\" class=\"btn btn-success addBtn\" onclick=\"javascript:addHost('"+eleObj.id+"');\">添加</button>";
                 res = res + "</td></tr>";
                 $("#detail-host-table").html($("#detail-host-table").html() + res);
             });
+        }
+        function addHost(host_id) {
+            if(confirm("确认要添加到分组中吗？")) {
+                var group_id=$('#detailModal').find('.modal-body #detail-element-id').html();
+                $.ajax({
+                    type: "POST",
+                    url: '/api/group/adddetail',
+                    contentType: "application/json",
+                    dataType: "json",
+                    data: JSON.stringify({
+                        hostId: host_id,
+                        id: group_id
+                    }),
+                    success: function (jsonResult) {
+                        if (jsonResult.success) {
+                            detailExistTableCreate();
+                        } else {
+                            modal.find(".err-msg").show().html("<strong>" + jsonResult.error + " :</strong> " + jsonResult.msg);
+                        }
+                    },
+                    error: function (xhr) {
+                        alert("错误提示： " + xhr.status + " " + xhr.statusText);
+                        if (xhr.status == 401) {
+                            return;
+                        } else {
+                            return;
+                        }
+                    }
+                });
+            }
+        }
+        function deleteExistsHost(detail_id) {
+            if(confirm("确认要将该主机从分组中删除吗？")) {
+                $.ajax({
+                    type: "POST",
+                    url: '/api/group/deletedetail?id=' + detail_id,
+                    success: function (jsonResult) {
+                        if (jsonResult.success) {
+                            detailExistTableCreate();
+                        } else {
+                            modal.find(".err-msg").show().html("<strong>" + jsonResult.error + " :</strong> " + jsonResult.msg);
+                        }
+                    },
+                    error: function (xhr) {
+                        alert("错误提示： " + xhr.status + " " + xhr.statusText);
+                        if (xhr.status == 401) {
+                            return;
+                        } else {
+                            return;
+                        }
+                    }
+                });
+            }
         }
     </script>
 </head>

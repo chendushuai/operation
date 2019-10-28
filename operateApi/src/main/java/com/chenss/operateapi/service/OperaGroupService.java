@@ -9,6 +9,7 @@ import com.chenss.operateapi.model.OperaGroupAndDetailParam;
 import com.chenss.operateapi.model.OperaGroupDetail;
 import com.chenss.operateapi.model.OperaGroupHostDo;
 import com.chenss.operateapi.param.GroupHostParam;
+import com.chenss.operateapi.param.OperaGroupDetailParam;
 import com.chenss.operateapi.response.EnvHostDO;
 import com.chenss.operateapi.response.GroupHostResponse;
 import com.chenss.operateapi.response.PaginationQueryResult;
@@ -40,7 +41,7 @@ public class OperaGroupService {
         return new ServiceResultDTO<>(operaGroupMapper.selectByPrimaryKey(id));
     }
 
-    public ServiceResultDTO<List<OperaGroupDetail>> queryDetail(OperaGroupDetail operaLabel) {
+    public ServiceResultDTO<List<OperaGroupDetail>> queryDetail(OperaGroupDetailParam operaLabel) {
         return new ServiceResultDTO<>(operaGroupDetailMapper.query(operaLabel));
     }
 
@@ -92,32 +93,25 @@ public class OperaGroupService {
         if (null == opera) {
             return new ServiceResultDTO().fail("没有分组，无法增加主机");
         }
-        List<String> hostIds = validateDetailExists(param,param.getId());
+        List<String> hostIds = validateDetailExists(param);
         if (null != hostIds && hostIds.size()>0) {
             return new ServiceResultDTO().fail(String.format("主机已经分组，无法重复分组，具体ID为：[%s]",hostIds));
         }
-        hostIds = validateDetailExists(param,null);
 
         List<OperaGroupDetail> details = new ArrayList<>();
-        for (String hostId: param.getHostIds()) {
-            if (null!=hostIds && hostIds.contains(hostId)) {
-                continue;
-            }
-            OperaGroupDetail detailItem = new OperaGroupDetail();
-            detailItem.setId(IdUtil.simpleUUID());
-            detailItem.setGroupId(opera.getId());
-            detailItem.setItemId(hostId);
-            details.add(detailItem);
-        }
+        OperaGroupDetail detailItem = new OperaGroupDetail();
+        detailItem.setId(IdUtil.simpleUUID());
+        detailItem.setGroupId(opera.getId());
+        detailItem.setItemId(param.getHostId());
+        details.add(detailItem);
         int addResult = operaGroupDetailMapper.insertBatch(details);
         return new ServiceResultDTO().ok(addResult);
     }
 
-    private List<String> validateDetailExists(OperaGroupAndDetailParam param, String groupId) {
-        OperaGroupDetail detailParam = new OperaGroupDetail();
-        detailParam.setId(groupId);
-        detailParam.setHostIds(param.getHostIds());
-        List<OperaGroupDetail> detailList = operaGroupDetailMapper.query(detailParam);
+    private List<String> validateDetailExists(OperaGroupAndDetailParam param) {
+        OperaGroupDetailParam detailParam = new OperaGroupDetailParam();
+        detailParam.setHostId(param.getHostId());
+        List<OperaGroupDetail> detailList = operaGroupDetailMapper.verify(detailParam);
         if (null !=detailList &&detailList.size()>0) {
             List<String> hostIds = detailList.stream().map(OperaGroupDetail::getItemId).collect(Collectors.toList());
             return hostIds;

@@ -29,12 +29,8 @@
             <if test="groupId != null">
                 AND group_id = #{groupId,jdbcType=VARCHAR}
             </if>
-            <if test="hostIds != null">
-                and item_id in
-                <foreach collection="hostIds" index="index" item="item" open="(" separator="," close=")">
-                    #{item}
-                </foreach>
-                and group_id != #{groupId,jdbcType=VARCHAR}
+            <if test="hostId != null">
+                and item_id = #{hostId,jdbcType=VARCHAR}
             </if>
         </trim>
     </sql>
@@ -56,11 +52,17 @@
             and d.group_id = #{id,jdbcType=VARCHAR}
         ORDER BY e.env_type,h.host_name,h.host_ip
     </select>
-    <select id="query" parameterType="com.chenss.operateapi.model.OperaGroupDetail" resultMap="BaseResultMap">
+    <select id="query" parameterType="com.chenss.operateapi.param.OperaGroupDetailParam" resultMap="BaseResultMap">
         select
         <include refid="Base_Column_List"/>
         from opera_group_detail
         <include refid="Page_Where_Sql"></include>
+    </select>
+    <select id="verify" parameterType="com.chenss.operateapi.param.OperaGroupDetailParam" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from opera_group_detail
+        WHERE item_id = #{hostId,jdbcType=VARCHAR}
     </select>
     <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
     delete from opera_group_detail

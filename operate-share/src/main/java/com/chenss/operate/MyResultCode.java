@@ -56,7 +56,8 @@ public enum MyResultCode {
     METHOD_NOT_ALLOWED("505-00-00-40501", "method not allowed"),
     UNSUPPORTED_MEDIA_TYPE("505-00-00-41500", "unsupported media type"),
     SYSTEM_INNER_ERROR("505-00-00-50000", "system inner error"),
-    SYSTEM_BUSY_NOW("505-00-00-50001", "system is busy now");
+    SYSTEM_BUSY_NOW("505-00-00-50001", "system is busy now"),
+    DATA_EXISTS("505-00-00-50002", "DATA_EXISTS");
 
 
     private String code;

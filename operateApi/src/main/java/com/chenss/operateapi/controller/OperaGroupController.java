@@ -72,7 +72,7 @@ public class OperaGroupController extends BaseController {
         if (resultService.isSuccess()) {
             return new ResponseDTO(resultService.getObject());
         } else {
-            return new ResponseDTO(MyResultCode.SYSTEM_INNER_ERROR);
+            return new ResponseDTO(MyResultCode.DATA_EXISTS.getCode(),resultService.getMsg());
         }
     }
     @RequestMapping("/delete")

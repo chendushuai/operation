@@ -6,6 +6,7 @@ import com.chenss.operateapi.model.OperaGroup;
 import com.chenss.operateapi.model.OperaGroupAndDetailParam;
 import com.chenss.operateapi.model.OperaGroupDetail;
 import com.chenss.operateapi.param.GroupHostParam;
+import com.chenss.operateapi.param.OperaGroupDetailParam;
 import com.chenss.operateapi.response.GroupHostResponse;
 import com.chenss.operateapi.response.PaginationQueryResult;
 import com.chenss.operateapi.service.OperaGroupService;
@@ -71,11 +72,7 @@ public class OperaGroupServiceTest {
         param.setGroupName("SZ_FY_193.13_14-52.15_16");
         param.setGroupRemark("172.20.193.13-14,172.21.52.15-16");
         List<String> hostIds=new ArrayList<>();
-        hostIds.add("87A613B973A3449A98B89B9AB29BFEA6");
-        hostIds.add("7988BC4AB23F42368CFFE15A891F80FC");
-        hostIds.add("BFBF93DE0D624C34923ACC2EF87CD5B7");
-        hostIds.add("E61A7BB3AF7E4F68AAA81C83D2099E75");
-        param.setHostIds(hostIds);
+        param.setHostId("DA54D4206CFE409EBF3CF4AE76FE9180");
         ServiceResultDTO<Integer> insertResult = operaGroupService.insertOrUpdate(param);
 
         GroupHostParam pageQueryParam = new GroupHostParam();
@@ -143,9 +140,7 @@ public class OperaGroupServiceTest {
         OperaGroupAndDetailParam param = new OperaGroupAndDetailParam();
         param.setId(operaGroup.getId());
         List<String> hostIds = new ArrayList<>();
-        hostIds.add("DA54D4206CFE409EBF3CF4AE76FE9180");
-        hostIds.add("D34E5E0B92C849729748A1C0A99486DD");
-        param.setHostIds(hostIds);
+        param.setHostId("DA54D4206CFE409EBF3CF4AE76FE9180");
         ServiceResultDTO<Integer> addResult = operaGroupService.addDetail(param);
 
         pageQueryParam = new GroupHostParam();
@@ -156,26 +151,26 @@ public class OperaGroupServiceTest {
 
     @Test
     public void deleteDetail() {
-        OperaGroupDetail groupDetail = new OperaGroupDetail();
+        OperaGroupDetailParam groupDetail = new OperaGroupDetailParam();
         groupDetail.setItemId("DA54D4206CFE409EBF3CF4AE76FE9180");
         ServiceResultDTO<List<OperaGroupDetail>> queryDetail = operaGroupService.queryDetail(groupDetail);
         System.out.println(JSON.toJSONString(queryDetail));
 
         operaGroupService.deleteDetail(queryDetail.getObject().get(0).getId());
 
-        groupDetail = new OperaGroupDetail();
+        groupDetail = new OperaGroupDetailParam();
         groupDetail.setItemId("DA54D4206CFE409EBF3CF4AE76FE9180");
         queryDetail = operaGroupService.queryDetail(groupDetail);
         System.out.println(JSON.toJSONString(queryDetail));
 
-        groupDetail = new OperaGroupDetail();
+        groupDetail = new OperaGroupDetailParam();
         groupDetail.setItemId("D34E5E0B92C849729748A1C0A99486DD");
         queryDetail = operaGroupService.queryDetail(groupDetail);
         System.out.println(JSON.toJSONString(queryDetail));
 
         operaGroupService.deleteDetail(queryDetail.getObject().get(0).getId());
 
-        groupDetail = new OperaGroupDetail();
+        groupDetail = new OperaGroupDetailParam();
         groupDetail.setItemId("D34E5E0B92C849729748A1C0A99486DD");
         queryDetail = operaGroupService.queryDetail(groupDetail);
         System.out.println(JSON.toJSONString(queryDetail));

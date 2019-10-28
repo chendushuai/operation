@@ -1,6 +1,7 @@
 package com.chenss.operateapi.mapper;
 
 import com.chenss.operateapi.model.OperaGroupDetail;
+import com.chenss.operateapi.param.OperaGroupDetailParam;
 import com.chenss.operateapi.response.EnvHostDO;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;
@@ -14,7 +15,8 @@ import java.util.List;
  */
 @Mapper
 public interface OperaGroupDetailMapper extends MyBatisBaseDao<OperaGroupDetail, String> {
-    List<OperaGroupDetail> query(OperaGroupDetail obj);
+    List<OperaGroupDetail> query(OperaGroupDetailParam obj);
+    List<OperaGroupDetail> verify(OperaGroupDetailParam obj);
     int insertBatch(List<OperaGroupDetail> groupDetailList);
 
     int deleteByGroupId(String id);

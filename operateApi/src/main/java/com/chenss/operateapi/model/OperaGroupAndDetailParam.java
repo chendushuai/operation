@@ -15,13 +15,13 @@ public class OperaGroupAndDetailParam extends OperaGroup implements Serializable
     /**
      * 主机ID集合
      */
-    private List<String> hostIds;
+    private String hostId;
 
-    public List<String> getHostIds() {
-        return hostIds;
+    public String getHostId() {
+        return hostId;
     }
 
-    public void setHostIds(List<String> hostIds) {
-        this.hostIds = hostIds;
+    public void setHostId(String hostId) {
+        this.hostId = hostId;
     }
 }
