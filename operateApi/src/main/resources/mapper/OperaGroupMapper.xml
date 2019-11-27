@@ -144,14 +144,11 @@
         select
         count(distinct g.id)
         FROM
-        opera_group g,
-        opera_group_detail d,
-        opera_host h,
-        opera_env e
-        WHERE
-        g.id = d.group_id
-        AND d.item_id = h.id
-        AND h.host_env_id = e.id
+        opera_group g
+        left join opera_group_detail d on g.id = d.group_id
+        left join opera_host h on d.item_id = h.id
+        left join opera_env e on h.host_env_id = e.id
+        WHERE 1=1
         <include refid="Page_Query_Host_Sql"></include>
     </select>
     <delete id="deleteByPrimaryKey" parameterType="java.lang.String">

@@ -1,8 +1,8 @@
 package com.chenss.operateapi.mapper;
 
 import com.chenss.operateapi.model.OperaApplication;
+import com.chenss.operateapi.param.GroupApplicationParam;
 import org.apache.ibatis.annotations.Mapper;
-import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
@@ -12,4 +12,6 @@ import java.util.List;
 @Mapper
 public interface OperaApplicationMapper extends MyBatisBaseDao<OperaApplication, String> {
     List<OperaApplication> query(OperaApplication obj);
+    List<OperaApplication> listPaging(GroupApplicationParam obj);
+    int countListPaging(GroupApplicationParam obj);
 }

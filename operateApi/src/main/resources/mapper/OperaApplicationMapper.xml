@@ -27,6 +27,13 @@
     from opera_application
     where id = #{id,jdbcType=VARCHAR}
   </select>
+  <sql id="Pager_Column_List">
+    id, app_cmdb_id, app_name, app_type, repo_type, svn_url, git_url, jdk_version, app_affiliation_id,
+    app_principal, app_purpose, app_remark, create_time, modify_time
+  </sql>
+  <sql id="Pager_end">
+  ORDER BY app_name LIMIT #{pageBegin},#{pageSize};
+  </sql>
   <sql id="Page_Where_Sql">
     <trim prefix="WHERE" prefixOverrides="AND |OR ">
       <if test="id != null">
@@ -228,4 +235,19 @@
       modify_time = now()
     where id = #{id,jdbcType=VARCHAR}
   </update>
+  <select id="listPaging" parameterType="com.chenss.operateapi.param.GroupApplicationParam" resultMap="BaseResultMap">
+    select
+    <include refid="Pager_Column_List"></include>
+    FROM
+    opera_application
+    <include refid="Page_Where_Sql"></include>
+    <include refid="Pager_end"></include>
+  </select>
+  <select id="countListPaging" parameterType="com.chenss.operateapi.param.GroupApplicationParam" resultType="java.lang.Integer">
+    select
+    count(1)
+    FROM
+    opera_application
+    <include refid="Page_Where_Sql"></include>
+  </select>
 </mapper>

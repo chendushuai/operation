@@ -9,7 +9,9 @@ var urlList = [{
         {"url": "domain.html", "name": "服务器归属区域"},
         {"url": "os.html", "name": "服务器操作系统管理"},
         {"url": "label.html", "name": "标签键值对管理"}]
-}, {"url": "host.html", "name": "服务器主机配置", "child": []}, {"url": "hostgroup.html", "name": "主机分组配置", "child": []}];
+}, {"url": "host.html", "name": "服务器主机配置", "child": []},
+    {"url": "hostgroup.html", "name": "主机分组配置", "child": []},
+    {"url": "application.html", "name": "应用管理", "child": []}];
 
 function createNav() {
     var navList = "";
