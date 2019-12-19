@@ -21,7 +21,7 @@
     <script src="script/page.js"></script>
     <script src="script/base.js"></script>
     <link rel="stylesheet" href="css/nav.css">
-    <script>
+    <script language="JavaScript">
         $(function () {
             // 查询条件下拉菜单内容加载
             dropdownQuery();
@@ -105,7 +105,7 @@
             var hostIp = modal.find('#query-hostIp').val();
             $.ajax({
                 type: "POST",
-                url: '/api/group',
+                url: '/api/application',
                 contentType: "application/json",
                 dataType: "json",
                 data: JSON.stringify({
@@ -390,27 +390,31 @@
             $("#groupTable").html(res);
             $(jsonResult.object.resultList).each(function (index, element) {
                 res = "<tr><td align=\"left\">";
-                res = res + $(element)[0].groupType;
+                res = res + $(element)[0].appCmdbId;
                 res = res + "</td><td align=\"left\">";
-                res = res + $(element)[0].groupName;
+                res = res + $(element)[0].appName;
                 res = res + "</td><td align=\"left\">";
-                $($(element)[0].childHosts).each(function (index, elementChild) {
-                    res = res + "<span class=\"label ";
-                    if (index % 6 == 0) {
-                        res = res + "label-default";
-                    } else if (index % 6 == 1) {
-                        res = res + "label-primary";
-                    } else if (index % 6 == 2) {
-                        res = res + "label-success";
-                    } else if (index % 6 == 3) {
-                        res = res + "label-info";
-                    } else if (index % 6 == 4) {
-                        res = res + "label-warning";
-                    } else if (index % 6 == 5) {
-                        res = res + "label-danger";
-                    }
-                    res = res + "\">" + $(elementChild)[0].envName + " - " + $(elementChild)[0].envType + "</span> " + $(elementChild)[0].hostName + " [" + $(elementChild)[0].hostIp + "]<br />";
-                });
+                res = res + $(element)[0].appAffiliationId;
+                res = res + "</td><td align=\"left\">";
+                res = res + $(element)[0].appPrincipal;
+                res = res + "</td><td align=\"left\">";
+                res = res + $(element)[0].appType;
+                res = res + "</td><td align=\"left\">";
+                res = res + $(element)[0].repoType;
+                res = res + "</td><td align=\"left\">";
+                res = res + "<div style=\"width: 100px;word-break: break-all;\">";
+                if ($(element)[0].svnUrl.length>0) {
+                    res = res + $(element)[0].svnUrl;
+                } else {
+                    res = res + $(element)[0].gitUrl;
+                }
+                res = res + "</div>";
+                res = res + "</td><td align=\"left\">";
+                res = res + $(element)[0].jdkVersion;
+                res = res + "</td><td align=\"left\">";
+                res = res + $(element)[0].appPurpose;
+                res = res + "</td><td align=\"left\">";
+                res = res + $(element)[0].appRemark;
                 res = res + "</td><td align=\"left\">";
                 res = res + $(element)[0].createTimeStr
                 res = res + "</td><td align=\"left\">";
@@ -501,13 +505,13 @@
 <body>
 <nav class="navbar navbar-default navbar-fixed-top" id="nav-link"></nav>
 <div class="container-fluid">
-    <h1>主机分组配置
-        <small>多服务器编组，统一配置</small>
+    <h1>应用管理
+        <small>应用列表管理</small>
     </h1>
     <div class="row">
         <div class="col-md-3">
             <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#viewModal"
-                    data-viewtype='add'>新增主机编组
+                    data-viewtype='add'>新增项目应用
             </button>
             <form class="form-horizontal" id="query-form">
                 <div class="form-group">
@@ -561,9 +565,16 @@
             <table class="table table-condensed table-striped">
                 <thead>
                 <tr>
-                    <td>分组类型</td>
-                    <td>分组名称</td>
-                    <td>主机列表</td>
+                    <td>应用CMDB编码</td>
+                    <td>应用名称</td>
+                    <td>应用归属</td>
+                    <td>应用负责人</td>
+                    <td>应用类型</td>
+                    <td>仓库类型</td>
+                    <td>Git/SVN地址</td>
+                    <td>JDK版本</td>
+                    <td>用途说明</td>
+                    <td>备注</td>
                     <td>创建时间</td>
                     <td>修改时间</td>
                     <td>操作</td>
