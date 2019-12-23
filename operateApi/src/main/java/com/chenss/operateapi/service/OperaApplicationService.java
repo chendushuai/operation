@@ -64,7 +64,7 @@ public class OperaApplicationService {
 
     private String checkExists(OperaApplication obj,String id) {
         if (null==obj && null != id) {
-            OperaApplication opera = operaApplicationMapper.selectByPrimaryKey(obj.getId());
+            OperaApplication opera = operaApplicationMapper.selectByPrimaryKey(id);
             if (null == opera) {
                 return "对象不存在无法修改";
             }

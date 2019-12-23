@@ -20,8 +20,10 @@
     <script src="script/nav.js"></script>
     <script src="script/page.js"></script>
     <script src="script/base.js"></script>
+    <script src="script/baseUrl.js"></script>
     <link rel="stylesheet" href="css/nav.css">
     <script language="JavaScript">
+        var baseUrl = applicationUrl;
         $(function () {
             // 查询条件下拉菜单内容加载
             dropdownQuery();
@@ -39,23 +41,20 @@
         function dropdownQuery() {
             $.ajax({
                 type: "POST",
-                url: '/api/common',
+                url: commonUrl,
                 contentType: "application/json",
                 dataType: "json",
                 data: JSON.stringify({
-                    needOperaEnv: true,
-                    needOperaAffiliation: false,
+                    needOperaEnv: false,
+                    needOperaAffiliation: true,
                     needOperaOs: false,
                     needOperaServiceType: false
                 }),
                 success: function (jsonResult) {
-                    $(jsonResult.object.operaEnvList).each(function (index, element) {
+                    $(jsonResult.object.operaAffiliationList).each(function (index, element) {
                         var eleObj = $(element)[0];
-                        $("#query-envId").html($("#query-envId").html() + "<option value=\"" + eleObj.id + "\">" + eleObj.envName + " - " + eleObj.envType + "</option>");
+                        $("#element-appAffiliationId").html($("#element-appAffiliationId").html() + "<option value=\"" + eleObj.id + "\">" + eleObj.name + "</option>");
                     });
-
-                    $("#element-envId").html($("#query-envId").html());
-                    $("#detail-query-envId").html($("#query-envId").html());
                     $('.selectpicker').selectpicker('refresh');
                 },
                 error: function (xhr) {
@@ -70,19 +69,19 @@
 
             $.ajax({
                 type: "POST",
-                url: '/api/label/kv',
+                url: labelKvUrl,
                 contentType: "application/json",
                 dataType: "json",
                 data: JSON.stringify({
-                    labelGroup: "group_type"
+                    labelGroup: "app-type"
                 }),
                 success: function (jsonResult) {
                     $(jsonResult.object).each(function (index, element) {
                         var eleObj = $(element)[0];
-                        $("#query-groupType").html($("#query-groupType").html() + "<option value=\"" + eleObj.labelKey + "\">" + eleObj.labelValue + "</option>");
+                        $("#element-appType").html($("#element-appType").html() + "<option value=\"" + eleObj.labelKey + "\">" + eleObj.labelValue + "</option>");
                     });
 
-                    $("#element-groupType").html($("#query-groupType").html());
+                    // $("#element-groupType").html($("#query-groupType").html());
                     $('.selectpicker').selectpicker('refresh');
                 },
                 error: function (xhr) {
@@ -94,63 +93,82 @@
                     }
                 }
             });
+
+            $.ajax({
+                type: "POST",
+                url: labelKvUrl,
+                contentType: "application/json",
+                dataType: "json",
+                data: JSON.stringify({
+                    labelGroup: "jdk-version"
+                }),
+                success: function (jsonResult) {
+                    $(jsonResult.object).each(function (index, element) {
+                        var eleObj = $(element)[0];
+                        $("#element-jdkVersion").html($("#element-jdkVersion").html() + "<option value=\"" + eleObj.labelKey + "\">" + eleObj.labelValue + "</option>");
+                    });
+
+                    // $("#element-jdkVersion").html($("#query-jdkVersion").html());
+                    $('.selectpicker').selectpicker('refresh');
+                },
+                error: function (xhr) {
+                    alert("错误提示： " + xhr.status + " " + xhr.statusText);
+                    if (xhr.status == 401) {
+                        return;
+                    } else {
+                        return;
+                    }
+                }
+            });
+
+            $.ajax({
+                type: "POST",
+                url: labelKvUrl,
+                contentType: "application/json",
+                dataType: "json",
+                data: JSON.stringify({
+                    labelGroup: "repo-type"
+                }),
+                success: function (jsonResult) {
+                    $(jsonResult.object).each(function (index, element) {
+                        var eleObj = $(element)[0];
+                        $("#element-repoType").html($("#element-repoType").html() + "<option value=\"" + eleObj.labelKey + "\">" + eleObj.labelValue + "</option>");
+                    });
+
+                    // $("#element-jdkVersion").html($("#query-jdkVersion").html());
+                    $('.selectpicker').selectpicker('refresh');
+                },
+                error: function (xhr) {
+                    alert("错误提示： " + xhr.status + " " + xhr.statusText);
+                    if (xhr.status == 401) {
+                        return;
+                    } else {
+                        return;
+                    }
+                }
+            });
+
         }
 
         function query(pageIndex) {
             var modal = $('#query-form');
-            var groupType = modal.find('#query-groupType').val();
-            var groupName = modal.find('#query-groupName').val();
-            var envId = modal.find('#query-envId').val();
-            var hostName = modal.find('#query-hostName').val();
-            var hostIp = modal.find('#query-hostIp').val();
+            var appCmdbId = modal.find('#query-appCmdbId').val();
+            var appName = modal.find('#query-appName').val();
+            var appPrincipal = modal.find('#query-appPrincipal').val();
             $.ajax({
                 type: "POST",
-                url: '/api/application',
+                url: baseUrl,
                 contentType: "application/json",
                 dataType: "json",
                 data: JSON.stringify({
-                    groupType: groupType,
-                    groupName: groupName,
-                    envId: envId,
-                    hostName: hostName,
-                    hostIp: hostIp,
+                    appCmdbId: appCmdbId,
+                    appName: appName,
+                    appPrincipal: appPrincipal,
                     pageIndex: pageIndex
                 }),
                 success: function (jsonResult) {
                     createEnvTable(jsonResult);
                     pageRefresh(jsonResult.object.totalSize, 20, 10, pageIndex);
-                },
-                error: function (xhr) {
-                    alert("错误提示： " + xhr.status + " " + xhr.statusText);
-                    if (xhr.status == 401) {
-                        return;
-                    } else {
-                        return;
-                    }
-                }
-            });
-        }
-
-        function hostDetailQuery(pageIndex) {
-            var modal = $('#detailModal');
-            var hostName = modal.find('#detail-query-hostName').val();
-            var hostIp = modal.find('#detail-query-hostIp').val();
-            var hostEnvId = modal.find('#detail-query-envId').val();
-
-            $.ajax({
-                type: "POST",
-                url: '/api/host',
-                contentType: "application/json",
-                dataType: "json",
-                data: JSON.stringify({
-                    hostName: hostName,
-                    hostIp: hostIp,
-                    status: 0,
-                    hostEnvId: hostEnvId,
-                    pageIndex: pageIndex
-                }),
-                success: function (jsonResult) {
-                    createDetailHostTable(jsonResult);
                 },
                 error: function (xhr) {
                     alert("错误提示： " + xhr.status + " " + xhr.statusText);
@@ -170,20 +188,20 @@
                 var viewtype = button.data('viewtype');
                 var modal = $('#viewModal');
                 modal.find(".err-msg").hide();
-                modal.find('.modal-body #exists-hosts').html("");
                 if (viewtype == "add") {
                     modal.find('.modal-body input').removeAttr("readonly").val("");
                     modal.find('.modal-body textarea').removeAttr("readonly").val("");
                     modal.find('#edit-save').show();
-                    modal.find('.modal-title').html('新增主机编组配置');
+                    modal.find('.modal-title').html('新增应用服务配置');
                     modal.find('.modal-body #element-id').html("");
+                    modal.find('.modal-body select').selectpicker('val', '-1');
                     return;
                 }
                 // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
                 // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
                 $.ajax({
                     type: "POST",
-                    url: '/api/group/view?id=' + id,
+                    url: baseUrl + '/view?id=' + id,
                     success: function (jsonResult) {
                         var titleName = "";
                         if (viewtype == "view") {
@@ -200,16 +218,36 @@
                             modal.find('#edit-save').show();
                         }
                         var jsonObject = $(jsonResult.object)[0];
-                        modal.find('.modal-title').html(titleName + ' [ ' + jsonObject.groupName + ' - ' + jsonObject.groupType + ' ] 标签键值配置');
-                        if (jsonObject.groupType != null && jsonObject.groupType + "" != "") {
-                            console.log(jsonObject.groupType);
-                            modal.find('.modal-body #element-groupType').selectpicker('val', jsonObject.groupType + "");
+                        modal.find('.modal-title').html(titleName + " "+ jsonObject.appName + ' [ ' + jsonObject.appCmdbId + ' ] 应用配置');
+                        modal.find('.modal-body #element-appCmdbId').val(jsonObject.appCmdbId);
+                        modal.find('.modal-body #element-appName').val(jsonObject.appName);
+                        if (jsonObject.appAffiliationId != null && jsonObject.appAffiliationId + "" != "") {
+                            modal.find('.modal-body #element-appAffiliationId').selectpicker('val', jsonObject.appAffiliationId + "");
                         } else {
-                            modal.find('.modal-body #element-groupType').selectpicker('val', "-1");
+                            modal.find('.modal-body #element-appAffiliationId').selectpicker('val', "-1");
                         }
-                        modal.find('.modal-body #element-groupName').val(jsonObject.groupName);
-                        console.log(jsonObject.groupRemark)
-                        modal.find('.modal-body #element-groupRemark').val(jsonObject.groupRemark);
+                        modal.find('.modal-body #element-appPrincipal').val(jsonObject.appPrincipal);
+                        if (jsonObject.appType != null && jsonObject.appType + "" != "") {
+                            modal.find('.modal-body #element-appType').selectpicker('val', jsonObject.appType + "");
+                        } else {
+                            modal.find('.modal-body #element-appType').selectpicker('val', "-1");
+                        }
+                        if (jsonObject.repoType != null && jsonObject.repoType + "" != "") {
+                            modal.find('.modal-body #element-repoType').selectpicker('val', jsonObject.repoType + "");
+                        } else {
+                            modal.find('.modal-body #element-repoType').selectpicker('val', "-1");
+                        }
+                        modal.find('.modal-body #element-versionUrl').val(jsonObject.svnUrl);
+                        if (jsonObject.svnUrl == null || jsonObject.svnUrl =="") {
+                            modal.find('.modal-body #element-versionUrl').val(jsonObject.gitUrl);
+                        }
+                        if (jsonObject.jdkVersion != null && jsonObject.jdkVersion + "" != "") {
+                            modal.find('.modal-body #element-jdkVersion').selectpicker('val', jsonObject.jdkVersion + "");
+                        } else {
+                            modal.find('.modal-body #element-jdkVersion').selectpicker('val', "-1");
+                        }
+                        modal.find('.modal-body #element-appPurpose').val(jsonObject.appPurpose);
+                        modal.find('.modal-body #element-appRemark').val(jsonObject.appRemark);
                         modal.find('.modal-body #element-id').html(jsonObject.id);
                     },
                     error: function (xhr) {
@@ -220,62 +258,17 @@
                         }
                     }
                 });
-
-                $.ajax({
-                    type: "POST",
-                    url: '/api/group/detail/list?id=' + id,
-                    success: function (jsonResult) {
-                        $(jsonResult.object).each(function (index, element) {
-                            var res = "<li class=\"list-group-item list-group-item-";
-                            if (index % 4 == 0) {
-                                res = res + "success";
-                            } else if (index % 4 == 1) {
-                                res = res + "info";
-                            } else if (index % 4 == 2) {
-                                res = res + "warning";
-                            } else {
-                                res = res + "danger";
-                            }
-                            res += "\">" + $(element)[0].envName + " ";
-                            res += "" + $(element)[0].envType + " ";
-                            res += "<strong>" + $(element)[0].hostName + "</strong> ";
-                            res += "[" + $(element)[0].hostIp + "]";
-                            res += "</li>";
-                            $("#exists-hosts").html($("#exists-hosts").html() + res);
-                        });
-                    },
-                    error: function (xhr) {
-                        if (xhr.status == 401) {
-                            return;
-                        } else {
-                            return;
-                        }
-                    }
-                });
-            });
-            $('#detailModal').on('show.bs.modal', function (event) {
-                var button = $(event.relatedTarget) // Button that triggered the modal
-                var groupName = button.data('groupname');
-                var id = button.data('id');
-                var modal = $('#detailModal');
-                modal.find(".err-msg").hide();
-
-                modal.find('.modal-title').html('进行分组 [ ' + groupName + ' ] 内主机维护');
-                modal.find('.modal-body #detail-element-id').html(id);
-                modal.find('.modal-body #detail-element-groupName').html(groupName);
-
-                detailExistTableCreate();
             });
             $('#deleteModal').on('show.bs.modal', function (event) {
                 var button = $(event.relatedTarget) // Button that triggered the modal
-                var groupName = button.data('groupname');
+                var appname = button.data('appname');
                 var id = button.data('id');
                 var modal = $('#deleteModal');
                 modal.find(".err-msg").hide();
                 // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
                 // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
                 modal.find('.modal-body #delete-id').html(id);
-                modal.find('#delete-body').html('<p>删除分组，将删除组内的所有主机分组配置，确认彻底删除 <strong>' + groupName + '</strong> 吗？</p>');
+                modal.find('#delete-body').html('<p>确认彻底删除应用 <strong>' + appname + '</strong> 吗？</p>');
             })
         }
 
@@ -315,19 +308,43 @@
             $('#viewModal').find('#edit-save').on('click', function () {
                 var modal = $('#viewModal');
                 var id = modal.find('.modal-body #element-id').html();
+
+                var appCmdbId = modal.find('.modal-body #element-appCmdbId').val();
+                var appName = modal.find('.modal-body #element-appName').val();
+                var appAffiliationId = modal.find('.modal-body #element-appAffiliationId').val();
+                var appPrincipal = modal.find('.modal-body #element-appPrincipal').val();
+                var appType = modal.find('.modal-body #element-appType').val();
+                var repoType = modal.find('.modal-body #element-repoType').val();
+                var svnUrl = modal.find('.modal-body #element-versionUrl').val();
+                var gitUrl = "";
+                if (repoType == "git") {
+                    gitUrl = svnUrl;
+                    svnUrl = "";
+                }
+                var jdkVersion = modal.find('.modal-body #element-jdkVersion').val();
+                var appPurpose = modal.find('.modal-body #element-appPurpose').val();
+                var appRemark = modal.find('.modal-body #element-appRemark').val();
                 var groupType = modal.find('.modal-body #element-groupType').val();
-                var groupName = modal.find('.modal-body #element-groupName').val();
-                var groupRemark = modal.find('.modal-body #element-groupRemark').val();
+
                 $.ajax({
                     type: "POST",
-                    url: '/api/group/edit',
+                    url: baseUrl + '/edit',
                     contentType: "application/json",
                     dataType: "json",
                     data: JSON.stringify({
                         id: id,
-                        groupType: groupType,
-                        groupName: groupName,
-                        groupRemark: groupRemark
+                        appCmdbId: appCmdbId,
+                        appName: appName,
+                        appAffiliationId: appAffiliationId,
+                        appPrincipal: appPrincipal,
+                        appType: appType,
+                        repoType: repoType,
+                        svnUrl: svnUrl,
+                        gitUrl: gitUrl,
+                        jdkVersion: jdkVersion,
+                        appPurpose: appPurpose,
+                        appRemark: appRemark,
+                        groupType: groupType
                     }),
                     success: function (jsonResult) {
                         console.log(jsonResult);
@@ -352,7 +369,7 @@
                 var id = modal.find('.modal-body #delete-id').html();
                 $.ajax({
                     type: "POST",
-                    url: '/api/group/delete?id=' + id,
+                    url: baseUrl + '/delete?id=' + id,
                     success: function (jsonResult) {
                         if (jsonResult.success) {
                             modal.modal('hide');
@@ -402,7 +419,7 @@
                 res = res + "</td><td align=\"left\">";
                 res = res + $(element)[0].repoType;
                 res = res + "</td><td align=\"left\">";
-                res = res + "<div style=\"width: 100px;word-break: break-all;\">";
+                res = res + "<div style=\"width: 150px;word-break: break-all;\">";
                 if ($(element)[0].svnUrl.length>0) {
                     res = res + $(element)[0].svnUrl;
                 } else {
@@ -423,8 +440,10 @@
                 res = res + "<div class=\"btn-group\" role=\"group\" aria-group=\"...\">";
                 res = res + "<button type=\"button\" class=\"btn btn-info\" data-toggle=\"modal\" data-target=\"#viewModal\" data-id=\"" + $(element)[0].id + "\" data-viewtype='view'>查看</button>";
                 res = res + "<button type=\"button\" class=\"btn btn-primary\" data-toggle=\"modal\" data-target=\"#viewModal\" data-id=\"" + $(element)[0].id + "\" data-viewtype='edit'>编辑</button>";
-                res = res + "<button type=\"button\" class=\"btn btn-warning\" data-toggle=\"modal\" data-target=\"#detailModal\" data-id=\"" + $(element)[0].id + "\" data-groupname='" + $(element)[0].groupName + "'>主机维护</button>";
-                res = res + "<button type=\"button\" class=\"btn btn-danger\" data-toggle=\"modal\" data-target=\"#deleteModal\" data-id=\"" + $(element)[0].id + "\" data-groupname='" + $(element)[0].groupName + "'>删除</button>";
+                res = res + "</div>";
+                res = res + "<div class=\"btn-group\" role=\"group\" aria-group=\"...\">";
+                res = res + "<button type=\"button\" class=\"btn btn-warning\" data-toggle=\"modal\" data-target=\"#detailModal\" data-id=\"" + $(element)[0].id + "\" data-appname='" + $(element)[0].appName + "'>应用部署机器</button>";
+                res = res + "<button type=\"button\" class=\"btn btn-danger\" data-toggle=\"modal\" data-target=\"#deleteModal\" data-id=\"" + $(element)[0].id + "\" data-appname='" + $(element)[0].appName + "'>删除</button>";
                 res = res + "</div>";
                 res = res + "</td><td align=\"left\"></tr>";
                 $("#groupTable").html($("#groupTable").html() + res);
@@ -515,37 +534,21 @@
             </button>
             <form class="form-horizontal" id="query-form">
                 <div class="form-group">
-                    <label for="query-groupType" class="col-sm-4 control-label">分组类型</label>
-                    <div class="col-sm-8 dropdown">
-                        <select class="selectpicker" data-live-search="true" id="query-groupType">
-                            <option value="-1">请选择</option>
-                        </select>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <group for="query-groupName" class="col-sm-4 control-group">分组名称</group>
+                    <label for="query-appCmdbId" class="col-sm-4 control-label">应用CMDB编码</label>
                     <div class="col-sm-8">
-                        <input type="text" class="form-control" id="query-groupName" placeholder="分组名称">
+                        <input type="text" class="form-control" id="query-appCmdbId" placeholder="应用CMDB编码">
                     </div>
                 </div>
                 <div class="form-group">
-                    <label for="query-envId" class="col-sm-4 control-label">主机环境</label>
-                    <div class="col-sm-8 dropdown">
-                        <select class="selectpicker" data-live-search="true" id="query-envId">
-                            <option value="-1">请选择</option>
-                        </select>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <group for="query-hostName" class="col-sm-4 control-group">主机名称</group>
+                    <group for="query-appName" class="col-sm-4 control-group">应用名称</group>
                     <div class="col-sm-8">
-                        <input type="text" class="form-control" id="query-hostName" placeholder="主机名称">
+                        <input type="text" class="form-control" id="query-appName" placeholder="应用名称">
                     </div>
                 </div>
                 <div class="form-group">
-                    <group for="query-hostIp" class="col-sm-4 control-group">主机IP</group>
+                    <group for="query-appPrincipal" class="col-sm-4 control-group">应用负责人</group>
                     <div class="col-sm-8">
-                        <input type="text" class="form-control" id="query-hostIp" placeholder="主机IP">
+                        <input type="text" class="form-control" id="query-appPrincipal" placeholder="应用负责人">
                     </div>
                 </div>
                 <div class="form-group">
@@ -609,24 +612,60 @@
                         <group class="control-group" id="element-id"></group>
                     </div>
                     <div class="form-group">
-                        <label for="element-groupType" class="control-label">分组类型:</label>
+                        <group for="element-appCmdbId" class="control-group">应用CMDB编码:</group>
+                        <input type="text" class="form-control" id="element-appCmdbId">
+                    </div>
+                    <div class="form-group">
+                        <group for="element-appName" class="control-group">应用名称:</group>
+                        <input type="text" class="form-control" id="element-appName">
+                    </div>
+                    <div class="form-group">
+                        <label for="element-appAffiliationId" class="control-label">应用归属:</label>
                         <div class="dropdown">
-                            <select class="selectpicker" data-live-search="true" id="element-groupType">
+                            <select class="selectpicker" data-live-search="true" id="element-appAffiliationId">
                                 <option value="-1">请选择</option>
                             </select>
                         </div>
                     </div>
                     <div class="form-group">
-                        <group for="element-groupName" class="control-group">分组名称:</group>
-                        <input type="text" class="form-control" id="element-groupName">
+                        <group for="element-appPrincipal" class="control-group">应用负责人:</group>
+                        <input type="text" class="form-control" id="element-appPrincipal">
                     </div>
                     <div class="form-group">
-                        <label for="element-groupRemark" class="control-label">描述信息:</label>
-                        <textarea class="form-control" id="element-groupRemark"></textarea>
+                        <label for="element-appType" class="control-label">应用类型:</label>
+                        <div class="dropdown">
+                            <select class="selectpicker" data-live-search="true" id="element-appType">
+                                <option value="-1">请选择</option>
+                            </select>
+                        </div>
                     </div>
                     <div class="form-group">
-                        <ul class="list-group" id="exists-hosts">
-                        </ul>
+                        <label for="element-repoType" class="control-label">仓库类型:</label>
+                        <div class="dropdown">
+                            <select class="selectpicker" data-live-search="true" id="element-repoType">
+                                <option value="-1">请选择</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="element-versionUrl" class="control-label">Git/SVN地址:</label>
+                        <textarea class="form-control" id="element-versionUrl"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="element-jdkVersion" class="control-label">JDK版本:</label>
+                        <div class="dropdown">
+                            <select class="selectpicker" data-live-search="true" id="element-jdkVersion">
+                                <option value="-1">请选择</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="element-appPurpose" class="control-label">用途说明:</label>
+                        <textarea class="form-control" id="element-appPurpose"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="element-appRemark" class="control-label">备注:</label>
+                        <textarea class="form-control" id="element-appRemark"></textarea>
                     </div>
                 </form>
             </div>
@@ -738,7 +777,7 @@
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-group="Close"><span aria-hidden="true">&times;</span>
                 </button>
-                <h4 class="modal-title" id="deleteModalLabel">删除标签键值对配置</h4>
+                <h4 class="modal-title" id="deleteModalLabel">删除应用服务配置信息</h4>
             </div>
             <div class="modal-body">
                 <div class="alert alert-danger err-msg" role="alert"></div>
