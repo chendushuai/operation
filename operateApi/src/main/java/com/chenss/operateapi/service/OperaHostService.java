@@ -7,7 +7,7 @@ import com.chenss.operateapi.mapper.OperaHostMapper;
 import com.chenss.operateapi.model.OperaHost;
 import com.chenss.operateapi.param.OperaHostParam;
 import com.chenss.operateapi.response.PaginationQueryResult;
-import com.mysql.cj.util.StringUtils;
+import com.chenss.utils.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

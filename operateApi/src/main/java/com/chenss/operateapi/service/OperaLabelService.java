@@ -9,7 +9,7 @@ import com.chenss.operateapi.model.OperaEnv;
 import com.chenss.operateapi.model.OperaLabel;
 import com.chenss.operateapi.param.OperaLabelPageParam;
 import com.chenss.operateapi.response.PaginationQueryResult;
-import com.mysql.cj.util.StringUtils;
+import com.chenss.utils.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

@@ -1,8 +1,7 @@
 package com.chenss.operateapi.request;
 
-import com.chenss.operateapi.model.OperaAffiliation;
 import com.chenss.operateapi.model.OperaServiceType;
-import com.mysql.cj.util.StringUtils;
+import com.chenss.utils.StringUtils;
 
 import java.util.List;
 

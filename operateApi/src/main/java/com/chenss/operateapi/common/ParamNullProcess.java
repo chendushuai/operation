@@ -1,12 +1,13 @@
 package com.chenss.operateapi.common;
 
 import com.alibaba.fastjson.JSON;
-import com.mysql.cj.util.StringUtils;
+import com.chenss.utils.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.lang.Nullable;
 
 import java.lang.reflect.Field;
+import java.lang.reflect.Modifier;
 
 /**
  * 进行参数的空值处理，清空空值参数值
@@ -32,6 +33,9 @@ public class ParamNullProcess<T> {
             Field[] classFields = clazz.getDeclaredFields();
             for (Field fieldItem :
                     classFields) {
+                if (Modifier.isFinal(fieldItem.getModifiers())) {
+                    continue;
+                }
                 fieldItem.setAccessible(true);
                 Object obj = fieldItem.get(param);
                 if (null != obj && StringUtils.isNullOrEmpty(obj.toString())) {

@@ -1,7 +1,7 @@
 package com.chenss.operate;
 
+import com.chenss.utils.StringUtils;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.mysql.cj.util.StringUtils;
 
 public class MyResult<T> implements Result<T> {
 

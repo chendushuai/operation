@@ -2,7 +2,7 @@ package com.chenss.operateapi.common;
 
 import com.alibaba.fastjson.JSON;
 import com.chenss.operateapi.model.OperaHost;
-import com.mysql.cj.util.StringUtils;
+import com.chenss.utils.StringUtils;
 import org.junit.Test;
 
 import java.lang.reflect.Field;

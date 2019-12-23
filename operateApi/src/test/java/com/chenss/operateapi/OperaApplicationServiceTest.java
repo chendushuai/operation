@@ -38,4 +38,10 @@ public class OperaApplicationServiceTest {
         PaginationQueryResult<ApplicationResponse> paginationQueryResult = operaApplicationService.pageQuery(param);
         System.out.println(JSON.toJSONString(paginationQueryResult));
     }
+
+    @Test
+    public void selectTest() {
+        ServiceResultDTO<OperaApplication> operaApplicationServiceResultDTO = operaApplicationService.selectByPrimaryKey("9e985c930af24909904d9f66b69de925");
+        System.out.println(JSON.toJSONString(operaApplicationServiceResultDTO));
+    }
 }

@@ -3,7 +3,7 @@ package com.chenss.operateapi.request;
 import com.chenss.operateapi.common.RequestParam;
 import com.chenss.operateapi.model.OperaEnv;
 import com.chenss.operateapi.model.OperaLabel;
-import com.mysql.cj.util.StringUtils;
+import com.chenss.utils.StringUtils;
 
 import java.util.List;
 

@@ -1,6 +1,6 @@
 package com.chenss.operateapi.common;
 
-import com.mysql.cj.util.StringUtils;
+import com.chenss.utils.StringUtils;
 
 /**
  * 基础工具类

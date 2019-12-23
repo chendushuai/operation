@@ -3,24 +3,16 @@ package com.chenss.operateapi.service;
 import cn.hutool.core.util.IdUtil;
 import com.chenss.operateapi.common.ServiceResultDTO;
 import com.chenss.operateapi.mapper.OperaApplicationMapper;
-import com.chenss.operateapi.mapper.OperaGroupDetailMapper;
-import com.chenss.operateapi.mapper.OperaGroupMapper;
 import com.chenss.operateapi.model.*;
 import com.chenss.operateapi.param.GroupApplicationParam;
-import com.chenss.operateapi.param.GroupHostParam;
-import com.chenss.operateapi.param.OperaGroupDetailParam;
 import com.chenss.operateapi.response.ApplicationResponse;
-import com.chenss.operateapi.response.EnvHostDO;
-import com.chenss.operateapi.response.GroupHostResponse;
 import com.chenss.operateapi.response.PaginationQueryResult;
-import com.mysql.cj.util.StringUtils;
+import com.chenss.utils.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * 服务器分组服务

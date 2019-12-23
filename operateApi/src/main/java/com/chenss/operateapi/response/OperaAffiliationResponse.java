@@ -1,7 +1,6 @@
 package com.chenss.operateapi.response;
 
 import com.chenss.operateapi.model.OperaAffiliation;
-import com.mysql.cj.util.StringUtils;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;

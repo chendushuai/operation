@@ -2,7 +2,6 @@ package com.chenss.operateapi.response;
 
 import com.chenss.operateapi.model.OperaApplication;
 import com.chenss.operateapi.model.OperaGroupHostDo;
-import com.mysql.cj.util.StringUtils;
 import org.springframework.beans.BeanUtils;
 
 import java.io.Serializable;
