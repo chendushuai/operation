@@ -23,13 +23,13 @@ public class ParamNullProcess<T> {
      * 执行参数转换
      *
      * @param param   参数对象
-     * @param enclude 排除的参数值
+     * @param exclude 排除的参数值
      * @return
      */
-    public T process(T param, @Nullable String... enclude) {
+    public T process(T param, @Nullable String... exclude) {
         try {
             Class<?> clazz = param.getClass();
-            logger.info("执行参数非空处理过程。类型：{}，参数对象：[{}]，排除参数值：{}", clazz.getName(), JSON.toJSONString(param), enclude);
+            logger.info("执行参数非空处理过程。类型：{}，参数对象：[{}]，排除参数值：{}", clazz.getName(), JSON.toJSONString(param), exclude);
             Field[] classFields = clazz.getDeclaredFields();
             for (Field fieldItem :
                     classFields) {
@@ -41,9 +41,9 @@ public class ParamNullProcess<T> {
                 if (null != obj && StringUtils.isNullOrEmpty(obj.toString())) {
                     fieldItem.set(param, null);
                 }
-                if (enclude.length > 0) {
+                if (exclude.length > 0) {
                     for (String enc :
-                            enclude) {
+                            exclude) {
                         if (StringUtils.isNullOrEmpty(enc)) {
                             continue;
                         }

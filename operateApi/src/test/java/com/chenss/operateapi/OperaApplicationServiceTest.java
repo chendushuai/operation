@@ -3,27 +3,15 @@ package com.chenss.operateapi;
 import com.alibaba.fastjson.JSON;
 import com.chenss.operateapi.common.ServiceResultDTO;
 import com.chenss.operateapi.model.OperaApplication;
-import com.chenss.operateapi.model.OperaGroup;
-import com.chenss.operateapi.model.OperaGroupAndDetailParam;
-import com.chenss.operateapi.model.OperaGroupDetail;
 import com.chenss.operateapi.param.GroupApplicationParam;
-import com.chenss.operateapi.param.GroupHostParam;
-import com.chenss.operateapi.param.OperaGroupDetailParam;
 import com.chenss.operateapi.response.ApplicationResponse;
-import com.chenss.operateapi.response.GroupHostResponse;
 import com.chenss.operateapi.response.PaginationQueryResult;
 import com.chenss.operateapi.service.OperaApplicationService;
-import com.chenss.operateapi.service.OperaGroupService;
-import com.chenss.operateapi.service.OperaHostService;
-import javafx.application.Application;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
-
-import java.util.ArrayList;
-import java.util.List;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest

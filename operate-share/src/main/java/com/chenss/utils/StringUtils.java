@@ -6,6 +6,6 @@ package com.chenss.utils;
  */
 public class StringUtils {
     public static boolean isNullOrEmpty(String arg) {
-        return arg !=null && !"".equals(arg);
+        return arg ==null || arg == "";
     }
 }

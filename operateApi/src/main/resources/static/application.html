@@ -259,6 +259,21 @@
                     }
                 });
             });
+            $('#detailModal').on('show.bs.modal', function (event) {
+                var button = $(event.relatedTarget) // Button that triggered the modal
+                var appName = button.data('appname');
+                var appCmdbId = button.data('cmdbid');
+                var id = button.data('id');
+                var modal = $('#detailModal');
+                modal.find(".err-msg").hide();
+
+                modal.find('.modal-title').html('应用 ' + appName + ' 部署机器维护');
+                modal.find('.modal-body #detail-element-id').html(id);
+                modal.find('.modal-body #detail-element-appCmdbId').html(appCmdbId);
+                modal.find('.modal-body #detail-element-appName').html(appName);
+
+                detailExistTableCreate();
+            });
             $('#deleteModal').on('show.bs.modal', function (event) {
                 var button = $(event.relatedTarget) // Button that triggered the modal
                 var appname = button.data('appname');
@@ -442,7 +457,7 @@
                 res = res + "<button type=\"button\" class=\"btn btn-primary\" data-toggle=\"modal\" data-target=\"#viewModal\" data-id=\"" + $(element)[0].id + "\" data-viewtype='edit'>编辑</button>";
                 res = res + "</div>";
                 res = res + "<div class=\"btn-group\" role=\"group\" aria-group=\"...\">";
-                res = res + "<button type=\"button\" class=\"btn btn-warning\" data-toggle=\"modal\" data-target=\"#detailModal\" data-id=\"" + $(element)[0].id + "\" data-appname='" + $(element)[0].appName + "'>应用部署机器</button>";
+                res = res + "<button type=\"button\" class=\"btn btn-warning\" data-toggle=\"modal\" data-target=\"#detailModal\" data-id=\"" + $(element)[0].id + "\" data-appname='" + $(element)[0].appName + "' data-cmdbid='" + $(element)[0].appCmdbId + "'>应用部署机器</button>";
                 res = res + "<button type=\"button\" class=\"btn btn-danger\" data-toggle=\"modal\" data-target=\"#deleteModal\" data-id=\"" + $(element)[0].id + "\" data-appname='" + $(element)[0].appName + "'>删除</button>";
                 res = res + "</div>";
                 res = res + "</td><td align=\"left\"></tr>";
@@ -693,32 +708,25 @@
                         <group class="control-group" id="detail-element-id"></group>
                     </div>
                     <div class="form-group">
-                        <group class="control-group">分组名称:</group>
-                        <group class="control-group" id="detail-element-groupName"></group>
+                        <group class="control-group">应用CMDB编码:</group>
+                        <group class="control-group" id="detail-element-appCmdbId"></group>
                     </div>
-                    <div class="form-group panel panel-primary">
-                        <div class="panel-heading">
-                            <h3 class="panel-title">组内现有主机信息</h3>
-                        </div>
-                        <table class="table table-hover table-condensed">
-                            <thead>
-                            <tr>
-                                <td>区域</td>
-                                <td>主机名称</td>
-                                <td>主机IP</td>
-                                <td>操作</td>
-                            </tr>
-                            </thead>
-                            <tbody id="detail-exist-host">
-                            </tbody>
-                        </table>
+                    <div class="form-group">
+                        <group class="control-group">应用名称:</group>
+                        <group class="control-group" id="detail-element-appName"></group>
                     </div>
                     <div class="form-group panel panel-info">
                         <div class="panel-heading">
-                            <h3 class="panel-title">添加主机到分组中</h3>
+                            <h3 class="panel-title">绑定应用分组关联关系</h3>
                         </div>
                         <div class="panel-body">
                             <form>
+                                <div class="form-group">
+                                    <group for="detail-query-groupName" class="col-sm-4 control-group">分组名称</group>
+                                    <div class="col-sm-8">
+                                        <input type="text" class="form-control" id="detail-query-groupName" placeholder="分组名称">
+                                    </div>
+                                </div>
                                 <div class="form-group">
                                     <label for="detail-query-envId" class="col-sm-4 control-label">主机环境</label>
                                     <div class="col-sm-8 dropdown">
@@ -759,6 +767,66 @@
                             </tr>
                             </thead>
                             <tbody id="detail-host-table">
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="form-group panel panel-primary">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">开发测试环境机器列表 [分组ID  分组名称   ]</h3>
+                        </div>
+                        <div class="panel-body">
+                            <button type="button" class="btn btn-danger">删除组关联</button>
+                        </div>
+                        <table class="table table-hover table-condensed">
+                            <thead>
+                            <tr>
+                                <td>区域</td>
+                                <td>主机名称</td>
+                                <td>主机IP</td>
+                                <td>操作</td>
+                            </tr>
+                            </thead>
+                            <tbody id="detail-dev-test-host">
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="form-group panel panel-success">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">UAT环境机器列表 [分组ID  分组名称   ]</h3>
+                        </div>
+                        <div class="panel-body">
+                            <button type="button" class="btn btn-danger">删除组关联</button>
+                        </div>
+                        <table class="table table-hover table-condensed">
+                            <thead>
+                            <tr>
+                                <td>区域</td>
+                                <td>主机名称</td>
+                                <td>主机IP</td>
+                                <td>操作</td>
+                            </tr>
+                            </thead>
+                            <tbody id="detail-uat-host">
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="form-group panel panel-danger">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">生产环境机器列表 [分组ID  分组名称   ]</h3>
+                        </div>
+                        <div class="panel-body">
+                            <button type="button" class="btn btn-danger">删除组关联</button>
+                        </div>
+                        <table class="table table-hover table-condensed">
+                            <thead>
+                            <tr>
+                                <td>区域</td>
+                                <td>主机名称</td>
+                                <td>主机IP</td>
+                                <td>操作</td>
+                            </tr>
+                            </thead>
+                            <tbody id="detail-sz-fy-host">
                             </tbody>
                         </table>
                     </div>

@@ -26,7 +26,7 @@ public class OperaApplicationController extends BaseController {
     @Autowired
     private OperaApplicationService operaApplicationService;
     @RequestMapping("")
-    @ParamNotNull(exclude = {"-1"})
+    @ParamNotNull(exclude = {"-1", ""})
     public ResponseDTO<PaginationQueryResult<ApplicationResponse>> query(@RequestBody GroupApplicationParam params) {
         PaginationQueryResult<ApplicationResponse> operaApplication= operaApplicationService.pageQuery(params);
         return new ResponseDTO(operaApplication);
