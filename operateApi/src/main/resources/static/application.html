@@ -272,9 +272,7 @@
                 modal.find('.modal-body #detail-element-appCmdbId').html(appCmdbId);
                 modal.find('.modal-body #detail-element-appName').html(appName);
 
-                $("#detail-dev-test-host").html("");
-                $("#detail-uat-host").html("");
-                $("#detail-sz-fy-host").html("");
+                detailRefresh();
 
                 detailExistTableCreate();
             });
@@ -291,6 +289,21 @@
             })
         }
 
+        function detailRefresh() {
+            var modal = $('#detailModal');
+            $("#detail-dev-test-host").html("");
+            $("#detail-uat-host").html("");
+            $("#detail-sz-fy-host").html("");
+
+            modal.find('#dev-test .panel-heading .panel-title').html("开发测试环境机器列表");
+            modal.find('#uat .panel-heading .panel-title').html("UAT环境机器列表");
+            modal.find('#sz-fy .panel-heading .panel-title').html("生产环境机器列表");
+
+            modal.find('.modal-body #detail-div-dev-test').html("");
+            modal.find('.modal-body #detail-div-uat').html("");
+            modal.find('.modal-body #detail-div-sz-fy').html("");
+        }
+
         function detailExistTableCreate() {
             var modal = $('#detailModal');
             modal.find("#detail-exist-host").html("");
@@ -300,8 +313,15 @@
                 type: "POST",
                 url: baseUrl + '/group/list?id=' + id,
                 success: function (jsonResult) {
+
+                    var groupNameDevTest="";
+                    var groupNameUat="";
+                    var groupNameSzFy="";
+
                     $(jsonResult.object).each(function (index, element) {
                         var res = "<tr><td align=\"left\">";
+                        res = res + $(element)[0].groupName;
+                        res = res + "</td><td align=\"left\">";
                         res = res + "<span class=\"label label-success\">" + $(element)[0].envName + " " + $(element)[0].envType + "</span><br />";
                         res = res + "</td><td align=\"left\">";
                         res = res + $(element)[0].hostName;
@@ -309,14 +329,36 @@
                         res = res + $(element)[0].hostIp;
                         res = res + "</td></tr>";
 
+                        var deleteGroupRelationShip="<button type=\"button\" class=\"btn btn-danger\" onclick=\"deleteAppGroup('"+$(element)[0].groupId+"')\">删除组 [ "+$(element)[0].groupName+" ] 关联</button>";
+
                         if ($(element)[0].envType == "DEV" || $(element)[0].envType == "TEST") {
                             $("#detail-dev-test-host").html($("#detail-dev-test-host").html() + res);
+                            if (groupNameDevTest.indexOf($(element)[0].groupName) < 0) {
+                                groupNameDevTest = groupNameDevTest + "、" + $(element)[0].groupName;
+                                modal.find('.modal-body #detail-div-dev-test').html(modal.find('.modal-body #detail-div-dev-test').html()+deleteGroupRelationShip);
+                            }
                         } else if ($(element)[0].envType == "UAT") {
                             $("#detail-uat-host").html($("#detail-uat-host").html() + res);
+                            if (groupNameUat.indexOf($(element)[0].groupName) < 0) {
+                                groupNameUat = groupNameUat + "、" + $(element)[0].groupName;
+                                modal.find('.modal-body #detail-div-uat').html(modal.find('.modal-body #detail-div-dev-test').html()+deleteGroupRelationShip);
+                            }
                         } else if ($(element)[0].envType == "SZ" || $(element)[0].envType == "HZ") {
                             $("#detail-sz-fy-host").html($("#detail-sz-fy-host").html() + res);
+                            if (groupNameSzFy.indexOf($(element)[0].groupName) < 0) {
+                                groupNameSzFy = groupNameSzFy + "、" + $(element)[0].groupName;
+                                modal.find('.modal-body #detail-div-sz-fy').html(modal.find('.modal-body #detail-div-dev-test').html()+deleteGroupRelationShip);
+                            }
                         }
                     });
+
+                    groupNameDevTest = groupNameDevTest.length>0 ? groupNameDevTest.substring(1) :groupNameDevTest;
+                    groupNameUat = groupNameUat.length>0 ? groupNameUat.substring(1) :groupNameUat;
+                    groupNameSzFy = groupNameSzFy.length>0 ? groupNameSzFy.substring(1) :groupNameSzFy;
+
+                    modal.find('#dev-test .panel-heading .panel-title').html(modal.find('#dev-test .panel-heading .panel-title').html() + " [ "+groupNameDevTest+" ] ");
+                    modal.find('#uat .panel-heading .panel-title').html(modal.find('#uat .panel-heading .panel-title').html() + " [ "+groupNameUat+" ] ");
+                    modal.find('#sz-fy .panel-heading .panel-title').html(modal.find('#sz-fy .panel-heading .panel-title').html() + " [ "+groupNameSzFy+" ] ");
                 },
                 error: function (xhr) {
                     if (xhr.status == 401) {
@@ -778,16 +820,16 @@
                             </tbody>
                         </table>
                     </div>
-                    <div class="form-group panel panel-primary">
+                    <div class="form-group panel panel-primary" id="dev-test">
                         <div class="panel-heading">
-                            <h3 class="panel-title">开发测试环境机器列表 [分组ID  分组名称   ]</h3>
+                            <h3 class="panel-title">开发测试环境机器列表</h3>
                         </div>
-                        <div class="panel-body">
-                            <button type="button" class="btn btn-danger">删除组关联</button>
+                        <div class="panel-body" id="detail-div-dev-test">
                         </div>
                         <table class="table table-hover table-condensed">
                             <thead>
                             <tr>
+                                <td>分组名称</td>
                                 <td>区域</td>
                                 <td>主机名称</td>
                                 <td>主机IP</td>
@@ -797,16 +839,16 @@
                             </tbody>
                         </table>
                     </div>
-                    <div class="form-group panel panel-success">
+                    <div class="form-group panel panel-success" id="uat">
                         <div class="panel-heading">
-                            <h3 class="panel-title">UAT环境机器列表 [分组ID  分组名称   ]</h3>
+                            <h3 class="panel-title">UAT环境机器列表</h3>
                         </div>
-                        <div class="panel-body">
-                            <button type="button" class="btn btn-danger">删除组关联</button>
+                        <div class="panel-body" id="detail-div-uat">
                         </div>
                         <table class="table table-hover table-condensed">
                             <thead>
                             <tr>
+                                <td>分组名称</td>
                                 <td>区域</td>
                                 <td>主机名称</td>
                                 <td>主机IP</td>
@@ -816,16 +858,16 @@
                             </tbody>
                         </table>
                     </div>
-                    <div class="form-group panel panel-danger">
+                    <div class="form-group panel panel-danger" id="sz-fy">
                         <div class="panel-heading">
-                            <h3 class="panel-title">生产环境机器列表 [分组ID  分组名称   ]</h3>
+                            <h3 class="panel-title">生产环境机器列表</h3>
                         </div>
-                        <div class="panel-body">
-                            <button type="button" class="btn btn-danger">删除组关联</button>
+                        <div class="panel-body" id="detail-div-sz-fy">
                         </div>
                         <table class="table table-hover table-condensed">
                             <thead>
                             <tr>
+                                <td>分组名称</td>
                                 <td>区域</td>
                                 <td>主机名称</td>
                                 <td>主机IP</td>

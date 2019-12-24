@@ -26,9 +26,8 @@ public class ParamNullProcess<T> {
      * @param exclude 排除的参数值
      * @return
      */
-    public T process(T param, @Nullable String... exclude) {
+    public T process(T param, Class clazz, @Nullable String... exclude) {
         try {
-            Class<?> clazz = param.getClass();
             logger.info("执行参数非空处理过程。类型：{}，参数对象：[{}]，排除参数值：{}", clazz.getName(), JSON.toJSONString(param), exclude);
             Field[] classFields = clazz.getDeclaredFields();
             for (Field fieldItem :
@@ -38,13 +37,17 @@ public class ParamNullProcess<T> {
                 }
                 fieldItem.setAccessible(true);
                 Object obj = fieldItem.get(param);
+                if (obj == null) {
+                    continue;
+                }
                 if (null != obj && StringUtils.isNullOrEmpty(obj.toString())) {
                     fieldItem.set(param, null);
+                    continue;
                 }
                 if (exclude.length > 0) {
                     for (String enc :
                             exclude) {
-                        if (StringUtils.isNullOrEmpty(enc)) {
+                        if (StringUtils.isNull(enc)) {
                             continue;
                         }
                         if (null != obj && enc.equals(obj.toString())) {
@@ -52,6 +55,10 @@ public class ParamNullProcess<T> {
                         }
                     }
                 }
+            }
+            Class superClass = clazz.getSuperclass();
+            if (superClass.getName() != "java.lang.Object") {
+                process(param, superClass, exclude);
             }
             logger.info("执行参数非空处理过程。返回结果：[{}]", JSON.toJSONString(param));
             return param;

@@ -2,6 +2,7 @@ package com.chenss.operateapi.controller;
 
 import com.chenss.operate.MyResultCode;
 import com.chenss.operateapi.BaseController;
+import com.chenss.operateapi.aop.ParamNotNull;
 import com.chenss.operateapi.common.ResponseDTO;
 import com.chenss.operateapi.common.ServiceResultDTO;
 import com.chenss.operateapi.model.OperaOs;
@@ -29,6 +30,7 @@ public class OperaOsController extends BaseController {
     @Autowired
     private OperaOsService operaOsService;
     @RequestMapping("")
+    @ParamNotNull(exclude = {"-1", ""})
     public List<OperaOs> query(@RequestBody OperaOsDO params) {
         ServiceResultDTO<List<OperaOs>> operaOs= operaOsService.getOs(params);
         return operaOs.getObject();

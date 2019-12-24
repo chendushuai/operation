@@ -46,7 +46,7 @@ public class NullValueCheckTest {
         System.out.println(JSON.toJSONString(host));
         ParamNullProcess<OperaHost> paramNullProcess = new ParamNullProcess<>();
 
-        host = paramNullProcess.process(host,"-1","4");
+        host = paramNullProcess.process(host,host.getClass(),"-1","4");
 
         System.out.println(JSON.toJSONString(host));
     }

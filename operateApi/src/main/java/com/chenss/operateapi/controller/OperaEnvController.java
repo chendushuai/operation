@@ -2,6 +2,7 @@ package com.chenss.operateapi.controller;
 
 import com.chenss.operate.MyResultCode;
 import com.chenss.operateapi.BaseController;
+import com.chenss.operateapi.aop.ParamNotNull;
 import com.chenss.operateapi.common.ResponseDTO;
 import com.chenss.operateapi.common.ServiceResultDTO;
 import com.chenss.operateapi.model.OperaEnv;
@@ -24,6 +25,7 @@ public class OperaEnvController extends BaseController {
     @Autowired
     private OperaEnvService operaEnvService;
     @RequestMapping("")
+    @ParamNotNull(exclude = {"-1", ""})
     public ResponseDTO<List<OperaEnv>> query(@RequestBody OperaEnvDO params) {
         ServiceResultDTO<List<OperaEnv>> operaEnv= operaEnvService.getEnv(params);
         return new ResponseDTO(operaEnv.getObject());
