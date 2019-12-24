@@ -8,6 +8,7 @@ import com.chenss.operateapi.common.ServiceResultDTO;
 import com.chenss.operateapi.model.OperaApplication;
 import com.chenss.operateapi.param.GroupApplicationParam;
 import com.chenss.operateapi.request.OperaApplicationDO;
+import com.chenss.operateapi.response.ApplicationGroupEnvHostDo;
 import com.chenss.operateapi.response.ApplicationResponse;
 import com.chenss.operateapi.response.EnvHostDO;
 import com.chenss.operateapi.response.PaginationQueryResult;
@@ -40,8 +41,8 @@ public class OperaApplicationController extends BaseController {
         return new ResponseDTO(operaApplication.getObject());
     }
     @RequestMapping("/group/list")
-    public ResponseDTO<List<EnvHostDO>> queryGroupHostId(String id) {
-        ServiceResultDTO<List<EnvHostDO>> operaItem= operaApplicationService.listGroupHostInfo(id);
+    public ResponseDTO<List<ApplicationGroupEnvHostDo>> queryGroupHostId(String id) {
+        ServiceResultDTO<List<ApplicationGroupEnvHostDo>> operaItem= operaApplicationService.listGroupHostInfo(id);
         return new ResponseDTO(operaItem.getObject());
     }
     @RequestMapping("/edit")

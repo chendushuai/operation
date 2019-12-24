@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSON;
 import com.chenss.operateapi.common.ServiceResultDTO;
 import com.chenss.operateapi.model.OperaApplication;
 import com.chenss.operateapi.param.GroupApplicationParam;
+import com.chenss.operateapi.response.ApplicationGroupEnvHostDo;
 import com.chenss.operateapi.response.ApplicationResponse;
 import com.chenss.operateapi.response.EnvHostDO;
 import com.chenss.operateapi.response.PaginationQueryResult;
@@ -38,7 +39,7 @@ public class OperaApplicationServiceTest {
 
     @Test
     public void listHosts() {
-        ServiceResultDTO<List<EnvHostDO>> listServiceResultDTO = operaApplicationService.listGroupHostInfo("9e985c930af24909904d9f66b69de925");
+        ServiceResultDTO<List<ApplicationGroupEnvHostDo>> listServiceResultDTO = operaApplicationService.listGroupHostInfo("9e985c930af24909904d9f66b69de925");
         System.out.println(JSON.toJSONString(listServiceResultDTO.getObject()));
     }
 }

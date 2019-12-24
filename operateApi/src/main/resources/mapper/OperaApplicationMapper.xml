@@ -17,6 +17,15 @@
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
     <result column="modify_time" jdbcType="TIMESTAMP" property="modifyTime" />
   </resultMap>
+  <resultMap id="ApplicationGroupEnvHostDOResultMap" type="com.chenss.operateapi.response.ApplicationGroupEnvHostDo">
+    <id column="id" jdbcType="VARCHAR" property="id"/>
+    <result column="env_type" jdbcType="VARCHAR" property="envType"/>
+    <result column="env_name" jdbcType="VARCHAR" property="envName"/>
+    <result column="host_name" jdbcType="VARCHAR" property="hostName"/>
+    <result column="host_ip" jdbcType="VARCHAR" property="hostIp"/>
+    <result column="group_id" jdbcType="VARCHAR" property="groupId"/>
+    <result column="group_name" jdbcType="VARCHAR" property="groupName"/>
+  </resultMap>
   <sql id="Base_Column_List">
     id, app_cmdb_id, app_name, app_type, repo_type, svn_url, git_url, jdk_version, app_affiliation_id, 
     app_principal, app_purpose, app_remark, create_time, modify_time
@@ -27,8 +36,8 @@
     from opera_application
     where id = #{id,jdbcType=VARCHAR}
   </select>
-  <select id="listGroupHostInfo" parameterType="java.lang.String" resultMap="com.chenss.operateapi.mapper.OperaGroupDetailMapper.EnvHostDOResultMap">
-    select gd.id,e.env_type, e.env_name, h.host_name, h.host_ip
+  <select id="listGroupHostInfo" parameterType="java.lang.String" resultMap="ApplicationGroupEnvHostDOResultMap">
+    select gd.id,e.env_type, e.env_name, h.host_name, h.host_ip,g.id as group_id,g.group_name
     from opera_application_group ag,
       opera_group g,
       opera_group_detail gd,

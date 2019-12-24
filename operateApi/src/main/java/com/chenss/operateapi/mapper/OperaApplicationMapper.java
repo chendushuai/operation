@@ -2,7 +2,7 @@ package com.chenss.operateapi.mapper;
 
 import com.chenss.operateapi.model.OperaApplication;
 import com.chenss.operateapi.param.GroupApplicationParam;
-import com.chenss.operateapi.response.EnvHostDO;
+import com.chenss.operateapi.response.ApplicationGroupEnvHostDo;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
@@ -16,5 +16,5 @@ public interface OperaApplicationMapper extends MyBatisBaseDao<OperaApplication,
     List<OperaApplication> listPaging(GroupApplicationParam obj);
     int countListPaging(GroupApplicationParam obj);
 
-    List<EnvHostDO> listGroupHostInfo(String id);
+    List<ApplicationGroupEnvHostDo> listGroupHostInfo(String id);
 }

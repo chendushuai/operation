@@ -23,7 +23,7 @@ function createNav() {
     navList += "      <span class=\"icon-bar\"></span>";
     navList += "      <span class=\"icon-bar\"></span>";
     navList += "    </button>";
-    navList += "    <a class=\"navbar-brand\" href=\"javascript:void(0);\">连连运维维护系统</a>";
+    navList += "    <a class=\"navbar-brand\" href=\"javascript:void(0);\">LianLian Link Operation System</a>";
     navList += "  </div>";
     navList += "  <div class=\"collapse navbar-collapse\">";
     navList += "    <ul class=\"nav navbar-nav\">";

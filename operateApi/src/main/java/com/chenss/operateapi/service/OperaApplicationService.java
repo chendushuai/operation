@@ -5,6 +5,7 @@ import com.chenss.operateapi.common.ServiceResultDTO;
 import com.chenss.operateapi.mapper.OperaApplicationMapper;
 import com.chenss.operateapi.model.*;
 import com.chenss.operateapi.param.GroupApplicationParam;
+import com.chenss.operateapi.response.ApplicationGroupEnvHostDo;
 import com.chenss.operateapi.response.ApplicationResponse;
 import com.chenss.operateapi.response.EnvHostDO;
 import com.chenss.operateapi.response.PaginationQueryResult;
@@ -33,7 +34,7 @@ public class OperaApplicationService {
         return new ServiceResultDTO<>(operaApplicationMapper.selectByPrimaryKey(id));
     }
 
-    public ServiceResultDTO<List<EnvHostDO>> listGroupHostInfo(String id) {
+    public ServiceResultDTO<List<ApplicationGroupEnvHostDo>> listGroupHostInfo(String id) {
         return new ServiceResultDTO<>(operaApplicationMapper.listGroupHostInfo(id));
     }
 
