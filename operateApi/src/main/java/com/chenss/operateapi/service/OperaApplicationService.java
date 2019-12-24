@@ -6,6 +6,7 @@ import com.chenss.operateapi.mapper.OperaApplicationMapper;
 import com.chenss.operateapi.model.*;
 import com.chenss.operateapi.param.GroupApplicationParam;
 import com.chenss.operateapi.response.ApplicationResponse;
+import com.chenss.operateapi.response.EnvHostDO;
 import com.chenss.operateapi.response.PaginationQueryResult;
 import com.chenss.utils.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,6 +31,10 @@ public class OperaApplicationService {
 
     public ServiceResultDTO<OperaApplication> selectByPrimaryKey(String id) {
         return new ServiceResultDTO<>(operaApplicationMapper.selectByPrimaryKey(id));
+    }
+
+    public ServiceResultDTO<List<EnvHostDO>> listGroupHostInfo(String id) {
+        return new ServiceResultDTO<>(operaApplicationMapper.listGroupHostInfo(id));
     }
 
     public ServiceResultDTO<Integer> insertOrUpdate(OperaApplication obj) {

@@ -27,6 +27,20 @@
     from opera_application
     where id = #{id,jdbcType=VARCHAR}
   </select>
+  <select id="listGroupHostInfo" parameterType="java.lang.String" resultMap="com.chenss.operateapi.mapper.OperaGroupDetailMapper.EnvHostDOResultMap">
+    select gd.id,e.env_type, e.env_name, h.host_name, h.host_ip
+    from opera_application_group ag,
+      opera_group g,
+      opera_group_detail gd,
+      opera_host h,
+      opera_env e
+    where ag.app_id=#{id,jdbcType=VARCHAR}
+      and ag.group_id=g.id
+      and g.id=gd.group_id
+      and gd.item_id = h.id
+      AND h.host_env_id = e.id
+    order by e.env_type,h.host_ip
+  </select>
   <sql id="Pager_Column_List">
     id, app_cmdb_id, app_name, app_type, repo_type, svn_url, git_url, jdk_version, app_affiliation_id,
     app_principal, app_purpose, app_remark, create_time, modify_time

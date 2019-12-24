@@ -9,12 +9,15 @@ import com.chenss.operateapi.model.OperaApplication;
 import com.chenss.operateapi.param.GroupApplicationParam;
 import com.chenss.operateapi.request.OperaApplicationDO;
 import com.chenss.operateapi.response.ApplicationResponse;
+import com.chenss.operateapi.response.EnvHostDO;
 import com.chenss.operateapi.response.PaginationQueryResult;
 import com.chenss.operateapi.service.OperaApplicationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
 
 /**
  * 应用管理控制器
@@ -35,6 +38,11 @@ public class OperaApplicationController extends BaseController {
     public ResponseDTO<OperaApplication> viewObject(String id) {
         ServiceResultDTO<OperaApplication> operaApplication= operaApplicationService.selectByPrimaryKey(id);
         return new ResponseDTO(operaApplication.getObject());
+    }
+    @RequestMapping("/group/list")
+    public ResponseDTO<List<EnvHostDO>> queryGroupHostId(String id) {
+        ServiceResultDTO<List<EnvHostDO>> operaItem= operaApplicationService.listGroupHostInfo(id);
+        return new ResponseDTO(operaItem.getObject());
     }
     @RequestMapping("/edit")
     @ParamNotNull(exclude = {"-1"})

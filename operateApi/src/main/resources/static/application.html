@@ -272,6 +272,10 @@
                 modal.find('.modal-body #detail-element-appCmdbId').html(appCmdbId);
                 modal.find('.modal-body #detail-element-appName').html(appName);
 
+                $("#detail-dev-test-host").html("");
+                $("#detail-uat-host").html("");
+                $("#detail-sz-fy-host").html("");
+
                 detailExistTableCreate();
             });
             $('#deleteModal').on('show.bs.modal', function (event) {
@@ -294,7 +298,7 @@
 
             $.ajax({
                 type: "POST",
-                url: '/api/group/detail/list?id=' + id,
+                url: baseUrl + '/group/list?id=' + id,
                 success: function (jsonResult) {
                     $(jsonResult.object).each(function (index, element) {
                         var res = "<tr><td align=\"left\">";
@@ -303,10 +307,15 @@
                         res = res + $(element)[0].hostName;
                         res = res + "</td><td align=\"left\">";
                         res = res + $(element)[0].hostIp;
-                        res = res + "</td><td align=\"center\">";
-                        res = res + "<button type=\"button\" class=\"btn btn-danger\" onclick=\"javascript:deleteExistsHost('"+$(element)[0].id+"');\">删除</button>";
                         res = res + "</td></tr>";
-                        $("#detail-exist-host").html($("#detail-exist-host").html() + res);
+
+                        if ($(element)[0].envType == "DEV" || $(element)[0].envType == "TEST") {
+                            $("#detail-dev-test-host").html($("#detail-dev-test-host").html() + res);
+                        } else if ($(element)[0].envType == "UAT") {
+                            $("#detail-uat-host").html($("#detail-uat-host").html() + res);
+                        } else if ($(element)[0].envType == "SZ" || $(element)[0].envType == "HZ") {
+                            $("#detail-sz-fy-host").html($("#detail-sz-fy-host").html() + res);
+                        }
                     });
                 },
                 error: function (xhr) {
@@ -763,7 +772,6 @@
                                 <td>区域</td>
                                 <td>主机名称</td>
                                 <td>主机IP</td>
-                                <td>操作</td>
                             </tr>
                             </thead>
                             <tbody id="detail-host-table">
@@ -783,7 +791,6 @@
                                 <td>区域</td>
                                 <td>主机名称</td>
                                 <td>主机IP</td>
-                                <td>操作</td>
                             </tr>
                             </thead>
                             <tbody id="detail-dev-test-host">
@@ -803,7 +810,6 @@
                                 <td>区域</td>
                                 <td>主机名称</td>
                                 <td>主机IP</td>
-                                <td>操作</td>
                             </tr>
                             </thead>
                             <tbody id="detail-uat-host">
@@ -823,7 +829,6 @@
                                 <td>区域</td>
                                 <td>主机名称</td>
                                 <td>主机IP</td>
-                                <td>操作</td>
                             </tr>
                             </thead>
                             <tbody id="detail-sz-fy-host">
