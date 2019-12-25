@@ -6,3 +6,5 @@ var labelKvUrl = "/api/label/kv";
 
 // 应用管理URL
 var applicationUrl = "/api/application";
+// 主机分组URL
+var groupUrl = "/api/group";

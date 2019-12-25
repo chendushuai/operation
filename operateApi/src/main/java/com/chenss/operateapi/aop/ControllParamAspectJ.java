@@ -33,7 +33,7 @@ public class ControllParamAspectJ {
         ParamNotNull anno = methodSignature.getMethod().getAnnotation(ParamNotNull.class);
         String[] encludes = anno.exclude();
         Object[] args = joinPoint.getArgs();
-        logger.info("参数清除空值拦截，方法名:[{}],参数值：[{}],排除值：{}",methodSignature.getMethod().getClass().getName()+"#"+methodSignature.getMethod().getName(), JSON.toJSONString(args),Arrays.toString(encludes));
+        logger.info("参数清除空值拦截，方法名:[{}],参数值：[{}],排除值：{}",methodSignature.getMethod().getDeclaringClass().getName()+"#"+methodSignature.getMethod().getName(), JSON.toJSONString(args),Arrays.toString(encludes));
         for (int i = 0; i < args.length; i++) {
             Class<?> clazz = args[i].getClass();
             if (args[i] instanceof RequestParam) {

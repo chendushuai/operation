@@ -45,12 +45,16 @@
                 contentType: "application/json",
                 dataType: "json",
                 data: JSON.stringify({
-                    needOperaEnv: false,
+                    needOperaEnv: true,
                     needOperaAffiliation: true,
                     needOperaOs: false,
                     needOperaServiceType: false
                 }),
                 success: function (jsonResult) {
+                    $(jsonResult.object.operaEnvList).each(function (index, element) {
+                        var eleObj = $(element)[0];
+                        $("#detail-query-envId").html($("#detail-query-envId").html() + "<option value=\"" + eleObj.id + "\">" + eleObj.envName + " - " + eleObj.envType + "</option>");
+                    });
                     $(jsonResult.object.operaAffiliationList).each(function (index, element) {
                         var eleObj = $(element)[0];
                         $("#element-appAffiliationId").html($("#element-appAffiliationId").html() + "<option value=\"" + eleObj.id + "\">" + eleObj.name + "</option>");
@@ -462,8 +466,44 @@
                 modal.modal('hide');
                 query(0);
             });
-            $('#detail-query-button').on('click', function () {
+            $('#detailModal').find('#detail-query-button').on('click', function () {
                 hostDetailQuery(0);
+            });
+            $('#detailModal').find('#detail-clear-button').on('click', function () {
+                $("#detail-host-table").html("");
+            });
+        }
+
+        function hostDetailQuery(pageIndex) {
+            var modal = $('#detailModal');
+            var groupName = modal.find('#detail-query-groupName').val();
+            var hostName = modal.find('#detail-query-hostName').val();
+            var hostIp = modal.find('#detail-query-hostIp').val();
+            var envId = modal.find('#detail-query-envId').val();
+
+            $.ajax({
+                type: "POST",
+                url: groupUrl,
+                contentType: "application/json",
+                dataType: "json",
+                data: JSON.stringify({
+                    groupName: groupName,
+                    envId: envId,
+                    hostName: hostName,
+                    hostIp: hostIp,
+                    pageIndex: pageIndex
+                }),
+                success: function (jsonResult) {
+                    createDetailHostTable(jsonResult);
+                },
+                error: function (xhr) {
+                    alert("错误提示： " + xhr.status + " " + xhr.statusText);
+                    if (xhr.status == 401) {
+                        return;
+                    } else {
+                        return;
+                    }
+                }
             });
         }
 
@@ -522,13 +562,27 @@
             $(jsonResult.object.resultList).each(function (index, element) {
                 var eleObj = $(element)[0];
                 res = "<tr><td align=\"left\">";
-                res = res + "<span class=\"label label-primary\">" + eleObj.envName + "</span><br />";
+                res = res + $(element)[0].groupName;
                 res = res + "</td><td align=\"left\">";
-                res = res + eleObj.hostName;
-                res = res + "</td><td align=\"left\">";
-                res = res + eleObj.hostIp;
+                $($(element)[0].childHosts).each(function (index, elementChild) {
+                    res = res + "<span class=\"label ";
+                    if (index % 6 == 0) {
+                        res = res + "label-default";
+                    } else if (index % 6 == 1) {
+                        res = res + "label-primary";
+                    } else if (index % 6 == 2) {
+                        res = res + "label-success";
+                    } else if (index % 6 == 3) {
+                        res = res + "label-info";
+                    } else if (index % 6 == 4) {
+                        res = res + "label-warning";
+                    } else if (index % 6 == 5) {
+                        res = res + "label-danger";
+                    }
+                    res = res + "\">" + $(elementChild)[0].envName + " - " + $(elementChild)[0].envType + "</span> " + $(elementChild)[0].hostName + " [" + $(elementChild)[0].hostIp + "]<br />";
+                });
                 res = res + "</td><td align=\"center\">";
-                res = res + "<button type=\"button\" class=\"btn btn-success addBtn\" onclick=\"javascript:addHost('"+eleObj.id+"');\">添加</button>";
+                res = res + "<button type=\"button\" class=\"btn btn-success addBtn\" onclick=\"javascript:addHost('"+eleObj.id+"');\">绑定</button>";
                 res = res + "</td></tr>";
                 $("#detail-host-table").html($("#detail-host-table").html() + res);
             });
@@ -661,7 +715,7 @@
     </div>
 </div>
 <div class="modal fade" id="viewModal" tabindex="-1" role="dialog" aria-groupledby="viewModalLabel">
-    <div class="modal-dialog" role="document">
+    <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-group="Close"><span aria-hidden="true">&times;</span>
@@ -744,7 +798,7 @@
     </div>
 </div>
 <div class="modal fade" id="detailModal" tabindex="-1" role="dialog" aria-groupledby="detailModalLabel">
-    <div class="modal-dialog" role="document">
+    <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <h4 class="modal-title" id="detailModalLabel">New message</h4>
@@ -802,8 +856,12 @@
                                 </div>
                                 <div class="form-group">
                                     <div class="col-sm-offset-2 col-sm-10">
-                                        <button type="button" class="btn btn-default" id="detail-query-button">查询
-                                        </button>
+                                        <div class="btn-group" role="group" aria-group="...">
+                                            <button type="button" class="btn btn-primary" id="detail-query-button">查询
+                                            </button>
+                                            <button type="button" class="btn btn-default" id="detail-clear-button">清空查询结果
+                                            </button>
+                                        </div>
                                     </div>
                                 </div>
                             </form>
@@ -811,9 +869,9 @@
                         <table class="table">
                             <thead>
                             <tr>
-                                <td>区域</td>
-                                <td>主机名称</td>
-                                <td>主机IP</td>
+                                <td>分组名称</td>
+                                <td>主机列表</td>
+                                <td>操作</td>
                             </tr>
                             </thead>
                             <tbody id="detail-host-table">
