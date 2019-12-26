@@ -2,6 +2,7 @@ package com.chenss.operateapi.response;
 
 import com.chenss.operateapi.model.OperaGroupHostDo;
 import com.chenss.utils.StringUtils;
+import lombok.Getter;
 import org.springframework.beans.BeanUtils;
 
 import java.io.Serializable;
@@ -20,6 +21,7 @@ public class GroupHostResponse extends OperaGroupHostDo implements Serializable 
 
     private String createTimeStr;
     private String modifyTimeStr;
+    @Getter
     private List<EnvHostDO> childHosts;
 
     public GroupHostResponse(OperaGroupHostDo groupHostDo) {
@@ -49,10 +51,6 @@ public class GroupHostResponse extends OperaGroupHostDo implements Serializable 
             envHostDO.setHostIp(envAndHost[3]);
             childHosts.add(envHostDO);
         }
-    }
-
-    public List<EnvHostDO> getChildHosts() {
-        return childHosts;
     }
 
     public String getCreateTimeStr() {

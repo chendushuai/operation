@@ -1,87 +1,60 @@
 package com.chenss.operateapi.response;
 
 import com.chenss.operateapi.model.OperaAffiliation;
+import lombok.Getter;
+import lombok.Setter;
+import org.springframework.beans.BeanUtils;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
+/**
+ * 应用归属相应结果
+ * @author chenss002
+ */
 public class OperaAffiliationResponse {
     SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
     /**
      * 主键
      */
+    @Getter
+    @Setter
     private Integer id;
 
     /**
      * 归属名称
      */
+    @Getter
+    @Setter
     private String name;
 
     /**
      * 描述
      */
+    @Getter
+    @Setter
     private String desc;
 
     /**
      * 创建时间
      */
+    @Getter
+    @Setter
     private Date createTime;
 
     /**
      * 修改时间
      */
+    @Getter
+    @Setter
     private Date modifyTime;
 
     private String createTimeStr;
     private String modifyTimeStr;
 
     public OperaAffiliationResponse(OperaAffiliation operaAffiliation) {
-        this.id=operaAffiliation.getId();
-        this.name=operaAffiliation.getName();
-        this.desc=operaAffiliation.getDesc();
-        this.createTime=operaAffiliation.getCreateTime();
-        this.modifyTime=operaAffiliation.getModifyTime();
-    }
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getDesc() {
-        return desc;
-    }
-
-    public void setDesc(String desc) {
-        this.desc = desc;
-    }
-
-    public Date getCreateTime() {
-        return createTime;
-    }
-
-    public void setCreateTime(Date createTime) {
-        this.createTime = createTime;
-    }
-
-    public Date getModifyTime() {
-        return modifyTime;
-    }
-
-    public void setModifyTime(Date modifyTime) {
-        this.modifyTime = modifyTime;
+        BeanUtils.copyProperties(operaAffiliation,this);
     }
 
     public String getCreateTimeStr() {
