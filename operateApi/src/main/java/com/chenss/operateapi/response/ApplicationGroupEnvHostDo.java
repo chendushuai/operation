@@ -10,6 +10,9 @@ import lombok.ToString;
 public class ApplicationGroupEnvHostDo extends EnvHostDO {
     @Getter
     @Setter
+    private String id;
+    @Getter
+    @Setter
     private String groupId;
     @Getter
     @Setter

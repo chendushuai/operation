@@ -2,12 +2,13 @@ package com.chenss.operateapi.service;
 
 import cn.hutool.core.util.IdUtil;
 import com.chenss.operateapi.common.ServiceResultDTO;
+import com.chenss.operateapi.mapper.OperaApplicationGroupMapper;
 import com.chenss.operateapi.mapper.OperaApplicationMapper;
 import com.chenss.operateapi.model.*;
 import com.chenss.operateapi.param.GroupApplicationParam;
+import com.chenss.operateapi.request.OperaApplicationGroupDO;
 import com.chenss.operateapi.response.ApplicationGroupEnvHostDo;
 import com.chenss.operateapi.response.ApplicationResponse;
-import com.chenss.operateapi.response.EnvHostDO;
 import com.chenss.operateapi.response.PaginationQueryResult;
 import com.chenss.utils.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +26,11 @@ import java.util.List;
 public class OperaApplicationService {
     @Autowired
     private OperaApplicationMapper operaApplicationMapper;
+
+    @Autowired
+    private OperaApplicationGroupMapper operaApplicationGroupMapper;
+    @Autowired
+    private OperaGroupService operaGroupService;
 
     public ServiceResultDTO<List<OperaApplication>> query(OperaApplication operaApplication) {
         return new ServiceResultDTO<>(operaApplicationMapper.query(operaApplication));
@@ -48,7 +54,7 @@ public class OperaApplicationService {
             int insertResult = operaApplicationMapper.insertSelective(obj);
             return new ServiceResultDTO<Integer>().ok(insertResult);
         }
-        String checkExistResult = checkExists(null, obj.getId());
+        String checkExistResult = checkExists(obj.getId());
         if (null != checkExistResult) {
             return new ServiceResultDTO<Integer>().fail(checkExistResult);
         }
@@ -58,6 +64,9 @@ public class OperaApplicationService {
         }
         int updateResult = operaApplicationMapper.updateByPrimaryKeySelective(obj);
         return new ServiceResultDTO<Integer>().ok(updateResult);
+    }
+    private String checkExists(String id) {
+        return checkExists(null,id);
     }
 
     private String checkExists(OperaApplication obj,String id) {
@@ -109,5 +118,40 @@ public class OperaApplicationService {
         }
         result.setTotalSize(totalSize);
         return result;
+    }
+
+    public ServiceResultDTO<Integer> insertOrUpdateApplicationGroup(OperaApplicationGroup obj) {
+        ServiceResultDTO<OperaGroup> operaGroupServiceResultDTO = operaGroupService.selectByPrimaryKey(obj.getGroupId());
+        if (operaGroupServiceResultDTO==null || !operaGroupServiceResultDTO.isSuccess() || operaGroupServiceResultDTO.getObject() == null) {
+            return new ServiceResultDTO<Integer>().fail("分组不存在");
+        }
+        if (!StringUtils.isNullOrEmpty(checkExists(obj.getAppId()))) {
+            return new ServiceResultDTO<Integer>().fail("应用不存在");
+        }
+        List<OperaApplicationGroup> operaApplicationGroups = operaApplicationGroupMapper.selectByAppIdAndGroupId(obj);
+        boolean blnExists = operaApplicationGroups != null && operaApplicationGroups.size() >= 1 && operaApplicationGroups.get(0) != null;
+        if (StringUtils.isNullOrEmpty(obj.getId())) {
+            if (blnExists) {
+                return new ServiceResultDTO<Integer>().fail("应用和分组关系已绑定");
+            }
+            obj.setId(IdUtil.simpleUUID());
+            int insertResult = operaApplicationGroupMapper.insertSelective(obj);
+            return new ServiceResultDTO<Integer>().ok(insertResult);
+        }
+        boolean blnExists2 = blnExists && operaApplicationGroups.get(0).getId().equals(obj.getId());
+        if (blnExists2) {
+            return new ServiceResultDTO<Integer>().fail("应用和分组关系已绑定");
+        }
+        int updateResult = operaApplicationGroupMapper.updateByPrimaryKeySelective(obj);
+        return new ServiceResultDTO<Integer>().ok(updateResult);
+    }
+
+    public ServiceResultDTO<Integer> deleteApplicationGroup(String id) {
+        OperaApplicationGroup operaApplicationGroup = operaApplicationGroupMapper.selectByPrimaryKey(id);
+        if (null == operaApplicationGroup) {
+            return new ServiceResultDTO<Integer>().fail("应用分组部署关系不存在");
+        }
+        int updateResult = operaApplicationGroupMapper.deleteByPrimaryKey(id);
+        return new ServiceResultDTO<Integer>().ok(updateResult);
     }
 }

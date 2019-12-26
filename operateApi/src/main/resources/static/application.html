@@ -333,9 +333,10 @@
                         res = res + $(element)[0].hostIp;
                         res = res + "</td></tr>";
 
-                        var deleteGroupRelationShip="<button type=\"button\" class=\"btn btn-danger\" onclick=\"deleteAppGroup('"+$(element)[0].groupId+"')\">删除组 [ "+$(element)[0].groupName+" ] 关联</button>";
+                        var deleteGroupRelationShip="<button type=\"button\" class=\"btn btn-danger\" onclick=\"deleteAppGroup('"+$(element)[0].id+"')\">删除组 [ "+$(element)[0].groupName+" ] 关联</button>";
 
                         if ($(element)[0].envType == "DEV" || $(element)[0].envType == "TEST") {
+
                             $("#detail-dev-test-host").html($("#detail-dev-test-host").html() + res);
                             if (groupNameDevTest.indexOf($(element)[0].groupName) < 0) {
                                 groupNameDevTest = groupNameDevTest + "、" + $(element)[0].groupName;
@@ -345,13 +346,13 @@
                             $("#detail-uat-host").html($("#detail-uat-host").html() + res);
                             if (groupNameUat.indexOf($(element)[0].groupName) < 0) {
                                 groupNameUat = groupNameUat + "、" + $(element)[0].groupName;
-                                modal.find('.modal-body #detail-div-uat').html(modal.find('.modal-body #detail-div-dev-test').html()+deleteGroupRelationShip);
+                                modal.find('.modal-body #detail-div-uat').html(modal.find('.modal-body #detail-div-uat').html()+deleteGroupRelationShip);
                             }
                         } else if ($(element)[0].envType == "SZ" || $(element)[0].envType == "HZ") {
                             $("#detail-sz-fy-host").html($("#detail-sz-fy-host").html() + res);
                             if (groupNameSzFy.indexOf($(element)[0].groupName) < 0) {
                                 groupNameSzFy = groupNameSzFy + "、" + $(element)[0].groupName;
-                                modal.find('.modal-body #detail-div-sz-fy').html(modal.find('.modal-body #detail-div-dev-test').html()+deleteGroupRelationShip);
+                                modal.find('.modal-body #detail-div-sz-fy').html(modal.find('.modal-body #detail-div-sz-fy').html()+deleteGroupRelationShip);
                             }
                         }
                     });
@@ -582,24 +583,25 @@
                     res = res + "\">" + $(elementChild)[0].envName + " - " + $(elementChild)[0].envType + "</span> " + $(elementChild)[0].hostName + " [" + $(elementChild)[0].hostIp + "]<br />";
                 });
                 res = res + "</td><td align=\"center\">";
-                res = res + "<button type=\"button\" class=\"btn btn-success addBtn\" onclick=\"javascript:addHost('"+eleObj.id+"');\">绑定</button>";
+                res = res + "<button type=\"button\" class=\"btn btn-success addBtn\" onclick=\"javascript:bindGroup('"+eleObj.id+"');\">绑定</button>";
                 res = res + "</td></tr>";
                 $("#detail-host-table").html($("#detail-host-table").html() + res);
             });
         }
-        function addHost(host_id) {
-            var group_id=$('#detailModal').find('.modal-body #detail-element-id').html();
+        function bindGroup(groupId) {
+            var appId=$('#detailModal').find('.modal-body #detail-element-id').html();
             $.ajax({
                 type: "POST",
-                url: '/api/group/adddetail',
+                url: baseUrl+'/addGroup',
                 contentType: "application/json",
                 dataType: "json",
                 data: JSON.stringify({
-                    hostId: host_id,
-                    id: group_id
+                    groupId: groupId,
+                    appId: appId
                 }),
                 success: function (jsonResult) {
                     console.log(jsonResult.success);
+                    detailRefresh();
                     if (jsonResult.success=="0"||jsonResult.success=="505-00-00-50002") {
                         detailExistTableCreate();
                     } else {
@@ -616,13 +618,14 @@
                 }
             });
         }
-        function deleteExistsHost(detail_id) {
-            if(confirm("确认要将该主机从分组中删除吗？")) {
+        function deleteAppGroup(detail_id) {
+            if(confirm("确认要删除该应用同分组的绑定关系吗？")) {
                 $.ajax({
                     type: "POST",
-                    url: '/api/group/deletedetail?id=' + detail_id,
+                    url: baseUrl+'/deletegroup?id=' + detail_id,
                     success: function (jsonResult) {
                         if (jsonResult.success) {
+                            detailRefresh();
                             detailExistTableCreate();
                         } else {
                             modal.find(".err-msg").show().html("<strong>" + jsonResult.error + " :</strong> " + jsonResult.msg);

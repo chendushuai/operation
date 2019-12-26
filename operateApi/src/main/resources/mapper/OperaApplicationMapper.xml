@@ -37,7 +37,7 @@
     where id = #{id,jdbcType=VARCHAR}
   </select>
   <select id="listGroupHostInfo" parameterType="java.lang.String" resultMap="ApplicationGroupEnvHostDOResultMap">
-    select gd.id,e.env_type, e.env_name, h.host_name, h.host_ip,g.id as group_id,g.group_name
+    select ag.id,gd.id,e.env_type, e.env_name, h.host_name, h.host_ip,g.id as group_id,g.group_name
     from opera_application_group ag,
       opera_group g,
       opera_group_detail gd,

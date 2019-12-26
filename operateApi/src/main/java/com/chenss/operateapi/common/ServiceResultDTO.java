@@ -37,6 +37,7 @@ public class ServiceResultDTO<T> implements Serializable {
         this.code = MyResultCode.SUCCESS.getCode();
         this.msg = MyResultCode.SUCCESS.getMessage();
         this.object = object;
+        this.success = true;
     }
     public ServiceResultDTO(MyResultCode resultCode) {
         this.code = resultCode.getCode();
