@@ -1,6 +1,5 @@
 package com.chenss.operateapi.service;
 
-import com.chenss.operateapi.common.BaseUtils;
 import com.chenss.operateapi.common.GuidUtils;
 import com.chenss.operateapi.common.ServiceResultDTO;
 import com.chenss.operateapi.mapper.OperaHostMapper;
@@ -8,6 +7,7 @@ import com.chenss.operateapi.model.OperaHost;
 import com.chenss.operateapi.param.OperaHostParam;
 import com.chenss.operateapi.response.PaginationQueryResult;
 import com.chenss.utils.StringUtils;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -26,11 +26,7 @@ public class OperaHostService {
         if (operaHost.getId() != null) {
             param.setId(operaHost.getId());
         }
-        param.setHostName(BaseUtils.getString(operaHost.getHostName()));
-        param.setCreateTimeBegin(BaseUtils.getString(operaHost.getCreateTimeBegin()));
-        param.setCreateTimeEnd(BaseUtils.getString(operaHost.getCreateTimeEnd()));
-        param.setModifyTimeBegin(BaseUtils.getString(operaHost.getModifyTimeBegin()));
-        param.setModifyTimeEnd(BaseUtils.getString(operaHost.getModifyTimeEnd()));
+        BeanUtils.copyProperties(operaHost,param);
         return new ServiceResultDTO<>(true, operaHostMapper.query(param));
     }
 
@@ -56,18 +52,7 @@ public class OperaHostService {
             }
         }
 
-        param.setHostIp(obj.getHostIp());
-        param.setHostType(obj.getHostType());
-        param.setHostRemark(obj.getHostRemark());
-        param.setStatus(obj.getStatus());
-        param.setHostCpu(obj.getHostCpu());
-        param.setHostMemory(obj.getHostMemory());
-        param.setHostHarddisk(obj.getHostHarddisk());
-        param.setHostRemark(obj.getHostRemark());
-        param.setHostOsId(obj.getHostOsId());
-        param.setHostAffiliationId(obj.getHostAffiliationId());
-        param.setHostEnvId(obj.getHostEnvId());
-        param.setHostServiceType(obj.getHostServiceType());
+        BeanUtils.copyProperties(obj,param);
         if (StringUtils.isNullOrEmpty(obj.getId())) {
             param.setId(GuidUtils.getUUID());
             int insertResult = operaHostMapper.insertSelective(param);

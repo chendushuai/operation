@@ -45,23 +45,4 @@ public class ControllParamAspectJ {
             }
         }
     }
-
-    /*@Around("pointCut()")
-    public void around(ProceedingJoinPoint pjp) {
-        Object[] objects = pjp.getArgs();
-        MethodSignature methodSignature = (MethodSignature) pjp.getSignature();
-        ParamNotNull anno = methodSignature.getMethod().getAnnotation(ParamNotNull.class);
-        String[] encludes = anno.exclude();
-        logger.info("参数清除空值拦截，方法名:[{}],参数值：[{}],排除值：{}",methodSignature.getMethod().getName(), JSON.toJSONString(objects),Arrays.toString(encludes));
-
-        for (Object obj :
-                objects) {
-            logger.info("方法参数类型：{}",obj.getClass());
-        }
-        try {
-            pjp.proceed(objects);
-        } catch (Throwable throwable) {
-            throwable.printStackTrace();
-        }
-    }*/
 }
