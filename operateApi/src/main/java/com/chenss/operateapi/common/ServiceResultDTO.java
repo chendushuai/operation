@@ -1,6 +1,9 @@
 package com.chenss.operateapi.common;
 
 import com.chenss.operate.MyResultCode;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 
 import java.io.Serializable;
 
@@ -11,13 +14,22 @@ import java.io.Serializable;
  * @author chenss002
  * @date 2019-10-22 11:36:29
  */
+@ToString
 public class ServiceResultDTO<T> implements Serializable {
+    @Getter
+    @Setter
     private boolean success = false;
 
+    @Getter
+    @Setter
     private T object;
 
+    @Getter
+    @Setter
     private String code;
 
+    @Getter
+    @Setter
     private String msg;
 
     public ServiceResultDTO() {
@@ -54,37 +66,5 @@ public class ServiceResultDTO<T> implements Serializable {
 
     public ServiceResultDTO<T> fail(String msg) {
         return new ServiceResultDTO<>(msg);
-    }
-
-    public boolean isSuccess() {
-        return success;
-    }
-
-    public void setSuccess(boolean success) {
-        this.success = success;
-    }
-
-    public T getObject() {
-        return object;
-    }
-
-    public void setObject(T object) {
-        this.object = object;
-    }
-
-    public String getCode() {
-        return code;
-    }
-
-    public void setCode(String code) {
-        this.code = code;
-    }
-
-    public String getMsg() {
-        return msg;
-    }
-
-    public void setMsg(String msg) {
-        this.msg = msg;
     }
 }

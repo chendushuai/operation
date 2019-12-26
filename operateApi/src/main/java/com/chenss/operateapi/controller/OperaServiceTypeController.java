@@ -36,6 +36,7 @@ public class OperaServiceTypeController extends BaseController {
         return new ResponseDTO(new OperaServiceTypeResponse(operaAff.getObject()));
     }
     @RequestMapping("/edit")
+    @SuppressWarnings("unchecked")
     public ResponseDTO<Integer> edit(@RequestBody OperaServiceTypeDO params) {
         if (!params.validate()) {
             return new ResponseDTO(MyResultCode.PARAM_IS_BLANK);
@@ -48,6 +49,7 @@ public class OperaServiceTypeController extends BaseController {
         }
     }
     @RequestMapping("/delete")
+    @SuppressWarnings("unchecked")
     public ResponseDTO<Integer> delete(int id) {
         ServiceResultDTO<Integer> deleteResult= operaServiceTypeService.delete(id);
         if (deleteResult.isSuccess()) {

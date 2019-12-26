@@ -37,7 +37,7 @@ public class OperaLabelController extends BaseController {
         PaginationQueryResult<OperaLabel> resultResponse = new PaginationQueryResult<>();
         resultResponse.setTotalSize(operaAff.getTotalSize());
         resultResponse.setResultList(operaAff.getResultList());
-        return new ResponseDTO(resultResponse);
+        return new ResponseDTO<>(resultResponse);
     }
 
     /**
@@ -60,13 +60,13 @@ public class OperaLabelController extends BaseController {
     @ParamNotNull(exclude = {})
     public ResponseDTO<Integer> edit(@RequestBody OperaLabelDO params) {
         if (!params.validate()) {
-            return new ResponseDTO(MyResultCode.PARAM_IS_BLANK);
+            return new ResponseDTO<>(MyResultCode.PARAM_IS_BLANK);
         }
         ServiceResultDTO<Integer> resultService= operaLabelService.insertOrUpdate(params);
         if (resultService.isSuccess()) {
-            return new ResponseDTO(resultService.getObject());
+            return new ResponseDTO<>(resultService.getObject());
         } else {
-            return new ResponseDTO(MyResultCode.SYSTEM_INNER_ERROR);
+            return new ResponseDTO<>(MyResultCode.SYSTEM_INNER_ERROR);
         }
     }
     @RequestMapping("/delete")

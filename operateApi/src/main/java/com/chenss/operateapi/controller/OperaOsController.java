@@ -34,7 +34,6 @@ public class OperaOsController extends BaseController {
     public List<OperaOs> query(@RequestBody OperaOsDO params) {
         ServiceResultDTO<List<OperaOs>> operaOs= operaOsService.getOs(params);
         return operaOs.getObject();
-        //return "[OperaOs [Hash = -1782734848, id=1, envType=DEV, envName=开发环境, apolloOs=DEV, envDesc=开发环境, serialVersionUID=1], OperaOs [Hash = 1949561467, id=2, envType=TEST, envName=测试环境, apolloOs=QA, envDesc=测试环境, serialVersionUID=1], OperaOs [Hash = -323490972, id=3, envType=UAT, envName=UAT预发环境, apolloOs=UAT, envDesc=UAT预发环境, serialVersionUID=1], OperaOs [Hash = 1255912080, id=4, envType=HZ, envName=富阳环境, apolloOs=ONLINE_FY, envDesc=富阳生产环境, serialVersionUID=1], OperaOs [Hash = 327114008, id=5, envType=SZ, envName=苏州环境, apolloOs=ONLINE, envDesc=苏州生产环境, serialVersionUID=1]]";
     }
     @RequestMapping("/view")
     public OperaOs viewObject(int id) {
@@ -44,7 +43,7 @@ public class OperaOsController extends BaseController {
     @RequestMapping("/edit")
     public ResponseDTO<Integer> edit(@RequestBody OperaOsDO params) {
         if (!params.validate()) {
-            return new ResponseDTO(MyResultCode.PARAM_IS_BLANK);
+            return new ResponseDTO<>(MyResultCode.PARAM_IS_BLANK);
         }
         ServiceResultDTO<Integer> resultService= operaOsService.insertOrUpdate(params);
         if (resultService.isSuccess()) {

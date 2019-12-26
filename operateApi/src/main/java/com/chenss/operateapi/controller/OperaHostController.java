@@ -47,11 +47,11 @@ public class OperaHostController extends BaseController {
     @ParamNotNull(exclude = {"-1"})
     public ResponseDTO<Integer> edit(@RequestBody OperaHostDO params) {
         if (!params.validate()) {
-            return new ResponseDTO(MyResultCode.PARAM_IS_BLANK);
+            return new ResponseDTO<>(MyResultCode.PARAM_IS_BLANK);
         }
         ServiceResultDTO<Integer> resultService= operaHostService.insertOrUpdate(params);
         if (resultService.isSuccess()) {
-            return new ResponseDTO(resultService.getObject());
+            return new ResponseDTO<>(resultService.getObject());
         } else {
             return new ResponseDTO(MyResultCode.SYSTEM_INNER_ERROR);
         }
