@@ -1,6 +1,8 @@
 package com.chenss.operateapi.param;
 
 import com.chenss.operateapi.common.RequestParam;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.io.Serializable;
 
@@ -9,6 +11,8 @@ import java.io.Serializable;
  * @author chenss002
  * @date 2019-10-23 10:51:51
  */
+@Getter
+@Setter
 public class GroupHostParam extends PagerParam implements Serializable, RequestParam {
     /**
      * 分组ID
@@ -27,52 +31,4 @@ public class GroupHostParam extends PagerParam implements Serializable, RequestP
     private Integer envId;
     private String hostName;
     private String hostIp;
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
-
-    public String getGroupType() {
-        return groupType;
-    }
-
-    public void setGroupType(String groupType) {
-        this.groupType = groupType;
-    }
-
-    public String getGroupName() {
-        return groupName;
-    }
-
-    public void setGroupName(String groupName) {
-        this.groupName = groupName;
-    }
-
-    public Integer getEnvId() {
-        return envId;
-    }
-
-    public void setEnvId(Integer envId) {
-        this.envId = envId;
-    }
-
-    public String getHostName() {
-        return hostName;
-    }
-
-    public void setHostName(String hostName) {
-        this.hostName = hostName;
-    }
-
-    public String getHostIp() {
-        return hostIp;
-    }
-
-    public void setHostIp(String hostIp) {
-        this.hostIp = hostIp;
-    }
 }

@@ -1,7 +1,5 @@
 package com.chenss.operateapi.model;
 
-import com.chenss.operateapi.param.TimeCommonParam;
-
 import java.io.Serializable;
 import java.util.Date;
 
@@ -9,7 +7,7 @@ import java.util.Date;
  * opera_service_type
  * @author 
  */
-public class OperaServiceType extends TimeCommonParam implements Serializable {
+public class OperaServiceType implements Serializable {
     /**
      * 主键
      */
@@ -82,11 +80,11 @@ public class OperaServiceType extends TimeCommonParam implements Serializable {
         this.createTime = createTime;
     }
 
-    public Date getModifytime() {
+    public Date getModifyTime() {
         return modifyTime;
     }
 
-    public void setModifytime(Date modifyTime) {
+    public void setModifyTime(Date modifyTime) {
         this.modifyTime = modifyTime;
     }
 
@@ -107,7 +105,7 @@ public class OperaServiceType extends TimeCommonParam implements Serializable {
             && (this.getServiceName() == null ? other.getServiceName() == null : this.getServiceName().equals(other.getServiceName()))
             && (this.getServiceDesc() == null ? other.getServiceDesc() == null : this.getServiceDesc().equals(other.getServiceDesc()))
             && (this.getCreateTime() == null ? other.getCreateTime() == null : this.getCreateTime().equals(other.getCreateTime()))
-            && (this.getModifytime() == null ? other.getModifytime() == null : this.getModifytime().equals(other.getModifytime()));
+            && (this.getModifyTime() == null ? other.getModifyTime() == null : this.getModifyTime().equals(other.getModifyTime()));
     }
 
     @Override
@@ -119,7 +117,7 @@ public class OperaServiceType extends TimeCommonParam implements Serializable {
         result = prime * result + ((getServiceName() == null) ? 0 : getServiceName().hashCode());
         result = prime * result + ((getServiceDesc() == null) ? 0 : getServiceDesc().hashCode());
         result = prime * result + ((getCreateTime() == null) ? 0 : getCreateTime().hashCode());
-        result = prime * result + ((getModifytime() == null) ? 0 : getModifytime().hashCode());
+        result = prime * result + ((getModifyTime() == null) ? 0 : getModifyTime().hashCode());
         return result;
     }
 

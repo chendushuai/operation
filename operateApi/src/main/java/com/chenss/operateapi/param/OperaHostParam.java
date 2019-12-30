@@ -1,9 +1,13 @@
 package com.chenss.operateapi.param;
 
 import com.chenss.operateapi.common.RequestParam;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.io.Serializable;
 
+@Getter
+@Setter
 public class OperaHostParam extends PagerParam implements Serializable, RequestParam {
     /**
      * 主键
@@ -52,132 +56,4 @@ public class OperaHostParam extends PagerParam implements Serializable, RequestP
     private String createTimeEnd;
     private String modifyTimeBegin;
     private String modifyTimeEnd;
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
-
-    public String getHostName() {
-        return hostName;
-    }
-
-    public void setHostName(String hostName) {
-        this.hostName = hostName;
-    }
-
-    public String getHostIp() {
-        return hostIp;
-    }
-
-    public void setHostIp(String hostIp) {
-        this.hostIp = hostIp;
-    }
-
-    public String getHostType() {
-        return hostType;
-    }
-
-    public void setHostType(String hostType) {
-        this.hostType = hostType;
-    }
-
-    public Integer getStatus() {
-        return status;
-    }
-
-    public void setStatus(Integer status) {
-        this.status = status;
-    }
-
-    public String getHostCpu() {
-        return hostCpu;
-    }
-
-    public void setHostCpu(String hostCpu) {
-        this.hostCpu = hostCpu;
-    }
-
-    public String getHostMemory() {
-        return hostMemory;
-    }
-
-    public void setHostMemory(String hostMemory) {
-        this.hostMemory = hostMemory;
-    }
-
-    public String getHostHarddisk() {
-        return hostHarddisk;
-    }
-
-    public void setHostHarddisk(String hostHarddisk) {
-        this.hostHarddisk = hostHarddisk;
-    }
-
-    public Integer getHostOsId() {
-        return hostOsId;
-    }
-
-    public void setHostOsId(Integer hostOsId) {
-        this.hostOsId = hostOsId;
-    }
-
-    public Integer getHostEnvId() {
-        return hostEnvId;
-    }
-
-    public void setHostEnvId(Integer hostEnvId) {
-        this.hostEnvId = hostEnvId;
-    }
-
-    public Integer getHostAffiliationId() {
-        return hostAffiliationId;
-    }
-
-    public void setHostAffiliationId(Integer hostAffiliationId) {
-        this.hostAffiliationId = hostAffiliationId;
-    }
-
-    public Integer getServiceType() {
-        return serviceType;
-    }
-
-    public void setServiceType(Integer serviceType) {
-        this.serviceType = serviceType;
-    }
-
-    public String getCreateTimeBegin() {
-        return createTimeBegin;
-    }
-
-    public void setCreateTimeBegin(String createTimeBegin) {
-        this.createTimeBegin = createTimeBegin;
-    }
-
-    public String getCreateTimeEnd() {
-        return createTimeEnd;
-    }
-
-    public void setCreateTimeEnd(String createTimeEnd) {
-        this.createTimeEnd = createTimeEnd;
-    }
-
-    public String getModifyTimeBegin() {
-        return modifyTimeBegin;
-    }
-
-    public void setModifyTimeBegin(String modifyTimeBegin) {
-        this.modifyTimeBegin = modifyTimeBegin;
-    }
-
-    public String getModifyTimeEnd() {
-        return modifyTimeEnd;
-    }
-
-    public void setModifyTimeEnd(String modifyTimeEnd) {
-        this.modifyTimeEnd = modifyTimeEnd;
-    }
 }

@@ -12,21 +12,13 @@ import java.io.Serializable;
  * @date 2019-10-23 10:35:49
  */
 @ToString
+@Getter
+@Setter
 public class EnvHostDO implements Serializable {
     private static final long serialVersionUID = 5864218166171270016L;
-    @Getter
-    @Setter
     private String id;
-    @Getter
-    @Setter
     private String envType;
-    @Getter
-    @Setter
     private String envName;
-    @Getter
-    @Setter
     private String hostName;
-    @Getter
-    @Setter
     private String hostIp;
 }

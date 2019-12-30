@@ -1,5 +1,8 @@
 package com.chenss.operateapi.param;
 
+import lombok.Getter;
+import lombok.Setter;
+
 import java.io.Serializable;
 
 /**
@@ -7,6 +10,8 @@ import java.io.Serializable;
  * @author chenss002
  * @date 2019-10-23 11:03:47
  */
+@Getter
+@Setter
 public class PagerParam implements Serializable {
     private int pageSize = 20;
     /**
@@ -14,25 +19,4 @@ public class PagerParam implements Serializable {
      */
     private int pageIndex = 0;
     private int pageBegin;
-
-    public int getPageSize() {
-        return pageSize;
-    }
-
-    public void setPageSize(int pageSize) {
-        this.pageSize = pageSize;
-    }
-
-    public int getPageIndex() {
-        return pageIndex;
-    }
-
-    public void setPageIndex(int pageIndex) {
-        this.pageIndex = pageIndex;
-    }
-
-    public int getPageBegin() {
-        this.pageBegin = pageIndex * pageSize;
-        return pageBegin;
-    }
 }
