@@ -12,12 +12,12 @@ public interface IConvertDTO<S,T> {
      * @param sourceObj
      * @return 转换结果
      */
-    T convertTo(S sourceObj);
+    S doForward(T sourceObj);
 
     /**
      * 从DTO对象转换成源对象
      * @param targetObject
      * @return 转换结果
      */
-    S convertFrom(T targetObject);
+    T doBackForward(S targetObject);
 }

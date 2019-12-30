@@ -1,11 +1,14 @@
 package com.chenss.operateapi.mapper;
 
 import com.chenss.operateapi.model.OperaServiceType;
-import org.springframework.stereotype.Repository;
+import org.apache.ibatis.annotations.Mapper;
+
+import java.util.List;
 
 /**
  * OperaServiceTypeMapper继承基类
  */
-@Repository
+@Mapper
 public interface OperaServiceTypeMapper extends MyBatisBaseDao<OperaServiceType, Integer> {
+    List<OperaServiceType> query(OperaServiceType obj);
 }

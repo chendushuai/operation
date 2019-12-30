@@ -47,7 +47,7 @@ public class OperaServiceTypeResponse {
         this.serviceName=operaServiceType.getServiceName();
         this.serviceDesc=operaServiceType.getServiceDesc();
         this.createTime=operaServiceType.getCreateTime();
-        this.modifyTime=operaServiceType.getModifytime();
+        this.modifyTime=operaServiceType.getModifyTime();
     }
 
     public Integer getId() {

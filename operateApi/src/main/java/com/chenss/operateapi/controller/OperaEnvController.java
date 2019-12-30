@@ -6,14 +6,19 @@ import com.chenss.operateapi.aop.ParamNotNull;
 import com.chenss.operateapi.common.ResponseDTO;
 import com.chenss.operateapi.common.ServiceResultDTO;
 import com.chenss.operateapi.model.OperaEnv;
-import com.chenss.operateapi.request.OperaEnvDO;
+import com.chenss.operateapi.request.OperaEnvDTO;
 import com.chenss.operateapi.service.OperaEnvService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.validation.Valid;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * 环境配置控制器
@@ -26,21 +31,23 @@ public class OperaEnvController extends BaseController {
     private OperaEnvService operaEnvService;
     @RequestMapping("")
     @ParamNotNull(exclude = {"-1", ""})
-    public ResponseDTO<List<OperaEnv>> query(@RequestBody OperaEnvDO params) {
-        ServiceResultDTO<List<OperaEnv>> operaEnv= operaEnvService.getEnv(params);
-        return new ResponseDTO(operaEnv.getObject());
+    public ResponseDTO<List<OperaEnvDTO>> query(@RequestBody OperaEnvDTO params) {
+        ServiceResultDTO<List<OperaEnv>> operaEnv= operaEnvService.getEnv(params.convertToOperaEnv());
+        if (!operaEnv.isSuccess() || operaEnv.getObject() == null) {
+            return new ResponseDTO<>(MyResultCode.SYSTEM_INNER_ERROR);
+        }
+        List<OperaEnvDTO> dtoList = operaEnv.getObject().stream().map(m -> params.convertFor(m)).collect(Collectors.toList());
+        return new ResponseDTO(dtoList);
     }
     @RequestMapping("/view")
-    public ResponseDTO<OperaEnv> viewObject(int id) {
+    public ResponseDTO<OperaEnvDTO> viewObject(int id) {
         ServiceResultDTO<OperaEnv> operaEnv= operaEnvService.selectByPrimaryKey(id);
-        return new ResponseDTO(operaEnv.getObject());
+        return new ResponseDTO(new OperaEnvDTO().convertFor(operaEnv.getObject()));
     }
     @RequestMapping("/edit")
-    public ResponseDTO<Integer> edit(@RequestBody OperaEnvDO params) {
-        if (!params.validate()) {
-            return new ResponseDTO(MyResultCode.PARAM_IS_BLANK);
-        }
-        ServiceResultDTO<Integer> resultService= operaEnvService.insertOrUpdate(params);
+    @ParamNotNull(exclude = {"-1", ""})
+    public ResponseDTO<Integer> edit(@RequestBody @Valid OperaEnvDTO params) {
+        ServiceResultDTO<Integer> resultService= operaEnvService.insertOrUpdate(params.convertToOperaEnv());
         if (resultService.isSuccess()) {
             return new ResponseDTO(resultService.getObject());
         } else {
