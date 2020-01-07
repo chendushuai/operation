@@ -275,7 +275,7 @@
                         console.log(jsonResult);
                         if (jsonResult.success) {
                             modal.modal('hide');
-                            query(0);
+                            query($("#page-current-index").html());
                         } else {
                             modal.find(".err-msg").show().html("<strong>" + jsonResult.error + " :</strong> " + jsonResult.msg);
                         }
@@ -474,6 +474,7 @@
                     <ul class="pagination" id="data-pager-top">
                     </ul>
                 </nav>
+                <div id="page-current-index" style="display: none"></div>
             </div>
             <div>
                 <table class="table table-condensed table-striped">

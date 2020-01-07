@@ -1,5 +1,8 @@
 package com.chenss.operateapi.model;
 
+import lombok.Getter;
+import lombok.Setter;
+
 import java.io.Serializable;
 import java.util.Date;
 
@@ -7,7 +10,10 @@ import java.util.Date;
  * opera_group
  * @author 
  */
+@Getter
+@Setter
 public class OperaGroup implements Serializable {
+    private static final long serialVersionUID = 1122997213153418057L;
     /**
      * 分组ID
      */
@@ -42,62 +48,4 @@ public class OperaGroup implements Serializable {
      * 修改时间
      */
     private Date modifyTime;
-
-    private static final long serialVersionUID = 1L;
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
-
-    public String getGroupType() {
-        return groupType;
-    }
-
-    public void setGroupType(String groupType) {
-        this.groupType = groupType;
-    }
-
-    public String getGroupTypeName() {
-        return groupTypeName;
-    }
-
-    public void setGroupTypeName(String groupTypeName) {
-        this.groupTypeName = groupTypeName;
-    }
-
-    public String getGroupName() {
-        return groupName;
-    }
-
-    public void setGroupName(String groupName) {
-        this.groupName = groupName;
-    }
-
-    public String getGroupRemark() {
-        return groupRemark;
-    }
-
-    public void setGroupRemark(String groupRemark) {
-        this.groupRemark = groupRemark;
-    }
-
-    public Date getCreateTime() {
-        return createTime;
-    }
-
-    public void setCreateTime(Date createTime) {
-        this.createTime = createTime;
-    }
-
-    public Date getModifyTime() {
-        return modifyTime;
-    }
-
-    public void setModifyTime(Date modifyTime) {
-        this.modifyTime = modifyTime;
-    }
 }

@@ -81,7 +81,7 @@
         g.group_name,
         g.create_time,
         g.modify_time,
-        GROUP_CONCAT( e.env_type, '|', e.env_name, '|', h.host_name, '|', h.host_ip ) host_info
+        GROUP_CONCAT( e.env_type, '|', e.env_name, '|', h.host_name, '|', h.host_ip order by h.host_ip ) host_info
         FROM
         opera_group g,
         (select label_key,label_value from opera_label where label_group='group_type') l,

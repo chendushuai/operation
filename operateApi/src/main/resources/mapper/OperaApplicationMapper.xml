@@ -63,10 +63,10 @@
         id = #{id,jdbcType=VARCHAR}
       </if>
       <if test="appCmdbId != null">
-        AND app_cmdb_id = #{appCmdbId,jdbcType=VARCHAR}
+        AND app_cmdb_id like concat(concat('%',#{appCmdbId,jdbcType=VARCHAR}),'%')
       </if>
       <if test="appName != null">
-        AND app_name = #{appName,jdbcType=VARCHAR}
+        AND app_name like concat(concat('%',#{appName,jdbcType=VARCHAR}),'%')
       </if>
       <if test="appType != null">
         AND app_type = #{appType,jdbcType=VARCHAR}

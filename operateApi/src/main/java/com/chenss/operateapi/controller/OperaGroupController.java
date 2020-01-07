@@ -52,22 +52,16 @@ public class OperaGroupController extends BaseController {
     @RequestMapping("/edit")
     @ParamNotNull(exclude = {"-1"})
     public ResponseDTO<Integer> edit(@RequestBody OperaGroupAndDetailParam params) {
-        /*if (!params.validate()) {
-            return new ResponseDTO(MyResultCode.PARAM_IS_BLANK);
-        }*/
         ServiceResultDTO<Integer> resultService= operaGroupService.insertOrUpdate(params);
         if (resultService.isSuccess()) {
             return new ResponseDTO(resultService.getObject());
         } else {
-            return new ResponseDTO(MyResultCode.SYSTEM_INNER_ERROR);
+            return new ResponseDTO(resultService.getCode(),resultService.getMsg());
         }
     }
     @RequestMapping("/adddetail")
     @ParamNotNull(exclude = {"-1"})
     public ResponseDTO<Integer> addDetail(@RequestBody OperaGroupAndDetailParam params) {
-        /*if (!params.validate()) {
-            return new ResponseDTO(MyResultCode.PARAM_IS_BLANK);
-        }*/
         ServiceResultDTO<Integer> resultService= operaGroupService.addDetail(params);
         if (resultService.isSuccess()) {
             return new ResponseDTO(resultService.getObject());

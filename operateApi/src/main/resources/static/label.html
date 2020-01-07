@@ -42,6 +42,7 @@
                 }),
                 success: function (jsonResult) {
                     createEnvTable(jsonResult);
+                    pageRefresh(jsonResult.object.totalSize, 20, 10, pageIndex);
                 },
                 error: function (xhr) {
                     alert("错误提示： " + xhr.status + " " + xhr.statusText);
@@ -147,7 +148,7 @@
                         console.log(jsonResult);
                         if (jsonResult.success) {
                             modal.modal('hide');
-                            query(0);
+                            query($("#page-current-index").html());
                         } else {
                             modal.find(".err-msg").show().html("<strong>" + jsonResult.error + " :</strong> " + jsonResult.msg);
                         }
@@ -194,7 +195,7 @@
             var res = "";
             console.log(jsonResult);
             $("#labelTable").html(res);
-            $(jsonResult.object).each(function (index, element) {
+            $(jsonResult.object.resultList).each(function (index, element) {
                 res = "<tr><td align=\"right\">";
                 res = res + $(element)[0].id;
                 res = res + "</td><td align=\"left\">";
@@ -261,6 +262,7 @@
                     <ul class="pagination" id="data-pager-top">
                     </ul>
                 </nav>
+                <div id="page-current-index" style="display: none"></div>
             </div>
             <table class="table table-condensed table-striped">
                 <thead>

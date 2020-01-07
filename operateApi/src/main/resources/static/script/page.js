@@ -67,12 +67,11 @@ function pageRefresh(totalSize,pageSize,pageRange,pageIndex) {
             pager.html(pager.html()+"<li><a href=\"javascript:void(0);\" onclick=\"javacript:query("+i+")\">"+pageI+"</a></li>");
         }
     }
-    console.log(1111);
-    console.log(pager.html());
     if (pageIndex+1==pageCount) {
         pager.html(pager.html()+"<li class=\"disabled\"><span><span aria-hidden=\"true\">&raquo;</span></span></li>");
     } else {
         pager.html(pager.html()+"<li><a href=\"#\" aria-label=\"Next\"><span aria-hidden=\"true\">&raquo;</span></a></li>");
     }
     $("#data-pager-top").html(pager.html());
+    $("#page-current-index").html(pageIndex);
 }
