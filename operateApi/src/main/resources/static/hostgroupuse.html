@@ -1,0 +1,751 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>主机分组使用情况</title>
+    <!-- 最新版本的 Bootstrap 核心 CSS 文件 -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css"
+          integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
+    <script src="http://libs.baidu.com/jquery/2.0.0/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/js/bootstrap.min.js"
+            integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
+            crossorigin="anonymous"></script>
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet"
+          href="https://cdn.bootcss.com/bootstrap-select/1.13.9/css/bootstrap-select.min.css">
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="https://cdn.bootcss.com/bootstrap-select/1.13.9/js/bootstrap-select.min.js"></script>
+
+    <script src="script/nav.js"></script>
+    <script src="script/page.js"></script>
+    <script src="script/base.js"></script>
+    <link rel="stylesheet" href="css/nav.css">
+    <script>
+        $(function () {
+            // 查询条件下拉菜单内容加载
+            dropdownQuery();
+
+            // 执行初始默认加载
+            query(0);
+
+            // 模态窗口设置
+            showModal();
+
+            // 按钮绑定点击事件
+            buttonClick();
+        });
+
+        function dropdownQuery() {
+            $.ajax({
+                type: "POST",
+                url: '/api/common',
+                contentType: "application/json",
+                dataType: "json",
+                data: JSON.stringify({
+                    needOperaEnv: true,
+                    needOperaAffiliation: false,
+                    needOperaOs: false,
+                    needOperaServiceType: false
+                }),
+                success: function (jsonResult) {
+                    $(jsonResult.object.operaEnvList).each(function (index, element) {
+                        var eleObj = $(element)[0];
+                        $("#query-envId").html($("#query-envId").html() + "<option value=\"" + eleObj.id + "\">" + eleObj.envName + " - " + eleObj.envType + "</option>");
+                    });
+
+                    $("#element-envId").html($("#query-envId").html());
+                    $("#detail-query-envId").html($("#query-envId").html());
+                    $('.selectpicker').selectpicker('refresh');
+                },
+                error: function (xhr) {
+                    alert("错误提示： " + xhr.status + " " + xhr.statusText);
+                    if (xhr.status == 401) {
+                        return;
+                    } else {
+                        return;
+                    }
+                }
+            });
+
+            $.ajax({
+                type: "POST",
+                url: '/api/label/kv',
+                contentType: "application/json",
+                dataType: "json",
+                data: JSON.stringify({
+                    labelGroup: "group_type"
+                }),
+                success: function (jsonResult) {
+                    $(jsonResult.object).each(function (index, element) {
+                        var eleObj = $(element)[0];
+                        $("#query-groupType").html($("#query-groupType").html() + "<option value=\"" + eleObj.labelKey + "\">" + eleObj.labelValue + "</option>");
+                    });
+
+                    $("#element-groupType").html($("#query-groupType").html());
+                    $('.selectpicker').selectpicker('refresh');
+                },
+                error: function (xhr) {
+                    alert("错误提示： " + xhr.status + " " + xhr.statusText);
+                    if (xhr.status == 401) {
+                        return;
+                    } else {
+                        return;
+                    }
+                }
+            });
+        }
+
+        function query(pageIndex) {
+            var modal = $('#query-form');
+            var groupType = modal.find('#query-groupType').val();
+            var groupName = modal.find('#query-groupName').val();
+            var envId = modal.find('#query-envId').val();
+            var hostName = modal.find('#query-hostName').val();
+            var hostIp = modal.find('#query-hostIp').val();
+            $.ajax({
+                type: "POST",
+                url: '/api/group',
+                contentType: "application/json",
+                dataType: "json",
+                data: JSON.stringify({
+                    groupType: groupType,
+                    groupName: groupName,
+                    envId: envId,
+                    hostName: hostName,
+                    hostIp: hostIp,
+                    pageIndex: pageIndex
+                }),
+                success: function (jsonResult) {
+                    createEnvTable(jsonResult);
+                    pageRefresh(jsonResult.object.totalSize, 20, 10, pageIndex);
+                },
+                error: function (xhr) {
+                    alert("错误提示： " + xhr.status + " " + xhr.statusText);
+                    if (xhr.status == 401) {
+                        return;
+                    } else {
+                        return;
+                    }
+                }
+            });
+        }
+
+        function hostDetailQuery(pageIndex) {
+            var modal = $('#detailModal');
+            var hostName = modal.find('#detail-query-hostName').val();
+            var hostIp = modal.find('#detail-query-hostIp').val();
+            var hostEnvId = modal.find('#detail-query-envId').val();
+
+            $.ajax({
+                type: "POST",
+                url: '/api/host',
+                contentType: "application/json",
+                dataType: "json",
+                data: JSON.stringify({
+                    hostName: hostName,
+                    hostIp: hostIp,
+                    status: 0,
+                    hostEnvId: hostEnvId,
+                    pageIndex: pageIndex
+                }),
+                success: function (jsonResult) {
+                    createDetailHostTable(jsonResult);
+                },
+                error: function (xhr) {
+                    alert("错误提示： " + xhr.status + " " + xhr.statusText);
+                    if (xhr.status == 401) {
+                        return;
+                    } else {
+                        return;
+                    }
+                }
+            });
+        }
+
+        function showModal() {
+            $('#viewModal').on('show.bs.modal', function (event) {
+                var button = $(event.relatedTarget) // Button that triggered the modal
+                var id = button.data('id'); // Extract info from data-* attributes
+                var viewtype = button.data('viewtype');
+                var modal = $('#viewModal');
+                modal.find(".err-msg").hide();
+                modal.find('.modal-body #exists-hosts').html("");
+                if (viewtype == "add") {
+                    modal.find('.modal-body input').removeAttr("readonly").val("");
+                    modal.find('.modal-body textarea').removeAttr("readonly").val("");
+                    modal.find('#edit-save').show();
+                    modal.find('.modal-title').html('新增主机编组配置');
+                    modal.find('.modal-body #element-id').html("");
+                    return;
+                }
+                // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
+                // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
+                $.ajax({
+                    type: "POST",
+                    url: '/api/group/view?id=' + id,
+                    success: function (jsonResult) {
+                        var titleName = "";
+                        if (viewtype == "view") {
+                            titleName = "查看";
+                            modal.find('.modal-body input').attr("readonly", "readonly");
+                            modal.find('.modal-body textarea').attr("readonly", "readonly");
+                            modal.find('.modal-body select').attr("readonly", "readonly");
+                            modal.find('#edit-save').hide();
+                        } else if (viewtype == "edit") {
+                            titleName = "编辑";
+                            modal.find('.modal-body input').removeAttr("readonly");
+                            modal.find('.modal-body textarea').removeAttr("readonly");
+                            modal.find('.modal-body select').removeAttr("readonly");
+                            modal.find('#edit-save').show();
+                        }
+                        var jsonObject = $(jsonResult.object)[0];
+                        modal.find('.modal-title').html(titleName + ' [ ' + jsonObject.groupName + ' - ' + jsonObject.groupType + ' ] 标签键值配置');
+                        if (jsonObject.groupType != null && jsonObject.groupType + "" != "") {
+                            console.log(jsonObject.groupType);
+                            modal.find('.modal-body #element-groupType').selectpicker('val', jsonObject.groupType + "");
+                        } else {
+                            modal.find('.modal-body #element-groupType').selectpicker('val', "-1");
+                        }
+                        modal.find('.modal-body #element-groupName').val(jsonObject.groupName);
+                        console.log(jsonObject.groupRemark)
+                        modal.find('.modal-body #element-groupRemark').val(jsonObject.groupRemark);
+                        modal.find('.modal-body #element-id').html(jsonObject.id);
+                    },
+                    error: function (xhr) {
+                        if (xhr.status == 401) {
+                            return;
+                        } else {
+                            return;
+                        }
+                    }
+                });
+
+                $.ajax({
+                    type: "POST",
+                    url: '/api/group/detail/list?id=' + id,
+                    success: function (jsonResult) {
+                        $(jsonResult.object).each(function (index, element) {
+                            var res = "<li class=\"list-group-item list-group-item-";
+                            if (index % 4 == 0) {
+                                res = res + "success";
+                            } else if (index % 4 == 1) {
+                                res = res + "info";
+                            } else if (index % 4 == 2) {
+                                res = res + "warning";
+                            } else {
+                                res = res + "danger";
+                            }
+                            res += "\">" + $(element)[0].envName + " ";
+                            res += "" + $(element)[0].envType + " ";
+                            res += "<strong>" + $(element)[0].hostName + "</strong> ";
+                            res += "[" + $(element)[0].hostIp + "]";
+                            res += "</li>";
+                            $("#exists-hosts").html($("#exists-hosts").html() + res);
+                        });
+                    },
+                    error: function (xhr) {
+                        if (xhr.status == 401) {
+                            return;
+                        } else {
+                            return;
+                        }
+                    }
+                });
+            });
+            $('#detailModal').on('show.bs.modal', function (event) {
+                var button = $(event.relatedTarget) // Button that triggered the modal
+                var groupName = button.data('groupname');
+                var id = button.data('id');
+                var modal = $('#detailModal');
+                modal.find(".err-msg").hide();
+
+                modal.find('.modal-title').html('进行分组 [ ' + groupName + ' ] 内主机维护');
+                modal.find('.modal-body #detail-element-id').html(id);
+                modal.find('.modal-body #detail-element-groupName').html(groupName);
+
+                detailExistTableCreate();
+            });
+            $('#deleteModal').on('show.bs.modal', function (event) {
+                var button = $(event.relatedTarget) // Button that triggered the modal
+                var groupName = button.data('groupname');
+                var id = button.data('id');
+                var modal = $('#deleteModal');
+                modal.find(".err-msg").hide();
+                // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
+                // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
+                modal.find('.modal-body #delete-id').html(id);
+                modal.find('#delete-body').html('<p>删除分组，将删除组内的所有主机分组配置，确认彻底删除 <strong>' + groupName + '</strong> 吗？</p>');
+            })
+        }
+
+        function detailExistTableCreate() {
+            var modal = $('#detailModal');
+            modal.find("#detail-exist-host").html("");
+            var id = modal.find('.modal-body #detail-element-id').html();
+
+            $.ajax({
+                type: "POST",
+                url: '/api/group/detail/list?id=' + id,
+                success: function (jsonResult) {
+                    $(jsonResult.object).each(function (index, element) {
+                        var res = "<tr><td align=\"left\">";
+                        res = res + "<span class=\"label label-success\">" + $(element)[0].envName + " " + $(element)[0].envType + "</span><br />";
+                        res = res + "</td><td align=\"left\">";
+                        res = res + $(element)[0].hostName;
+                        res = res + "</td><td align=\"left\">";
+                        res = res + $(element)[0].hostIp;
+                        res = res + "</td><td align=\"center\">";
+                        res = res + "<button type=\"button\" class=\"btn btn-danger\" onclick=\"javascript:deleteExistsHost('"+$(element)[0].id+"');\">删除</button>";
+                        res = res + "</td></tr>";
+                        $("#detail-exist-host").html($("#detail-exist-host").html() + res);
+                    });
+                },
+                error: function (xhr) {
+                    if (xhr.status == 401) {
+                        return;
+                    } else {
+                        return;
+                    }
+                }
+            });
+        }
+
+        function buttonClick() {
+            $('#viewModal').find('#edit-save').on('click', function () {
+                var modal = $('#viewModal');
+                var id = modal.find('.modal-body #element-id').html();
+                var groupType = modal.find('.modal-body #element-groupType').val();
+                var groupName = modal.find('.modal-body #element-groupName').val();
+                var groupRemark = modal.find('.modal-body #element-groupRemark').val();
+                $.ajax({
+                    type: "POST",
+                    url: '/api/group/edit',
+                    contentType: "application/json",
+                    dataType: "json",
+                    data: JSON.stringify({
+                        id: id,
+                        groupType: groupType,
+                        groupName: groupName,
+                        groupRemark: groupRemark
+                    }),
+                    success: function (jsonResult) {
+                        console.log(jsonResult);
+                        if (jsonResult.success) {
+                            modal.modal('hide');
+                            query($("#page-current-index").html());
+                        } else {
+                            modal.find(".err-msg").show().html("<strong>" + jsonResult.error + " :</strong> " + jsonResult.msg);
+                        }
+                    },
+                    error: function (xhr) {
+                        if (xhr.status == 401) {
+                            return;
+                        } else {
+                            return;
+                        }
+                    }
+                });
+            });
+            $('#deleteModal').find('#delete-delete').on('click', function () {
+                var modal = $('#deleteModal');
+                var id = modal.find('.modal-body #delete-id').html();
+                $.ajax({
+                    type: "POST",
+                    url: '/api/group/delete?id=' + id,
+                    success: function (jsonResult) {
+                        if (jsonResult.success) {
+                            modal.modal('hide');
+                            query(0);
+                        } else {
+                            modal.find(".err-msg").show().html("<strong>" + jsonResult.error + " :</strong> " + jsonResult.msg);
+                        }
+                    },
+                    error: function (xhr) {
+                        alert("错误提示： " + xhr.status + " " + xhr.statusText);
+                        if (xhr.status == 401) {
+                            return;
+                        } else {
+                            return;
+                        }
+                    }
+                });
+            });
+            $('#query-form').find('#query-button').on('click', function () {
+                query(0);
+            });
+            $('#detailModal').find('#detail-edit-save').on('click', function () {
+                var modal = $('#detailModal');
+                modal.modal('hide');
+                query(0);
+            });
+            $('#detail-query-button').on('click', function () {
+                hostDetailQuery(0);
+            });
+        }
+
+        function createEnvTable(jsonResult) {
+            var res = "";
+            console.log(jsonResult);
+            $("#groupTable").html(res);
+            $(jsonResult.object.resultList).each(function (index, element) {
+                res = "<tr><td align=\"left\">";
+                res = res + $(element)[0].groupType;
+                res = res + "</td><td align=\"left\">";
+                res = res + $(element)[0].groupName;
+                res = res + "</td><td align=\"left\">";
+                $($(element)[0].childHosts).each(function (index, elementChild) {
+                    res = res + "<span class=\"label ";
+                    if (index % 6 == 0) {
+                        res = res + "label-default";
+                    } else if (index % 6 == 1) {
+                        res = res + "label-primary";
+                    } else if (index % 6 == 2) {
+                        res = res + "label-success";
+                    } else if (index % 6 == 3) {
+                        res = res + "label-info";
+                    } else if (index % 6 == 4) {
+                        res = res + "label-warning";
+                    } else if (index % 6 == 5) {
+                        res = res + "label-danger";
+                    }
+                    res = res + "\">" + $(elementChild)[0].envName + " - " + $(elementChild)[0].envType + "</span> " + $(elementChild)[0].hostName + " [" + $(elementChild)[0].hostIp + "]<br />";
+                });
+                res = res + "</td><td align=\"left\">";
+                res = res + $(element)[0].createTimeStr
+                res = res + "</td><td align=\"left\">";
+                res = res + $(element)[0].modifyTimeStr
+                res = res + "</td><td align=\"left\">";
+                res = res + "<div class=\"btn-group\" role=\"group\" aria-group=\"...\">";
+                res = res + "<button type=\"button\" class=\"btn btn-info\" data-toggle=\"modal\" data-target=\"#viewModal\" data-id=\"" + $(element)[0].id + "\" data-viewtype='view'>查看</button>";
+                res = res + "<button type=\"button\" class=\"btn btn-primary\" data-toggle=\"modal\" data-target=\"#viewModal\" data-id=\"" + $(element)[0].id + "\" data-viewtype='edit'>编辑</button>";
+                res = res + "<button type=\"button\" class=\"btn btn-warning\" data-toggle=\"modal\" data-target=\"#detailModal\" data-id=\"" + $(element)[0].id + "\" data-groupname='" + $(element)[0].groupName + "'>主机维护</button>";
+                res = res + "<button type=\"button\" class=\"btn btn-danger\" data-toggle=\"modal\" data-target=\"#deleteModal\" data-id=\"" + $(element)[0].id + "\" data-groupname='" + $(element)[0].groupName + "'>删除</button>";
+                res = res + "</div>";
+                res = res + "</td><td align=\"left\"></tr>";
+                $("#groupTable").html($("#groupTable").html() + res);
+            });
+        }
+
+        function createDetailHostTable(jsonResult) {
+            var res = "";
+            $("#detail-host-table").html(res);
+            $(jsonResult.object.resultList).each(function (index, element) {
+                var eleObj = $(element)[0];
+                res = "<tr><td align=\"left\">";
+                res = res + "<span class=\"label label-primary\">" + eleObj.envName + "</span><br />";
+                res = res + "</td><td align=\"left\">";
+                res = res + eleObj.hostName;
+                res = res + "</td><td align=\"left\">";
+                res = res + eleObj.hostIp;
+                res = res + "</td><td align=\"center\">";
+                res = res + "<button type=\"button\" class=\"btn btn-success addBtn\" onclick=\"javascript:addHost('"+eleObj.id+"');\">添加</button>";
+                res = res + "</td></tr>";
+                $("#detail-host-table").html($("#detail-host-table").html() + res);
+            });
+        }
+        function addHost(host_id) {
+            var group_id=$('#detailModal').find('.modal-body #detail-element-id').html();
+            $.ajax({
+                type: "POST",
+                url: '/api/group/adddetail',
+                contentType: "application/json",
+                dataType: "json",
+                data: JSON.stringify({
+                    hostId: host_id,
+                    id: group_id
+                }),
+                success: function (jsonResult) {
+                    console.log(jsonResult.success);
+                    if (jsonResult.success=="0"||jsonResult.success=="505-00-00-50002") {
+                        detailExistTableCreate();
+                    } else {
+                        $('#detailModal').find(".err-msg").show().html("<strong>" + jsonResult.success + " :</strong> " + jsonResult.msg);
+                    }
+                },
+                error: function (xhr) {
+                    alert("错误提示： " + xhr.status + " " + xhr.statusText);
+                    if (xhr.status == 401) {
+                        return;
+                    } else {
+                        return;
+                    }
+                }
+            });
+        }
+        function deleteExistsHost(detail_id) {
+            if(confirm("确认要将该主机从分组中删除吗？")) {
+                $.ajax({
+                    type: "POST",
+                    url: '/api/group/deletedetail?id=' + detail_id,
+                    success: function (jsonResult) {
+                        if (jsonResult.success) {
+                            detailExistTableCreate();
+                        } else {
+                            modal.find(".err-msg").show().html("<strong>" + jsonResult.error + " :</strong> " + jsonResult.msg);
+                        }
+                    },
+                    error: function (xhr) {
+                        alert("错误提示： " + xhr.status + " " + xhr.statusText);
+                        if (xhr.status == 401) {
+                            return;
+                        } else {
+                            return;
+                        }
+                    }
+                });
+            }
+        }
+    </script>
+</head>
+<body>
+<nav class="navbar navbar-default navbar-fixed-top" id="nav-link"></nav>
+<div class="container-fluid">
+    <h1>主机分组使用情况
+        <small>统筹管理服务器应用部署情况，合理利用服务器资源</small>
+    </h1>
+    <div class="row">
+        <div class="col-md-3">
+            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#viewModal"
+                    data-viewtype='add'>新增主机编组
+            </button>
+            <form class="form-horizontal" id="query-form">
+                <div class="form-group">
+                    <label for="query-groupType" class="col-sm-4 control-label">分组类型</label>
+                    <div class="col-sm-8 dropdown">
+                        <select class="selectpicker" data-live-search="true" id="query-groupType">
+                            <option value="-1">请选择</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <group for="query-groupName" class="col-sm-4 control-group">分组名称</group>
+                    <div class="col-sm-8">
+                        <input type="text" class="form-control" id="query-groupName" placeholder="分组名称">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="query-envId" class="col-sm-4 control-label">主机环境</label>
+                    <div class="col-sm-8 dropdown">
+                        <select class="selectpicker" data-live-search="true" id="query-envId">
+                            <option value="-1">请选择</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <group for="query-hostName" class="col-sm-4 control-group">主机名称</group>
+                    <div class="col-sm-8">
+                        <input type="text" class="form-control" id="query-hostName" placeholder="主机名称">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <group for="query-hostIp" class="col-sm-4 control-group">主机IP</group>
+                    <div class="col-sm-8">
+                        <input type="text" class="form-control" id="query-hostIp" placeholder="主机IP">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-sm-offset-2 col-sm-10">
+                        <button type="button" class="btn btn-default" id="query-button">查询</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="col-md-9">
+            <div>
+                <nav aria-group="...">
+                    <ul class="pagination" id="data-pager-top">
+                    </ul>
+                </nav>
+                <div id="page-current-index" style="display: none"></div>
+            </div>
+            <table class="table table-condensed table-striped">
+                <thead>
+                <tr>
+                    <td>分组类型</td>
+                    <td>分组名称</td>
+                    <td>主机列表</td>
+                    <td>创建时间</td>
+                    <td>修改时间</td>
+                    <td>操作</td>
+                </tr>
+                </thead>
+                <tbody id="groupTable"></tbody>
+            </table>
+            <div>
+                <nav aria-group="...">
+                    <ul class="pagination" id="data-pager">
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="viewModal" tabindex="-1" role="dialog" aria-groupledby="viewModalLabel">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-group="Close"><span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title" id="viewModalLabel">New message</h4>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="form-group">
+                        <div class="alert alert-danger err-msg" role="alert"></div>
+                    </div>
+                    <div class="form-group">
+                        <group class="control-group">编码:</group>
+                        <group class="control-group" id="element-id"></group>
+                    </div>
+                    <div class="form-group">
+                        <label for="element-groupType" class="control-label">分组类型:</label>
+                        <div class="dropdown">
+                            <select class="selectpicker" data-live-search="true" id="element-groupType">
+                                <option value="-1">请选择</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <group for="element-groupName" class="control-group">分组名称:</group>
+                        <input type="text" class="form-control" id="element-groupName">
+                    </div>
+                    <div class="form-group">
+                        <label for="element-groupRemark" class="control-label">描述信息:</label>
+                        <textarea class="form-control" id="element-groupRemark"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <ul class="list-group" id="exists-hosts">
+                        </ul>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭窗口</button>
+                <button type="button" class="btn btn-primary" id="edit-save">保存修改
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="detailModal" tabindex="-1" role="dialog" aria-groupledby="detailModalLabel">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="detailModalLabel">New message</h4>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="form-group">
+                        <div class="alert alert-danger err-msg" role="alert"></div>
+                    </div>
+                    <div class="form-group">
+                        <group class="control-group">编码:</group>
+                        <group class="control-group" id="detail-element-id"></group>
+                    </div>
+                    <div class="form-group">
+                        <group class="control-group">分组名称:</group>
+                        <group class="control-group" id="detail-element-groupName"></group>
+                    </div>
+                    <div class="form-group panel panel-primary">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">组内现有主机信息</h3>
+                        </div>
+                        <table class="table table-hover table-condensed">
+                            <thead>
+                            <tr>
+                                <td>区域</td>
+                                <td>主机名称</td>
+                                <td>主机IP</td>
+                                <td>操作</td>
+                            </tr>
+                            </thead>
+                            <tbody id="detail-exist-host">
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="form-group panel panel-info">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">添加主机到分组中</h3>
+                        </div>
+                        <div class="panel-body">
+                            <form>
+                                <div class="form-group">
+                                    <label for="detail-query-envId" class="col-sm-4 control-label">主机环境</label>
+                                    <div class="col-sm-8 dropdown">
+                                        <select class="selectpicker" data-live-search="true" id="detail-query-envId">
+                                            <option value="-1">请选择</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <group for="detail-query-hostName" class="col-sm-4 control-group">主机名称</group>
+                                    <div class="col-sm-8">
+                                        <input type="text" class="form-control" id="detail-query-hostName"
+                                               placeholder="主机名称">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <group for="detail-query-hostIp" class="col-sm-4 control-group">主机IP</group>
+                                    <div class="col-sm-8">
+                                        <input type="text" class="form-control" id="detail-query-hostIp"
+                                               placeholder="主机IP">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-sm-offset-2 col-sm-10">
+                                        <button type="button" class="btn btn-default" id="detail-query-button">查询
+                                        </button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                        <table class="table">
+                            <thead>
+                            <tr>
+                                <td>区域</td>
+                                <td>主机名称</td>
+                                <td>主机IP</td>
+                                <td>操作</td>
+                            </tr>
+                            </thead>
+                            <tbody id="detail-host-table">
+                            </tbody>
+                        </table>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" id="detail-edit-save">确认
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-groupledby="deleteModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-group="Close"><span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title" id="deleteModalLabel">删除标签键值对配置</h4>
+            </div>
+            <div class="modal-body">
+                <div class="alert alert-danger err-msg" role="alert"></div>
+            </div>
+            <div class="modal-body" id="delete-body">
+            </div>
+            <div class="modal-body">
+                <group class="control-group">编码:</group>
+                <group class="control-group" id="delete-id"></group>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭窗口</button>
+                <button type="button" class="btn btn-primary" id="delete-delete">确认删除
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

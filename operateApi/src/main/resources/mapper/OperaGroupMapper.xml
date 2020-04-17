@@ -72,7 +72,13 @@
     </sql>
     <select id="pageQueryHosts" parameterType="com.chenss.operateapi.param.GroupHostParam" resultMap="GroupHostResponseResultMap">
         SELECT
-        *
+        id,
+        group_type,
+        group_type_name,
+        group_name,
+        create_time,
+        modify_time,
+        host_info
         FROM
         (SELECT
         g.id,
@@ -151,6 +157,76 @@
         WHERE 1=1
         <include refid="Page_Query_Host_Sql"></include>
     </select>
+    <sql id="select_host_use_sql">
+        FROM
+    (
+	SELECT
+		g.id,
+		g.group_type,
+		l.label_value group_type_name,
+		g.group_name,
+		GROUP_CONCAT( e.env_type, '|', e.env_name, '|', h.host_name, '|', h.host_ip order by h.host_ip ) host_info
+	FROM opera_group g
+		join opera_group_detail d on g.id = d.group_id
+		join opera_host h on d.item_id = h.id
+		left join (select label_key,label_value from opera_label where label_group='group_type') l on g.group_type=l.label_key
+		left join opera_env e on h.host_env_id = e.id
+	where 1=1
+        <if test="envId != null">
+            AND e.id = #{envId,jdbcType=INTEGER}
+        </if>
+        <if test="hostName != null">
+            AND host_name like concat(concat('%', #{hostName,jdbcType=VARCHAR}),'%')
+        </if>
+        <if test="hostIp != null">
+            AND host_ip like concat(concat('%', #{hostIp,jdbcType=VARCHAR}),'%')
+        </if>
+	GROUP BY
+		g.id,
+		g.group_type,
+		l.label_value,
+		g.group_name
+	UNION
+	SELECT
+		g2.id,
+		g2.group_type,
+		l2.label_value group_type_name,
+		g2.group_name,
+		NULL host_info
+	FROM opera_group g2,
+		(select label_key,label_value from opera_label where label_group='group_type') l2
+	WHERE NOT EXISTS ( SELECT 1 FROM opera_group_detail d2, opera_host h2 WHERE d2.item_id = h2.id AND g2.id = d2.group_id )
+		AND g2.group_type=l2.label_key
+		) marge
+		left join (select gd.group_id,count(distinct oh.id) hcou from opera_group_detail gd join opera_host oh on gd.item_id=oh.id group by gd.group_id) gc on marge.id=gc.group_id
+		left join (select gg.id group_id,count(distinct app.app_name) acou
+			from opera_group gg
+			join opera_application_group ag on gg.id=ag.group_id
+			join opera_application app on ag.app_id=app.id
+			group by gg.id) ga on marge.id=ga.group_id
+		left join (select gg.id group_id,GROUP_CONCAT(IFNULL(app.app_type,''), '|',app.app_name) app_name
+			from opera_group gg
+			join opera_application_group ag on gg.id=ag.group_id
+			join opera_application app on ag.app_id=app.id
+			where 1=1
+            <if test="appName != null">
+                AND app.name like concat(concat('%', #{appName,jdbcType=VARCHAR}),'%')
+            </if>
+            <if test="appType != null">
+                AND app.app_type = #{appType,jdbcType=VARCHAR}
+            </if>
+			group by gg.id) gai on marge.id=gai.group_id
+	WHERE 1=1
+        <if test="id != null">
+            AND id = #{id,jdbcType=VARCHAR}
+        </if>
+        <if test="groupType != null">
+            AND group_type = #{groupType,jdbcType=VARCHAR}
+        </if>
+        <if test="groupName != null">
+            AND group_name like concat(concat('%', #{groupName,jdbcType=VARCHAR}),'%')
+        </if>
+    </sql>
     <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
     delete from opera_group
     where id = #{id,jdbcType=VARCHAR}

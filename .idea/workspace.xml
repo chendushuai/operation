@@ -2,22 +2,15 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="13ad15ae-007a-477f-9bc3-31be1af021d7" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/operateApi/src/main/resources/static/hostgroupuse.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/operate-share/target/maven-archiver/pom.properties" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/operate-share/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/operate-share/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/operate-share/target/maven-status/maven-compiler-plugin/testCompile/default-testCompile/inputFiles.lst" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/operate-share/target/operation.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/operateApi/src/main/java/com/chenss/operateapi/controller/OperaGroupController.java" beforeDir="false" afterPath="$PROJECT_DIR$/operateApi/src/main/java/com/chenss/operateapi/controller/OperaGroupController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/operateApi/src/main/java/com/chenss/operateapi/model/OperaGroup.java" beforeDir="false" afterPath="$PROJECT_DIR$/operateApi/src/main/java/com/chenss/operateapi/model/OperaGroup.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/operateApi/src/main/java/com/chenss/operateapi/param/PagerParam.java" beforeDir="false" afterPath="$PROJECT_DIR$/operateApi/src/main/java/com/chenss/operateapi/param/PagerParam.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/operateApi/src/main/resources/mapper/OperaApplicationMapper.xml" beforeDir="false" afterPath="$PROJECT_DIR$/operateApi/src/main/resources/mapper/OperaApplicationMapper.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/operateApi/src/main/java/com/chenss/operateapi/param/GroupHostParam.java" beforeDir="false" afterPath="$PROJECT_DIR$/operateApi/src/main/java/com/chenss/operateapi/param/GroupHostParam.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/operateApi/src/main/java/com/chenss/operateapi/param/OperaGroupDetailParam.java" beforeDir="false" afterPath="$PROJECT_DIR$/operateApi/src/main/java/com/chenss/operateapi/param/OperaGroupDetailParam.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/operateApi/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/operateApi/src/main/resources/application.properties" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/operateApi/src/main/resources/mapper/OperaGroupMapper.xml" beforeDir="false" afterPath="$PROJECT_DIR$/operateApi/src/main/resources/mapper/OperaGroupMapper.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/operateApi/src/main/resources/static/application.html" beforeDir="false" afterPath="$PROJECT_DIR$/operateApi/src/main/resources/static/application.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/operateApi/src/main/resources/static/host.html" beforeDir="false" afterPath="$PROJECT_DIR$/operateApi/src/main/resources/static/host.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/operateApi/src/main/resources/static/hostgroup.html" beforeDir="false" afterPath="$PROJECT_DIR$/operateApi/src/main/resources/static/hostgroup.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/operateApi/src/main/resources/static/label.html" beforeDir="false" afterPath="$PROJECT_DIR$/operateApi/src/main/resources/static/label.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/operateApi/src/main/resources/static/script/page.js" beforeDir="false" afterPath="$PROJECT_DIR$/operateApi/src/main/resources/static/script/page.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/operateApi/src/main/resources/static/script/nav.js" beforeDir="false" afterPath="$PROJECT_DIR$/operateApi/src/main/resources/static/script/nav.js" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <ignored path="$PROJECT_DIR$/target/" />
@@ -37,10 +30,22 @@
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/operateApi/src/main/resources/mapper/OperaGroupDetailMapper.xml">
+        <entry file="file://$PROJECT_DIR$/operateApi/src/main/resources/static/script/nav.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1501">
-              <caret line="79" column="11" selection-start-line="79" selection-start-column="11" selection-end-line="79" selection-end-column="11" />
+            <state relative-caret-position="304">
+              <caret line="16" column="4" selection-start-line="16" selection-start-column="4" selection-end-line="16" selection-end-column="4" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/operateApi/target/classes/static/hostgroupuse.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="494">
+              <caret line="501" column="22" selection-end-line="750" selection-end-column="7" />
+              <folding>
+                <element signature="n#script#6;n#head#0;n#html#0;n#!!top" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -48,44 +53,74 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/operateApi/src/main/resources/mapper/OperaGroupMapper.xml">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1634">
-              <caret line="86" column="16" selection-start-line="86" selection-start-column="16" selection-end-line="86" selection-end-column="16" />
+            <state relative-caret-position="2812">
+              <caret line="148" column="81" selection-start-line="148" selection-start-column="81" selection-end-line="148" selection-end-column="81" />
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/operateApi/src/main/java/com/chenss/operateapi/mapper/OperaGroupDetailMapper.java">
+        <entry file="file://$PROJECT_DIR$/operateApi/src/main/java/com/chenss/operateapi/param/GroupHostParam.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="190">
-              <caret line="16" column="17" selection-start-line="16" selection-start-column="17" selection-end-line="16" selection-end-column="17" />
+            <state relative-caret-position="532">
+              <caret line="32" selection-start-line="32" selection-end-line="32" />
+              <folding>
+                <element signature="e#1130#1131#0" expanded="true" />
+                <element signature="e#1158#1159#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/operateApi/src/main/resources/static/hostgroupuse.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="5149">
+              <caret line="746" column="14" selection-start-line="746" selection-start-column="14" selection-end-line="746" selection-end-column="14" />
+              <folding>
+                <element signature="n#script#6;n#head#0;n#html#0;n#!!top" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/operateApi/src/main/resources/application.properties">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="247">
+              <caret line="13" column="17" selection-start-line="13" selection-start-column="17" selection-end-line="13" selection-end-column="17" />
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/operateApi/src/main/java/com/chenss/operateapi/controller/OperaGroupController.java">
+        <entry file="file://$PROJECT_DIR$/operateApi/src/main/java/com/chenss/operateapi/OperateApiApplication.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="314">
-              <caret line="66" column="11" lean-forward="true" selection-start-line="66" selection-start-column="11" selection-end-line="66" selection-end-column="11" />
+            <state relative-caret-position="133">
+              <caret line="7" lean-forward="true" selection-start-line="7" selection-end-line="7" />
+              <folding>
+                <element signature="imports" expanded="true" />
+                <element signature="e#254#255#0" expanded="true" />
+                <element signature="e#317#318#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/operateApi/src/main/java/com/chenss/operateapi/common/ResponseDTO.java">
+        <entry file="file://$PROJECT_DIR$/operateApi/src/main/resources/static/host.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="302">
-              <caret line="31" column="11" selection-start-line="31" selection-start-column="11" selection-end-line="31" selection-end-column="11" />
+            <state relative-caret-position="11685">
+              <caret line="615" column="18" selection-start-line="615" selection-start-column="18" selection-end-line="615" selection-end-column="18" />
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/operateApi/src/main/java/com/chenss/operateapi/service/OperaGroupService.java">
+        <entry file="file://$PROJECT_DIR$/operateApi/target/classes/static/host.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="238">
-              <caret line="59" column="34" lean-forward="true" selection-start-line="59" selection-start-column="34" selection-end-line="59" selection-end-column="34" />
+            <state relative-caret-position="6726">
+              <caret line="354" column="42" selection-end-line="630" selection-end-column="7" />
             </state>
           </provider>
         </entry>
@@ -95,39 +130,6 @@
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="171">
               <caret line="12" column="51" selection-start-line="12" selection-start-column="51" selection-end-line="12" selection-end-column="51" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/operateApi/src/main/java/com/chenss/operateapi/model/OperaGroup.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="665">
-              <caret line="39" column="30" selection-start-line="39" selection-start-column="19" selection-end-line="39" selection-end-column="30" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/operateApi/src/main/resources/static/hostgroup.html">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="6061">
-              <caret line="319" column="55" selection-start-line="319" selection-start-column="55" selection-end-line="319" selection-end-column="55" />
-              <folding>
-                <element signature="n#style#0;n#div#0;n#div#0;n#div#1;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/operateApi/src/main/resources/static/application.html">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="8037">
-              <caret line="423" column="67" selection-start-line="423" selection-start-column="67" selection-end-line="423" selection-end-column="67" />
-              <folding>
-                <element signature="n#style#0;n#div#0;n#div#0;n#div#1;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-              </folding>
             </state>
           </provider>
         </entry>
@@ -147,8 +149,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>query(</find>
-      <find>BaseResultMap</find>
       <find>SeviceResultDTO</find>
       <find>insertCodeBatch</find>
       <find>item_id</find>
@@ -156,7 +156,6 @@
       <find>OperaGroupDetail</find>
       <find>hostIds</find>
       <find>Page_Where_Sql</find>
-      <find>Page_Query_Host_Sql</find>
       <find>dubbo</find>
       <find>exists-hosts</find>
       <find>StringUtils</find>
@@ -177,6 +176,9 @@
       <find>data-pager</find>
       <find>query</find>
       <find>query(0)</find>
+      <find>queryPageComplianceInfo</find>
+      <find>operaGroupMapper</find>
+      <find>Page_Query_Host_Sql</find>
     </findStrings>
     <replaceStrings>
       <replace />
@@ -198,6 +200,7 @@
       <replace>ServiceResultDTO</replace>
       <replace>group</replace>
       <replace>modal-dialog modal-lg</replace>
+      <replace>`</replace>
     </replaceStrings>
   </component>
   <component name="Git.Settings">
@@ -206,13 +209,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/operateApi/src/main/java/com/chenss/operateapi/mapper/OperaApplicationGroupMapper.java" />
-        <option value="$PROJECT_DIR$/operateApi/src/main/java/com/chenss/operateapi/controller/OperaApplicationController.java" />
-        <option value="$PROJECT_DIR$/operateApi/src/main/java/com/chenss/operateapi/service/OperaApplicationService.java" />
-        <option value="$PROJECT_DIR$/operateApi/target/classes/static/application.html" />
-        <option value="$PROJECT_DIR$/operateApi/src/main/java/com/chenss/operateapi/response/GroupHostResponse.java" />
-        <option value="$PROJECT_DIR$/operateApi/src/main/java/com/chenss/operateapi/model/OperaGroupHostDo.java" />
-        <option value="$PROJECT_DIR$/operateApi/src/main/java/com/chenss/operateapi/response/OperaAffiliationResponse.java" />
         <option value="$PROJECT_DIR$/operateApi/src/main/java/com/chenss/operateapi/response/OperaHostResponse.java" />
         <option value="$PROJECT_DIR$/operateApi/src/main/java/com/chenss/operateapi/controller/CommonController.java" />
         <option value="$PROJECT_DIR$/operateApi/src/main/java/com/chenss/operateapi/common/ServiceResultDTO.java" />
@@ -225,8 +221,6 @@
         <option value="$PROJECT_DIR$/operateApi/src/main/java/com/chenss/operateapi/service/OperaHostService.java" />
         <option value="$PROJECT_DIR$/operateApi/src/main/java/com/chenss/operateapi/response/EnvHostDO.java" />
         <option value="$PROJECT_DIR$/operateApi/src/main/java/com/chenss/operateapi/param/GroupApplicationParam.java" />
-        <option value="$PROJECT_DIR$/operateApi/src/main/java/com/chenss/operateapi/param/GroupHostParam.java" />
-        <option value="$PROJECT_DIR$/operateApi/src/main/java/com/chenss/operateapi/param/OperaGroupDetailParam.java" />
         <option value="$PROJECT_DIR$/operateApi/src/main/java/com/chenss/operateapi/param/OperaHostParam.java" />
         <option value="$PROJECT_DIR$/operateApi/src/main/java/com/chenss/operateapi/param/OperaLabelPageParam.java" />
         <option value="$PROJECT_DIR$/operateApi/src/main/java/com/chenss/operateapi/param/TimeCommonParam.java" />
@@ -246,17 +240,26 @@
         <option value="$PROJECT_DIR$/operateApi/src/main/resources/mapper/OperaApplicationMapper.xml" />
         <option value="$PROJECT_DIR$/operateApi/src/main/java/com/chenss/operateapi/param/PagerParam.java" />
         <option value="$PROJECT_DIR$/operateApi/target/classes/static/script/page.js" />
-        <option value="$PROJECT_DIR$/operateApi/target/classes/static/host.html" />
         <option value="$PROJECT_DIR$/operateApi/target/classes/static/hostgroup.html" />
         <option value="$PROJECT_DIR$/operateApi/target/classes/static/label.html" />
         <option value="$PROJECT_DIR$/operateApi/src/main/resources/static/script/page.js" />
-        <option value="$PROJECT_DIR$/operateApi/src/main/resources/static/host.html" />
         <option value="$PROJECT_DIR$/operateApi/src/main/resources/static/application.html" />
         <option value="$PROJECT_DIR$/operateApi/src/main/resources/static/label.html" />
-        <option value="$PROJECT_DIR$/operateApi/src/main/resources/mapper/OperaGroupMapper.xml" />
-        <option value="$PROJECT_DIR$/operateApi/src/main/java/com/chenss/operateapi/model/OperaGroup.java" />
         <option value="$PROJECT_DIR$/operateApi/src/main/resources/static/hostgroup.html" />
         <option value="$PROJECT_DIR$/operateApi/src/main/java/com/chenss/operateapi/controller/OperaGroupController.java" />
+        <option value="$PROJECT_DIR$/operateApi/src/main/java/com/chenss/operateapi/mapper/OperaApplicationGroupMapper.java" />
+        <option value="$PROJECT_DIR$/operateApi/src/main/java/com/chenss/operateapi/model/OperaGroup.java" />
+        <option value="$PROJECT_DIR$/operateApi/src/main/java/com/chenss/operateapi/param/OperaGroupDetailParam.java" />
+        <option value="$PROJECT_DIR$/operateApi/target/classes/static/script/nav.js" />
+        <option value="$PROJECT_DIR$/operateApi/src/main/resources/static/script/nav.js" />
+        <option value="$PROJECT_DIR$/operateApi/target/classes/static/hostgroupuse.html" />
+        <option value="$PROJECT_DIR$/operateApi/src/main/resources/mapper/OperaGroupMapper.xml" />
+        <option value="$PROJECT_DIR$/operateApi/src/main/java/com/chenss/operateapi/param/GroupHostParam.java" />
+        <option value="$PROJECT_DIR$/operateApi/src/main/java/com/chenss/operateapi/service/OperaGroupService.java" />
+        <option value="$PROJECT_DIR$/operateApi/src/main/resources/static/hostgroupuse.html" />
+        <option value="$PROJECT_DIR$/operateApi/target/classes/static/host.html" />
+        <option value="$PROJECT_DIR$/operateApi/src/main/resources/static/host.html" />
+        <option value="$PROJECT_DIR$/operateApi/src/main/resources/application.properties" />
       </list>
     </option>
   </component>
@@ -292,9 +295,9 @@
     <option name="skipTests" value="true" />
   </component>
   <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="-2" />
-    <option name="width" value="1386" />
-    <option name="height" value="788" />
+    <option name="x" value="-7" />
+    <option name="width" value="1378" />
+    <option name="height" value="745" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true">
     <ConfirmationsSetting value="2" id="Add" />
@@ -304,7 +307,7 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="PackagesPane" />
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -315,187 +318,7 @@
             <path>
               <item name="operation" type="b2602c69:ProjectViewProjectNode" />
               <item name="operation" type="462c0819:PsiDirectoryNode" />
-              <item name="operateApi" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="operation" type="b2602c69:ProjectViewProjectNode" />
-              <item name="operation" type="462c0819:PsiDirectoryNode" />
-              <item name="operateApi" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="operation" type="b2602c69:ProjectViewProjectNode" />
-              <item name="operation" type="462c0819:PsiDirectoryNode" />
-              <item name="operateApi" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="operation" type="b2602c69:ProjectViewProjectNode" />
-              <item name="operation" type="462c0819:PsiDirectoryNode" />
-              <item name="operateApi" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
-              <item name="java" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="operation" type="b2602c69:ProjectViewProjectNode" />
-              <item name="operation" type="462c0819:PsiDirectoryNode" />
-              <item name="operateApi" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
-              <item name="java" type="462c0819:PsiDirectoryNode" />
-              <item name="operateapi" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="operation" type="b2602c69:ProjectViewProjectNode" />
-              <item name="operation" type="462c0819:PsiDirectoryNode" />
-              <item name="operateApi" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
-              <item name="java" type="462c0819:PsiDirectoryNode" />
-              <item name="operateapi" type="462c0819:PsiDirectoryNode" />
-              <item name="aop" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="operation" type="b2602c69:ProjectViewProjectNode" />
-              <item name="operation" type="462c0819:PsiDirectoryNode" />
-              <item name="operateApi" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
-              <item name="java" type="462c0819:PsiDirectoryNode" />
-              <item name="operateapi" type="462c0819:PsiDirectoryNode" />
-              <item name="common" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="operation" type="b2602c69:ProjectViewProjectNode" />
-              <item name="operation" type="462c0819:PsiDirectoryNode" />
-              <item name="operateApi" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
-              <item name="java" type="462c0819:PsiDirectoryNode" />
-              <item name="operateapi" type="462c0819:PsiDirectoryNode" />
-              <item name="controller" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="operation" type="b2602c69:ProjectViewProjectNode" />
-              <item name="operation" type="462c0819:PsiDirectoryNode" />
-              <item name="operateApi" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
-              <item name="java" type="462c0819:PsiDirectoryNode" />
-              <item name="operateapi" type="462c0819:PsiDirectoryNode" />
-              <item name="mapper" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="operation" type="b2602c69:ProjectViewProjectNode" />
-              <item name="operation" type="462c0819:PsiDirectoryNode" />
-              <item name="operateApi" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
-              <item name="java" type="462c0819:PsiDirectoryNode" />
-              <item name="operateapi" type="462c0819:PsiDirectoryNode" />
-              <item name="model" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="operation" type="b2602c69:ProjectViewProjectNode" />
-              <item name="operation" type="462c0819:PsiDirectoryNode" />
-              <item name="operateApi" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
-              <item name="java" type="462c0819:PsiDirectoryNode" />
-              <item name="operateapi" type="462c0819:PsiDirectoryNode" />
-              <item name="param" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="operation" type="b2602c69:ProjectViewProjectNode" />
-              <item name="operation" type="462c0819:PsiDirectoryNode" />
-              <item name="operateApi" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
-              <item name="java" type="462c0819:PsiDirectoryNode" />
-              <item name="operateapi" type="462c0819:PsiDirectoryNode" />
-              <item name="request" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="operation" type="b2602c69:ProjectViewProjectNode" />
-              <item name="operation" type="462c0819:PsiDirectoryNode" />
-              <item name="operateApi" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
-              <item name="java" type="462c0819:PsiDirectoryNode" />
-              <item name="operateapi" type="462c0819:PsiDirectoryNode" />
-              <item name="response" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="operation" type="b2602c69:ProjectViewProjectNode" />
-              <item name="operation" type="462c0819:PsiDirectoryNode" />
-              <item name="operateApi" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
-              <item name="java" type="462c0819:PsiDirectoryNode" />
-              <item name="operateapi" type="462c0819:PsiDirectoryNode" />
-              <item name="service" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="operation" type="b2602c69:ProjectViewProjectNode" />
-              <item name="operation" type="462c0819:PsiDirectoryNode" />
-              <item name="operateApi" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
-              <item name="resources" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="operation" type="b2602c69:ProjectViewProjectNode" />
-              <item name="operation" type="462c0819:PsiDirectoryNode" />
-              <item name="operateApi" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
-              <item name="resources" type="462c0819:PsiDirectoryNode" />
-              <item name="mapper" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="operation" type="b2602c69:ProjectViewProjectNode" />
-              <item name="operation" type="462c0819:PsiDirectoryNode" />
-              <item name="operateApi" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
-              <item name="resources" type="462c0819:PsiDirectoryNode" />
-              <item name="static" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="operation" type="b2602c69:ProjectViewProjectNode" />
-              <item name="operation" type="462c0819:PsiDirectoryNode" />
-              <item name="operateApi" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
-              <item name="resources" type="462c0819:PsiDirectoryNode" />
-              <item name="static" type="462c0819:PsiDirectoryNode" />
-              <item name="script" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="operation" type="b2602c69:ProjectViewProjectNode" />
-              <item name="operation" type="462c0819:PsiDirectoryNode" />
-              <item name="operateApi" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="test" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="operation" type="b2602c69:ProjectViewProjectNode" />
-              <item name="operation" type="462c0819:PsiDirectoryNode" />
-              <item name="operateApi" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="test" type="462c0819:PsiDirectoryNode" />
-              <item name="java" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="operation" type="b2602c69:ProjectViewProjectNode" />
-              <item name="operation" type="462c0819:PsiDirectoryNode" />
-              <item name="operateApi" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="test" type="462c0819:PsiDirectoryNode" />
-              <item name="java" type="462c0819:PsiDirectoryNode" />
-              <item name="operateapi" type="462c0819:PsiDirectoryNode" />
+              <item name="operate-share" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="operation" type="b2602c69:ProjectViewProjectNode" />
@@ -505,7 +328,7 @@
           <select />
         </subPane>
       </pane>
-      <pane id="Scope" />
+      <pane id="PackagesPane" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -518,7 +341,7 @@
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../mybatis-generator-gui-master" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../rocketmq" />
     <property name="list.type.of.created.stylesheet" value="CSS" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
@@ -540,8 +363,8 @@
       <recent name="com.chenss.operateapi.response" />
     </key>
     <key name="CopyFile.RECENT_KEYS">
-      <recent name="D:\Java\operation\operateApi\target\classes\static\script" />
       <recent name="D:\Java\operation\operateApi\src\main\resources\static" />
+      <recent name="D:\Java\operation\operateApi\target\classes\static\script" />
       <recent name="D:\Java\operation\operateApi\target\classes\static" />
       <recent name="D:\Java\operation\operation-biz\src\main\java\com\chenss\operateapi\mapper" />
       <recent name="D:\Java\operation\operation-biz\src\main\resources\mapper" />
@@ -736,7 +559,44 @@
       <workItem from="1577070375963" duration="1337000" />
       <workItem from="1577072282118" duration="64250000" />
       <workItem from="1577933937329" duration="12864000" />
-      <workItem from="1578041740810" duration="4173000" />
+      <workItem from="1578041740810" duration="15554000" />
+      <workItem from="1578628014568" duration="6529000" />
+      <workItem from="1580322535970" duration="30000" />
+      <workItem from="1581678827504" duration="557000" />
+      <workItem from="1581924187563" duration="894000" />
+      <workItem from="1581926668038" duration="578000" />
+      <workItem from="1582179229495" duration="471000" />
+      <workItem from="1582230268189" duration="603000" />
+      <workItem from="1582245374173" duration="585000" />
+      <workItem from="1582435415283" duration="584000" />
+      <workItem from="1582436517713" duration="1304000" />
+      <workItem from="1583120277466" duration="1932000" />
+      <workItem from="1583129500282" duration="849000" />
+      <workItem from="1583132353150" duration="591000" />
+      <workItem from="1583285718878" duration="584000" />
+      <workItem from="1583725897051" duration="14232000" />
+      <workItem from="1583833580975" duration="764000" />
+      <workItem from="1583890222721" duration="989000" />
+      <workItem from="1583977783824" duration="3490000" />
+      <workItem from="1584087503612" duration="1212000" />
+      <workItem from="1584345384356" duration="207000" />
+      <workItem from="1584348653955" duration="587000" />
+      <workItem from="1584349911236" duration="588000" />
+      <workItem from="1584496421854" duration="819000" />
+      <workItem from="1585025323259" duration="469000" />
+      <workItem from="1585029258769" duration="743000" />
+      <workItem from="1585121790064" duration="590000" />
+      <workItem from="1585190019285" duration="1144000" />
+      <workItem from="1585219159571" duration="585000" />
+      <workItem from="1585278350214" duration="584000" />
+      <workItem from="1585289077451" duration="590000" />
+      <workItem from="1585293242445" duration="575000" />
+      <workItem from="1585298364897" duration="560000" />
+      <workItem from="1585562671352" duration="907000" />
+      <workItem from="1585734288008" duration="1056000" />
+      <workItem from="1586240621052" duration="3134000" />
+      <workItem from="1586328202621" duration="3032000" />
+      <workItem from="1587016672286" duration="1185000" />
     </task>
     <task id="LOCAL-00001" summary="运维数据库访问">
       <created>1569753865255</created>
@@ -1039,7 +899,14 @@
       <option name="project" value="LOCAL" />
       <updated>1577702233218</updated>
     </task>
-    <option name="localTasksCounter" value="44" />
+    <task id="LOCAL-00044" summary="代码优化">
+      <created>1578383825047</created>
+      <option name="number" value="00044" />
+      <option name="presentableId" value="LOCAL-00044" />
+      <option name="project" value="LOCAL" />
+      <updated>1578383825047</updated>
+    </task>
+    <option name="localTasksCounter" value="45" />
     <servers />
   </component>
   <component name="TestHistory">
@@ -1075,7 +942,7 @@
     </history-entry>
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="373278000" />
+    <option name="totallyTimeSpent" value="438792000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -1090,7 +957,7 @@
     <frame x="-8" y="-8" width="1936" height="1066" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.2510661" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.19083156" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Designer" order="2" />
       <window_info id="Image Layers" order="3" />
@@ -1100,18 +967,18 @@
       <window_info id="Web" order="7" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.32929516" />
-      <window_info anchor="bottom" id="Run" order="2" weight="0.311674" />
-      <window_info anchor="bottom" id="Debug" order="3" weight="0.5805369" />
+      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.4735683" />
+      <window_info anchor="bottom" id="Debug" order="3" weight="0.15418503" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" weight="0.32929516" />
       <window_info anchor="bottom" id="FindBugs-IDEA" order="7" />
       <window_info anchor="bottom" id="Spring" order="8" />
-      <window_info anchor="bottom" id="Terminal" order="9" />
+      <window_info anchor="bottom" id="Terminal" order="9" weight="0.5008375" />
       <window_info anchor="bottom" id="Docker" order="10" show_stripe_button="false" />
       <window_info anchor="bottom" id="Sequence" order="11" />
       <window_info anchor="bottom" id="Event Log" order="12" side_tool="true" />
-      <window_info anchor="bottom" id="Messages" order="13" weight="0.32929516" />
+      <window_info anchor="bottom" id="Messages" order="13" weight="0.32819384" />
       <window_info anchor="bottom" id="Java Enterprise" order="14" weight="0.32929516" />
       <window_info anchor="bottom" id="Database Changes" order="15" />
       <window_info anchor="bottom" id="Version Control" order="16" weight="0.32929516" />
@@ -1288,12 +1155,6 @@
           <properties />
           <option name="timeStamp" value="29" />
         </line-breakpoint>
-        <line-breakpoint type="java-line">
-          <url>file://$PROJECT_DIR$/operateApi/src/main/java/com/chenss/operateapi/service/OperaGroupService.java</url>
-          <line>91</line>
-          <properties />
-          <option name="timeStamp" value="36" />
-        </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
   </component>
@@ -1356,90 +1217,6 @@
     </expressions>
   </component>
   <component name="editorHistoryManager">
-    <entry file="jar://E:/Java/jdk8/src.zip!/java/lang/Thread.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="194">
-          <caret line="747" selection-start-line="747" selection-end-line="747" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$MAVEN_REPOSITORY$/org/springframework/spring-web/5.1.10.RELEASE/spring-web-5.1.10.RELEASE.jar!/org/springframework/web/filter/FormContentFilter.class">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="194">
-          <caret line="56" selection-start-line="56" selection-end-line="56" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$MAVEN_REPOSITORY$/org/springframework/spring-web/5.1.10.RELEASE/spring-web-5.1.10.RELEASE.jar!/org/springframework/web/filter/OncePerRequestFilter.class">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="163">
-          <caret line="41" selection-start-line="41" selection-end-line="41" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$MAVEN_REPOSITORY$/org/springframework/spring-web/5.1.10.RELEASE/spring-web-5.1.10.RELEASE.jar!/org/springframework/web/filter/RequestContextFilter.class">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="194">
-          <caret line="39" selection-start-line="39" selection-end-line="39" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$MAVEN_REPOSITORY$/org/apache/tomcat/embed/tomcat-embed-websocket/9.0.26/tomcat-embed-websocket-9.0.26.jar!/org/apache/tomcat/websocket/server/WsFilter.class">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="394">
-          <caret line="46" selection-start-line="46" selection-end-line="46" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$MAVEN_REPOSITORY$/org/apache/tomcat/embed/tomcat-embed-core/9.0.26/tomcat-embed-core-9.0.26.jar!/org/apache/catalina/core/ApplicationFilterChain.class">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="177">
-          <caret line="71" selection-start-line="71" selection-end-line="71" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$MAVEN_REPOSITORY$/org/springframework/spring-webmvc/5.1.10.RELEASE/spring-webmvc-5.1.10.RELEASE.jar!/org/springframework/web/servlet/FrameworkServlet.class">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="163">
-          <caret line="498" selection-start-line="498" selection-end-line="498" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://E:/Java/jdk8/src.zip!/java/lang/reflect/Method.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="186">
-          <caret line="497" column="32" selection-start-line="497" selection-start-column="32" selection-end-line="497" selection-end-column="32" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$MAVEN_REPOSITORY$/org/springframework/spring-aop/5.1.10.RELEASE/spring-aop-5.1.10.RELEASE.jar!/org/springframework/aop/aspectj/AspectJMethodBeforeAdvice.class">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="228">
-          <caret line="18" selection-start-line="18" selection-end-line="18" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://E:/Java/jdk8/jre/lib/rt.jar!/sun/reflect/DelegatingMethodAccessorImpl.class">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="209">
-          <caret line="16" column="44" lean-forward="true" selection-start-line="16" selection-start-column="44" selection-end-line="16" selection-end-column="44" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://E:/Java/jdk8/jre/lib/rt.jar!/sun/reflect/NativeMethodAccessorImpl.class">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="271">
-          <caret line="26" column="31" selection-start-line="26" selection-start-column="31" selection-end-line="26" selection-end-column="31" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$MAVEN_REPOSITORY$/org/springframework/spring-web/5.1.10.RELEASE/spring-web-5.1.10.RELEASE.jar!/org/springframework/web/method/support/InvocableHandlerMethod.class">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="194">
-          <caret line="101" selection-start-line="101" selection-end-line="101" />
-        </state>
-      </provider>
-    </entry>
     <entry file="jar://$MAVEN_REPOSITORY$/org/springframework/spring-aop/5.1.10.RELEASE/spring-aop-5.1.10.RELEASE.jar!/org/springframework/aop/aspectj/AbstractAspectJAdvice.class">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="163">
@@ -1593,13 +1370,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/operateApi/target/classes/static/host.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="304">
-          <caret line="475" column="22" lean-forward="true" selection-start-line="475" selection-start-column="22" selection-end-line="475" selection-end-column="22" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/operateApi/src/main/resources/static/env.html">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-589">
@@ -1653,16 +1423,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/operateApi/src/main/resources/static/host.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="443">
-          <caret line="276" column="48" selection-start-line="276" selection-start-column="48" selection-end-line="277" selection-end-column="67" />
-          <folding>
-            <element signature="n#style#0;n#div#0;n#div#0;n#div#1;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/operateApi/src/main/resources/static/label.html">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="5909">
@@ -1680,13 +1440,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/operateApi/src/main/resources/mapper/OperaGroupMapper.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1634">
-          <caret line="86" column="16" selection-start-line="86" selection-start-column="16" selection-end-line="86" selection-end-column="16" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/operateApi/src/main/java/com/chenss/operateapi/mapper/OperaGroupDetailMapper.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="190">
@@ -1694,17 +1447,24 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/operateApi/src/main/java/com/chenss/operateapi/model/OperaGroupAndDetailParam.java">
+    <entry file="file://$PROJECT_DIR$/operateApi/src/main/java/com/chenss/operateapi/common/ResponseDTO.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="171">
-          <caret line="12" column="51" selection-start-line="12" selection-start-column="51" selection-end-line="12" selection-end-column="51" />
+        <state relative-caret-position="513">
+          <caret line="31" column="11" selection-start-line="31" selection-start-column="11" selection-end-line="31" selection-end-column="11" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/operateApi/src/main/java/com/chenss/operateapi/model/OperaGroup.java">
+    <entry file="file://$PROJECT_DIR$/operateApi/src/main/java/com/chenss/operateapi/service/OperaApplicationService.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="665">
-          <caret line="39" column="30" selection-start-line="39" selection-start-column="19" selection-end-line="39" selection-end-column="30" />
+        <state relative-caret-position="304">
+          <caret line="31" column="14" selection-start-line="31" selection-start-column="14" selection-end-line="31" selection-end-column="14" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/operateApi/src/main/java/com/chenss/operateapi/mapper/OperaApplicationMapper.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="152">
+          <caret line="13" column="17" selection-start-line="13" selection-start-column="17" selection-end-line="13" selection-end-column="17" />
         </state>
       </provider>
     </entry>
@@ -1728,24 +1488,200 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/operateApi/src/main/java/com/chenss/operateapi/common/ResponseDTO.java">
+    <entry file="file://$PROJECT_DIR$/operateApi/src/main/java/com/chenss/operateapi/mapper/OperaApplicationGroupMapper.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="302">
-          <caret line="31" column="11" selection-start-line="31" selection-start-column="11" selection-end-line="31" selection-end-column="11" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/operateApi/src/main/java/com/chenss/operateapi/service/OperaGroupService.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="238">
-          <caret line="59" column="34" lean-forward="true" selection-start-line="59" selection-start-column="34" selection-end-line="59" selection-end-column="34" />
+        <state relative-caret-position="190">
+          <caret line="14" column="1" lean-forward="true" selection-start-line="14" selection-start-column="1" selection-end-line="14" selection-end-column="1" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/operateApi/src/main/java/com/chenss/operateapi/controller/OperaGroupController.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="314">
-          <caret line="66" column="11" lean-forward="true" selection-start-line="66" selection-start-column="11" selection-end-line="66" selection-end-column="11" />
+        <state relative-caret-position="399">
+          <caret line="43" column="76" selection-start-line="43" selection-start-column="76" selection-end-line="43" selection-end-column="76" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/operateApi/src/main/java/com/chenss/operateapi/model/OperaGroup.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="305">
+          <caret line="41" column="7" lean-forward="true" selection-start-line="41" selection-start-column="7" selection-end-line="41" selection-end-column="7" />
+          <folding>
+            <element signature="e#741#742#0" expanded="true" />
+            <element signature="e#766#767#0" expanded="true" />
+            <element signature="e#802#803#0" expanded="true" />
+            <element signature="e#830#831#0" expanded="true" />
+            <element signature="e#866#867#0" expanded="true" />
+            <element signature="e#898#899#0" expanded="true" />
+            <element signature="e#948#949#0" expanded="true" />
+            <element signature="e#990#991#0" expanded="true" />
+            <element signature="e#1030#1031#0" expanded="true" />
+            <element signature="e#1066#1067#0" expanded="true" />
+            <element signature="e#1124#1125#0" expanded="true" />
+            <element signature="e#1174#1175#0" expanded="true" />
+            <element signature="e#1210#1211#0" expanded="true" />
+            <element signature="e#1242#1243#0" expanded="true" />
+            <element signature="e#1292#1293#0" expanded="true" />
+            <element signature="e#1334#1335#0" expanded="true" />
+            <element signature="e#1372#1373#0" expanded="true" />
+            <element signature="e#1406#1407#0" expanded="true" />
+            <element signature="e#1460#1461#0" expanded="true" />
+            <element signature="e#1506#1507#0" expanded="true" />
+            <element signature="e#1541#1542#0" expanded="true" />
+            <element signature="e#1574#1575#0" expanded="true" />
+            <element signature="e#1624#1625#0" expanded="true" />
+            <element signature="e#1668#1669#0" expanded="true" />
+            <element signature="e#1703#1704#0" expanded="true" />
+            <element signature="e#1736#1737#0" expanded="true" />
+            <element signature="e#1786#1787#0" expanded="true" />
+            <element signature="e#1830#1831#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/operateApi/src/main/java/com/chenss/operateapi/param/OperaGroupDetailParam.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="324">
+          <caret line="35" lean-forward="true" selection-start-line="35" selection-end-line="35" />
+          <folding>
+            <element signature="e#667#668#0" expanded="true" />
+            <element signature="e#692#693#0" expanded="true" />
+            <element signature="e#728#729#0" expanded="true" />
+            <element signature="e#756#757#0" expanded="true" />
+            <element signature="e#789#790#0" expanded="true" />
+            <element signature="e#818#819#0" expanded="true" />
+            <element signature="e#862#863#0" expanded="true" />
+            <element signature="e#898#899#0" expanded="true" />
+            <element signature="e#932#933#0" expanded="true" />
+            <element signature="e#962#963#0" expanded="true" />
+            <element signature="e#1008#1009#0" expanded="true" />
+            <element signature="e#1046#1047#0" expanded="true" />
+            <element signature="e#1079#1080#0" expanded="true" />
+            <element signature="e#1108#1109#0" expanded="true" />
+            <element signature="e#1152#1153#0" expanded="true" />
+            <element signature="e#1188#1189#0" expanded="true" />
+            <element signature="e#1223#1224#0" expanded="true" />
+            <element signature="e#1256#1257#0" expanded="true" />
+            <element signature="e#1306#1307#0" expanded="true" />
+            <element signature="e#1350#1351#0" expanded="true" />
+            <element signature="e#1385#1386#0" expanded="true" />
+            <element signature="e#1418#1419#0" expanded="true" />
+            <element signature="e#1468#1469#0" expanded="true" />
+            <element signature="e#1512#1513#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/operateApi/src/main/java/com/chenss/operateapi/service/OperaGroupService.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="323">
+          <caret line="36" column="52" selection-start-line="36" selection-start-column="52" selection-end-line="36" selection-end-column="52" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://E:/Java/jdk8/src.zip!/java/util/concurrent/ConcurrentHashMap.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="43966">
+          <caret line="2406" column="23" selection-start-line="2406" selection-start-column="23" selection-end-line="2406" selection-end-column="23" />
+          <folding>
+            <element signature="e#44347#44348#0" expanded="true" />
+            <element signature="e#44395#44396#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/operateApi/target/classes/static/script/nav.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="228">
+          <caret line="12" column="24" selection-end-line="72" selection-end-column="1" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/operateApi/src/main/resources/static/script/nav.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="304">
+          <caret line="16" column="4" selection-start-line="16" selection-start-column="4" selection-end-line="16" selection-end-column="4" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/operateApi/target/classes/static/hostgroupuse.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="494">
+          <caret line="501" column="22" selection-end-line="750" selection-end-column="7" />
+          <folding>
+            <element signature="n#script#6;n#head#0;n#html#0;n#!!top" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/operateApi/src/main/resources/mapper/OperaGroupMapper.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2812">
+          <caret line="148" column="81" selection-start-line="148" selection-start-column="81" selection-end-line="148" selection-end-column="81" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/operateApi/src/main/java/com/chenss/operateapi/param/GroupHostParam.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="532">
+          <caret line="32" selection-start-line="32" selection-end-line="32" />
+          <folding>
+            <element signature="e#1130#1131#0" expanded="true" />
+            <element signature="e#1158#1159#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/operateApi/src/main/resources/static/hostgroupuse.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="5149">
+          <caret line="746" column="14" selection-start-line="746" selection-start-column="14" selection-end-line="746" selection-end-column="14" />
+          <folding>
+            <element signature="n#script#6;n#head#0;n#html#0;n#!!top" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/operateApi/src/main/resources/application.properties">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="247">
+          <caret line="13" column="17" selection-start-line="13" selection-start-column="17" selection-end-line="13" selection-end-column="17" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/operateApi/src/main/resources/static/host.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="11685">
+          <caret line="615" column="18" selection-start-line="615" selection-start-column="18" selection-end-line="615" selection-end-column="18" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/operateApi/target/classes/static/host.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="6726">
+          <caret line="354" column="42" selection-end-line="630" selection-end-column="7" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/operateApi/src/main/java/com/chenss/operateapi/model/OperaGroupAndDetailParam.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="171">
+          <caret line="12" column="51" selection-start-line="12" selection-start-column="51" selection-end-line="12" selection-end-column="51" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/operateApi/src/main/java/com/chenss/operateapi/OperateApiApplication.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="133">
+          <caret line="7" lean-forward="true" selection-start-line="7" selection-end-line="7" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#254#255#0" expanded="true" />
+            <element signature="e#317#318#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>

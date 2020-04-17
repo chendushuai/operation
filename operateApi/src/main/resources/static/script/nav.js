@@ -11,7 +11,8 @@ var urlList = [{
         {"url": "label.html", "name": "标签键值对管理"}]
 }, {"url": "host.html", "name": "服务器主机配置", "child": []},
     {"url": "hostgroup.html", "name": "主机分组配置", "child": []},
-    {"url": "application.html", "name": "应用管理", "child": []}];
+    {"url": "application.html", "name": "应用管理", "child": []},
+    {"url": "hostgroupuse.html", "name": "主机分组使用情况", "child": []}];
 
 function createNav() {
     var navList = "";
