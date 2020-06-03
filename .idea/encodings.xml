@@ -3,8 +3,9 @@
   <component name="Encoding">
     <file url="file://$PROJECT_DIR$" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/operate-share" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/operate-share/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/operate-share/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/operateApi" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/operation-api" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/operation-biz" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/operateApi/src/main/java" charset="UTF-8" />
   </component>
 </project>

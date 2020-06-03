@@ -142,7 +142,7 @@
       <if test="hostAffiliationId != null">
         host_affiliation_id,
       </if>
-      <if test="hostAffiliationId != null">
+      <if test="hostServiceType != null">
         host_service_type,
       </if>
         create_time,
